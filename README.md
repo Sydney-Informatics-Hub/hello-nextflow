@@ -10,7 +10,7 @@ Adapated from
 ```bash
 mamba create -n day2
 mamba activate day2
-mamba install -c bioconda nextflow salmon fastqc multiqc
+mamba install -c bioconda nextflow salmon # fastqc, multiqc in docker
 ```
 
 ### Usage  
@@ -21,3 +21,6 @@ nextflow run main.nf
 Finished running within seconds on laptop with specs:
 > CPU: 12th Gen Intel i7-1265U (12) @ 4.800GHz  
 > Memory: ~32GB
+
+Note: `*.nf` symlinks to `scripts/*.nf` to simulate running `main.nf` in `projectDir`.  
+
