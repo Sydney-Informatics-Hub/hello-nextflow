@@ -33,10 +33,28 @@ process INDEX {
     """
 }
 
+process QUANTIFICATION {
+    tag "salmon on $sample_id"
+    publishDir params.outdir, mode: 'copy'
+
+    input:
+    path salmon_index
+    tuple val(sample_id), path(reads)
+
+    output:
+    path "$sample_id"
+
+    script:
+    """
+    salmon quant --libType=U -i $salmon_index -1 ${reads[0]} -2 ${reads[1]} -o $sample_id
+    """
+}
+
 workflow {
     Channel
         .fromFilePairs(params.reads)
         .set { read_pairs_ch }
-    read_pairs_ch.view()
+
     index_ch = INDEX(params.transcriptome_file)
+    quant_ch = QUANTIFICATION(index_ch, read_pairs_ch)
 }

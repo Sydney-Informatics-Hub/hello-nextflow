@@ -22,5 +22,6 @@ Finished running within seconds on laptop with specs:
 > CPU: 12th Gen Intel i7-1265U (12) @ 4.800GHz  
 > Memory: ~32GB
 
-Note: `*.nf` symlinks to `scripts/*.nf` to simulate running `main.nf` in `projectDir`.  
-
+**Note:** Numbered `.nf` files are for checkpoints throughout the workshop
+when the workflow needs to be run. Participants will build on the one
+`main.nf`.
