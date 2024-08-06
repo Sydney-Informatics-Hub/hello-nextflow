@@ -63,7 +63,7 @@ process FASTQC {
     script:
     """
     mkdir fastqc_${sample_id}_logs
-    fastqc -o fastqc_${sample_id}_logs -f fastq -q ${reads}
+    fastqc -o fastqc_${sample_id}_logs -f fastq -q ${reads} -t ${task.cpus}
     """
 }
 
