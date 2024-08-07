@@ -10,7 +10,12 @@ Adapated from
 ```bash
 mamba create -n day2
 mamba activate day2
-mamba install -c bioconda nextflow salmon # fastqc, multiqc in docker
+mamba install -c bioconda nextflow salmon # fastqc, multiqc in docker  
+
+# docker
+
+# mkdocs
+mamba install -c conda-forge mkdocs
 ```
 
 ### Usage  
@@ -24,4 +29,11 @@ Finished running within seconds on laptop with specs:
 
 **Note:** Numbered `.nf` files are for checkpoints throughout the workshop
 when the workflow needs to be run. Participants will build on the one
-`main.nf`.
+`main.nf`.  
+
+### mkdocs  
+
+```bash
+# mkdocs new .
+mkdocs build
+```

@@ -1,0 +1,11 @@
+site_name: Day 2
+repo_url: https://github.com/Sydney-Informatics-Hub/hello-nextflow
+repo_name: Sydney-Informatics-Hub/hello-nextflow
+
+nav:
+  - Home: index.md
+  - 0. Introduction: 00_intro.md
+  - 1. Indexing: 01_salmon_idx.md
+  - 2. Quantification: 02_quant.md
+  - 3. Quality Control: 03_qc.md
+  - 4. Upscaling: 04_scale.md
