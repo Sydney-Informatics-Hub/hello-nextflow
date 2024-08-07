@@ -9,3 +9,15 @@ nav:
   - 2. Quantification: 02_quant.md
   - 3. Quality Control: 03_qc.md
   - 4. Upscaling: 04_scale.md
+
+theme:
+  name: material
+
+markdown_extensions:
+  - admonition
+  - pymdownx.details
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - pymdownx.inlinehilite
+  - pymdownx.superfences:
+      preserve_tabs: true

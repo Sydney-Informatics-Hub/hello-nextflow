@@ -15,7 +15,7 @@ mamba install -c bioconda nextflow salmon # fastqc, multiqc in docker
 # docker
 
 # mkdocs
-mamba install -c conda-forge mkdocs
+mamba install -c conda-forge mkdocs mkdocs-material
 ```
 
 ### Usage  

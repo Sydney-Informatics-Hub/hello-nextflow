@@ -8,6 +8,7 @@ salmon index -t [transcriptome_file] -i salmon_index
 ```
 
 Where:  
+
 - `-t` is the flag for the transcriptome file (`data/ggal/transcriptome.fa`).  
 - `-i` is the name of the directory where `salmon` index files will be output.  
 
@@ -16,56 +17,69 @@ process script definition.
 
 ## 2.1.1 Add the `INDEX` process
 
-In the empty `main.nf` script, define the  `params.transcriptome_file`:  
+In the empty `main.nf` script, define the `params.transcriptome_file`:  
 
-```groovy title="main.nf"
+```groovy linenums="1" title="main.nf"
 /*
  * pipeline input parameters
  */
 params.transcriptome_file = "$projectDir/data/ggal/transcriptome.fa"
 ```
 
-`$projectDir` indicates where the `main.nf` script is located.
+Recall that parameters are inputs and options that can be modified when the
+workflow is executed.  
 
-> Using the information provided in the previous section, complete the process definition that takes in a single input for the transcriptome. Ensure that the process includes definitions for the `input`, `output`, and `script`.  
+`$projectDir` indicates the directory the `main.nf` script is located.
 
-<details><summary>Show code:</summary>
-<br>
-```groovy
-/*
- * define the `INDEX` process that creates a binary index
- * given the transcriptome file
- */
-process INDEX {
-	input:
-	path transcriptome
-	
-	output:
-	path 'salmon_index'
-	
-	script:
-	"""
-	salmon index -t $transcriptome -i salmon_index
-	"""
-```
-</details>
+!!! question "Exercise"
 
----
+    Using the information provided in the previous section, complete the process
+    definition that takes in a single input for the transcriptome. Ensure that
+    the process includes definitions for the `input`, `output`, and `script`.  
 
-> Complete the workflow scope so the output for `INDEX` is assigned to a
-> channel named `index_ch`
+    ??? Solution
 
-Add the workflow scope  
-```
-workflow {
-    index_ch = INDEX(params.transcriptome_file)
-}
-```
+        ```groovy linenums="6" title="main.nf"
+        /*
+         * define the `INDEX` process that creates a binary index
+         * given the transcriptome file
+         */
+        process INDEX {
+            input:
+            path transcriptome
+            
+            output:
+            path 'salmon_index'
+            
+            script:
+            """
+            salmon index -t $transcriptome -i salmon_index
+            """
+        }
+        ```
 
-Run nextflow
-```
-$ nextflow run main.nf
+!!! question "Exercise"
 
+    Complete the workflow scope so the output for `INDEX` is assigned to a
+    channel named `index_ch`
+
+    ??? Solution
+
+        ```groovy title="main.nf"
+        workflow {
+            index_ch = INDEX(params.transcriptome_file)
+        }
+        ```
+
+Run the workflow using the following command:  
+
+```bash
+nextflow run main.nf
+```  
+
+Your output will look something like this:  
+
+```console title="Output"
 N E X T F L O W   ~  version 24.04.3
 
 Launching `main.nf` [awesome_kimura] DSL2 - revision: 2d008f1c4f
@@ -74,49 +88,73 @@ executor >  local (1)
 [9a/4a1dc7] INDEX | 1 of 1 ✔
 ```
 
-Inspect files, `salmon_index` contains a bunch of files etc..
+Recall that the specifics of the output are randomly generated (i.e.
+`[awesome_kimura]` and `[9a/4a1dc7]` in this example).
 
-## 2.1.2 Nextflow "housekeeping"  
+In this example, the output files for the `INDEX` process is output in
+`work/9a/4a1dc7...`. As more processes are added, it becomes cumbersome to
+navigate and inspect each directory for the output files.  
 
-Now that we have a single process working, we will add a few things to tidy the
-workflow and the ouputs.  
+## 2.1.2 Save files to an output directory with `publishDir`  
 
-In Day 1, we had to inspect the `workDir`, add `publishDir` to `INDEX` to output in a human-readable and central location. Add `params.outdir` and `publishDir`:
-```
-/*
- * pipeline input parameters
- */
-params.transcriptome_file = "$projectDir/data/ggal/transcriptome.fa"
-params.outdir = "results"
-```
+Next, you will create a centralised directory where all output files will be
+copied to with the `publishDir` directive.  
 
-```
+!!! question "Exercise"
+
+    Add a second parameter named `outdir`, and assign the string `"results"`.
+
+    ??? Solution
+
+        ```groovy linenums="1" title="main.nf"
+        /*
+         * pipeline input parameters
+         */
+        params.transcriptome_file = "$projectDir/data/ggal/transcriptome.fa"
+        params.outdir = "results"
+        ```
+
+Add the `publishDir` directive to `INDEX`:  
+
+```groovy title="main.nf"
 process INDEX {
-	publishDir params.outdir, mode: 'copy'
+    publishDir params.outdir, mode: 'copy'
 
-	input:
 ```
 
-Mention `mode: 'copy'` and link to docs.  
+`mode: 'copy'` copies the output files into the publish directory (`results/`).
+More information and other modes can be found on
+[publishDir](https://www.nextflow.io/docs/latest/process.html#publishdir).
 
-Mention groovy.  
+## 2.1.3 Logging information with `log.info`  
 
-Add a `log.info` to track information about the workflow, mainly parameters.  
-```
+It can be useful to print the parameters when workflows are executed.
+
+The `log.info` command can be used to print multiline information using
+[groovy](https://www.tutorialspoint.com/groovy/groovy_basic_syntax.htm)'s
+logger functionality.
+
+Add the `log.info` command to print the parameters:  
+```groovy title="main.nf"
 log.info """\
     R N A S E Q - N F   P I P E L I N E
-	===================================
-	transcriptome: ${params.transcriptome_file}
-	outdir       : ${params.outdir}
-	"""
-	.stripIndent(true)
+    ===================================
+    transcriptome: ${params.transcriptome_file}
+    outdir       : ${params.outdir}
+    """
+    .stripIndent()
 ```
 
-Explain `.stripIndent()`.  
+`.stripIndent()` is a groovy method that removes the indentation at the
+beginning of the lines. We will use groovy more in later exercises.
 
+Run the workflow:  
+
+```bash
+nextflow run main.nf
 ```
-$ nextflow run main.nf
 
+```console title="Output"
 N E X T F L O W   ~  version 24.04.3
 
 Launching `main.nf` [goofy_ekeblad] DSL2 - revision: 8420244f03
@@ -131,9 +169,16 @@ executor >  local (1)
 
 ```
 
-`log.info` prints the parameters.  
+Your output now displays the parameter, and the output index files are in
+`results/salmon_index`.  
 
-Now all the index files are in `/results` folder, we will add all outputs for
-the remaining processes here.
+All remaining output files generated with the workflow will now be copied from
+the `workDir` to here.
 
-**Achievements**  
+!!! abstract "Summary"
+
+    In this step you have learned:  
+
+    1. How to implement a simple process with input data  
+    2. How to define parameters in your workflow scripts  
+    3. How to improve workflows with Nextflow directives and groovy  
