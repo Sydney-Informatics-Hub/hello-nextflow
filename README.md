@@ -21,6 +21,7 @@ Install mamba:
 conda create -n mamba-env -c conda-forge mamba
 conda activate mamba-env
 mamba --version #to confirm
+
 ```
 
 Activate the environment:
@@ -53,4 +54,10 @@ when the workflow needs to be run. Participants will build on the one
 ```bash
 # mkdocs new .
 mkdocs build
+```
+
+To generate pretty html docs:
+```bash
+cd ~/hello-nextflow/
+mkdocs serve
 ```
