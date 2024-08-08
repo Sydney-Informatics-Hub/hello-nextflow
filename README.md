@@ -7,6 +7,23 @@ Adapated from
 [nf-training](https://github.com/nextflow-io/training/blob/master/nf-training/script7.nf).  
 
 ### Installation (temporary)  
+
+Install miniconda: 
+```bash
+wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
+bash Miniconda3-latest-Linux-x86_64.sh
+~/miniconda3/bin/conda init
+source ~/.bashrc
+```
+
+Install mamba: 
+```bash
+conda create -n mamba-env -c conda-forge mamba
+conda activate mamba-env
+mamba --version #to confirm
+```
+
+Activate the environment:
 ```bash
 mamba create -n day2
 mamba activate day2
