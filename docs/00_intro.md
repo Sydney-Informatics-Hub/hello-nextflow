@@ -28,3 +28,7 @@ Each added "block" will involve:
 3. Applying a (new) concept/feature/trick  
 
 Concepts that have been previously covered will appear as prompts to be completed independently.  
+
+## 2.0.2 Pipeline structure and design 
+
+High level description (and diagram) of the workflow we're building, why its structured this way, inputs and outputs, etc. 
