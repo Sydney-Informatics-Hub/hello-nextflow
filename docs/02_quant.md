@@ -2,57 +2,69 @@
 
 ## 2.2.1 Collect read files by pairs  
 
-Add `params.reads` to input parameters.
-
-Mention channels, and `fromFilePairs`.  
+There are numerous channel factories that can be used to create channels. In
+this step, you will use the
+[fromFilePairs](https://www.nextflow.io/docs/latest/channel.html#fromfilepairs)
+channel factory to create a channel of read pairs.  
 
 The `fromFilePairs` channel factory takes a glob pattern as input and returns
 a channel of tuples.
 
-> Add `params.reads` to `log.info`  
+Add a reads parameter that takes as input the paired gut reads:  
 
-```
+```groovy title="main.nf"
 /*
  * pipeline input parameters
  */
 params.transcriptome_file = "$projectDir/data/ggal/transcriptome.fa"
 params.reads = "$projectDir/data/ggal/gut_{1,2}.fq"
 params.outdir = "results"
-
-log.info """\
-    R N A S E Q - N F   P I P E L I N E
-	===================================
-	transcriptome: ${params.transcriptome_file}
-    reads        : ${params.reads}
-	outdir       : ${params.outdir}
-	"""
-	.stripIndent(true)
-
 ```
+
+!!! question "Exercise"
+
+    Add `params.reads` to `log.info`  
+
+    ??? Solution
+
+        ```groovy title="main.nf"
+        log.info """\
+            R N A S E Q - N F   P I P E L I N E
+            ===================================
+            transcriptome: ${params.transcriptome_file}
+            reads        : ${params.reads}
+            outdir       : ${params.outdir}
+            """
+            .stripIndent()
+        ```
 
 Need minimal explanation of "factories" and "tuples" - use graphic here.
 
-i.e. groups by the shared pattern
+i.e. groups by the shared pattern/prefix  
 
-Define the channel in the workflow. We will also add `.view()` to see the 
-contents:
-```
+Add links to docs/examples for tuples.  
+
+Define the channel in the workflow with the `.view()` command to see the
+contents of the channel:  
+
+```groovy title="main.nf"
 workflow {
-	Channel
-		.fromFilePairs(params.reads)
-		.set { read_pairs_ch }
-	read_pairs_ch.view()
+    Channel
+        .fromFilePairs(params.reads)
+        .view()
 
-	index_ch = INDEX(params.transcriptome_file)
+    index_ch = INDEX(params.transcriptome_file)
 ```
 
-Mention  `.set` and `.view`.  
+Run the workflow.
 
-Remove `read_pairs_ch.view()` and run.
-
+```bash
+nextflow run main.nf  
 ```
-$ nextflow run main.nf  
 
+Your output will display a tuple consisting of two elements.  
+
+```console title="Output"
 Launching `02.nf` [drunk_descartes] DSL2 - revision: 4698cdd674
 
 R N A S E Q - N F   P I P E L I N E
@@ -69,7 +81,26 @@ executor >  local (1)
 
 ```
 
-Add links to docs/examples for tuples.  
+The first element of the tuple (`gut`) is the read pair prefix, and the second
+is a list representing the files.  
+
+We will explore how glob patterns can be used in later steps.  
+
+The [`set`](https://www.nextflow.io/docs/latest/operator.html#set) operator can
+also be used to define a new channel variable in place
+of an `=` assignment.  
+
+Remove `.view()` and assign the channel output with `set`:  
+
+```groovy title="main.nf"
+workflow {
+    Channel
+        .fromFilePairs(params.reads)
+        .set { read_pairs_ch }
+
+    index_ch = INDEX(params.transcriptome_file)
+```
+
 
 ## 2.2.2 Implementing the process  
 
