@@ -1,29 +1,43 @@
 # 2.2 Perform expression quantification
 
-## 2.2.1 Collect read files by pairs  
+## 2.2.1 Read file pairs with a samplesheet  
 
-There are numerous channel factories that can be used to create channels. In
-this step, you will use the
-[fromFilePairs](https://www.nextflow.io/docs/latest/channel.html#fromfilepairs)
-channel factory to create a channel of read pairs.  
+https://nextflow-io.github.io/patterns/process-per-csv-record/
 
-The `fromFilePairs` channel factory takes a glob pattern as input and returns
-a channel of tuples.
+Inspect samplesheet:  
 
-Add a reads parameter that takes as input the paired gut reads:  
-
-```groovy title="main.nf"
-/*
- * pipeline input parameters
- */
-params.transcriptome_file = "$projectDir/data/ggal/transcriptome.fa"
-params.reads = "$projectDir/data/ggal/gut_{1,2}.fq"
-params.outdir = "results"
+```bash
+cat data/samplesheet.csv
 ```
+
+```console, title="Output"
+sample, fastq_1, fastq_2
+gut, data/ggal/gut_1.fq, data/ggal/gut_2.fq
+```
+
+The samplesheet consists of three columns:  
+
+- `sample`: indicates the sample name/prefix  
+- `fastq_1`, `fastq_2` contains the relative paths to the reads  
+
+!!! question "Exercise"  
+
+    Add a parameter called `reads` and assign the path to the samplesheet.  
+
+    ??? note "Solution"  
+
+        ```groovy title="main.nf"
+        /*
+         * pipeline input parameters
+         */
+        params.transcriptome_file = "$projectDir/data/ggal/transcriptome.fa"
+        params.reads = "$projectDir/data/samplesheet.csv"
+        params.outdir = "results"
+        ```
 
 !!! question "Exercise"
 
-    Add `params.reads` to `log.info`  
+    Add `params.reads` to `log.info`.  
 
     ??? Solution
 
@@ -38,23 +52,29 @@ params.outdir = "results"
             .stripIndent()
         ```
 
-Need minimal explanation of "factories" and "tuples" - use graphic here.
-
-i.e. groups by the shared pattern/prefix  
-
-Add links to docs/examples for tuples.  
-
-Define the channel in the workflow with the `.view()` command to see the
-contents of the channel:  
+Use some groovy to read and view the samplesheet. Define the channel in the
+workflow, and add the
+[`view`](https://www.nextflow.io/docs/latest/operator.html#view) operator to see
+the contents of the channel:  
 
 ```groovy title="main.nf"
 workflow {
     Channel
-        .fromFilePairs(params.reads)
+        .fromPath(params.reads)
+        .splitCsv(header: true)
         .view()
 
     index_ch = INDEX(params.transcriptome_file)
 ```
+
+Add graphic.  
+
+[`Channel.fromPath`](https://www.nextflow.io/docs/latest/channel.html#frompath)
+creates a channel from the file path (i.e. reads in the samplesheet).
+
+The [splitCsv](https://www.nextflow.io/docs/latest/operator.html#splitcsv)
+operator splits the samplesheet line-by-line. The `header: true` argument
+indicates that the first row is a header.  
 
 Run the workflow.
 
@@ -62,87 +82,108 @@ Run the workflow.
 nextflow run main.nf  
 ```
 
-Your output will display a tuple consisting of two elements.  
+Your output will display a tuple consisting of three named elements, one for
+each of the columns in the samplesheet.  
 
 ```console title="Output"
-Launching `02.nf` [drunk_descartes] DSL2 - revision: 4698cdd674
+Launching `main.nf` [ecstatic_goldwasser] DSL2 - revision: 2de2dd7b2a
 
 R N A S E Q - N F   P I P E L I N E
 ===================================
-transcriptome: /home/fredjaya/GitHub/hello-nextflow/data/ggal/transcriptome.fa
-reads        : /home/fredjaya/GitHub/hello-nextflow/data/ggal/gut_{1,2}.fq
+transcriptome: /home/ubuntu/hello-nextflow/data/ggal/transcriptome.fa
+reads        : /home/ubuntu/hello-nextflow/data/samplesheet.csv
 outdir       : results
 
-[-        ] INDEX | 0 of 1
 executor >  local (1)
-executor >  local (1)
-[7b/e0040f] INDEX | 1 of 1 ✔
-[gut, [/home/fredjaya/GitHub/hello-nextflow/data/ggal/gut_1.fq, /home/fredjaya/GitHub/hello-nextflow/data/ggal/gut_2.fq]]
+[20/0727ea] INDEX | 1 of 1 ✔
+[sample:gut,  fastq_1: data/ggal/gut_1.fq,  fastq_2: data/ggal/gut_2.fq]
 
 ```
 
-The first element of the tuple (`gut`) is the read pair prefix, and the second
-is a list representing the files.  
+The first element of the tuple is the sample name (`gut`), and `fastq_1` and
+`fastq_2` are the paths to the read files.  
 
-We will explore how glob patterns can be used in later steps.  
+!!! note
 
-The [`set`](https://www.nextflow.io/docs/latest/operator.html#set) operator can
-also be used to define a new channel variable in place
-of an `=` assignment.  
+    We will explore how this works for multiple samples (rows in the
+    samplesheet) in the later steps.  
+
+Next, we will assign the channel output to a variable using the
+[`set`](https://www.nextflow.io/docs/latest/operator.html#set) operator. `set`
+can be used to define a new channel variable in place of an `=` assignment.  
 
 Remove `.view()` and assign the channel output with `set`:  
 
 ```groovy title="main.nf"
 workflow {
     Channel
-        .fromFilePairs(params.reads)
+        .fromPath(params.reads)
+        .splitCsv(header: true)
         .set { read_pairs_ch }
 
     index_ch = INDEX(params.transcriptome_file)
 ```
 
-
 ## 2.2.2 Implementing the process  
 
-Add the following process definition. 
-```
+Add the following `QUANTIFICATION` process definition to the script:  
+
+```groovy title="main.nf"
 process QUANTIFICATION {
 
-	input:
-	path salmon_index
-	tuple val(sample_id), path(reads)
-
-	output:
-	path "$sample_id"
-
-	script:
-	"""
-	salmon quant --libType=U -i $salmon_index -1 ${reads[0]} -2 ${reads[1]} -o $sample_id
-	"""
+    input:
+    path salmon_index
+    tuple val(sample_id), path(reads_1), path(reads_2)
+    
+    output:
+    path "$sample_id"
+    
+    script:
+    """
+    salmon quant --libType=U -i $salmon_index -1 ${reads_1} -2 ${reads_2} -o $sample_id
+    """
 ```
 
-> Add the `publishDir` directive to the process.  
-```
-process QUANTIFICATION {
-	publishDir params.outdir, mode: 'copy'
+!!! question "Exercise"
 
-	input:
-	...
-```
+    Add the `publishDir` directive to the `QUANTIFICATION` process.  
 
-> Update the workflow, assigning the output of `QUANTIFICATION` to `quant_ch` 
+    ??? note "Solution"
 
-https://www.nextflow.io/docs/latest/process.html#multiple-input-channels
-```
+        ```groovy title="main.nf"
+        process QUANTIFICATION {
+            publishDir params.outdir, mode: 'copy'
+            
+            input:
+        ```
+
+Update the workflow with the following:  
+
+```groovy title="main.nf"
 workflow {
     Channel
-		.fromFilePairs(params.reads)
-		.set { read_pairs_ch }
+        .fromPath(params.reads)
+        .splitCsv(header: true)
+        .set { read_pairs_ch }
 
-	index_ch = INDEX(params.transcriptome_file)
-	quant_ch = QUANTIFICATION(index_ch, read_pairs_ch)
-
+    index_ch = INDEX(params.transcriptome_file)
+    quant_ch = QUANTIFICATION(params.transcriptome_file)
+}
 ```
+
+Run the workflow:  
+```bash
+nextflow run main.nf
+```
+
+!!! question "Poll"
+
+    1. What was the error recieved?  
+    2. See the docs on [multiple input channels](https://www.nextflow.io/docs/latest/process.html#multiple-input-channels). Which scope should be amended to fix the issue?
+        a. `process { }`
+        b. `workflow { }`
+
+
 
 Add `tag` for a more readable execution log. Will also help with profiling
 later, when additional samples are added.  

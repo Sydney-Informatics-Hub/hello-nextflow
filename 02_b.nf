@@ -2,7 +2,7 @@
  * pipeline input parameters
  */
 params.transcriptome_file = "$projectDir/data/ggal/transcriptome.fa"
-params.reads = "$projectDir/data/ggal/gut_{1,2}.fq"
+params.reads = "$projectDir/data/samplesheet.csv"
 params.outdir = "results"
 
 log.info """\
@@ -12,14 +12,14 @@ log.info """\
     reads        : ${params.reads}
     outdir       : ${params.outdir}
     """
-    .stripIndent(true)
+    .stripIndent()
 
 /*
  * define the `INDEX` process that creates a binary index
  * given the transcriptome file
  */
 process INDEX {
-    publishDir params.outdir, mode: 'copy'    
+    publishDir params.outdir, mode: 'copy'
 
     input:
     path transcriptome
@@ -33,10 +33,28 @@ process INDEX {
     """
 }
 
+process QUANTIFICATION {
+    publishDir params.outdir, mode: 'copy'
+
+    input:
+    path salmon_index
+    tuple val(sample_id), path(reads_1), path(reads_2)
+
+    output:
+    path "$sample_id"
+
+    script:
+    """
+    salmon quant --libType=U -i $salmon_index -1 ${reads_1} -2 ${reads_2} -o $sample_id
+    """
+}
+
 workflow {
     Channel
-        .fromFilePairs(params.reads)
-        .set { read_pairs_ch }
-    read_pairs_ch.view()
+        .fromPath(params.reads)
+        .splitCsv(header: true)
+        .set{ read_pairs_ch }
+
     index_ch = INDEX(params.transcriptome_file)
+    quant_ch = QUANTIFICATION(read_pairs_ch)
 }
