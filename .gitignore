@@ -1,0 +1,5 @@
+*.swp
+.nextflow*
+results/
+work/
+site/
