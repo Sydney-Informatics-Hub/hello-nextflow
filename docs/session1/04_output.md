@@ -1,12 +1,10 @@
-# Redirect the output to a file
+# Saving your outputs
 
-Instead of printing "Hello World!" to the standard output it can be saved to a file.
+Instead of printing "Hello World!" to the standard output it can be saved to a file. In a real-world workflow, this is like having a command that specifies an output file as part of its normal syntax.
 
-In a real-world workflow, this is like having a command that specifies an output file as part of its normal syntax.
+Here we're going to update the script and the output definition blocks to save the "Hello World!" output.
 
-**Both the script and the output definition blocks need to be updated.**
-
-## File outputs
+## Outputs definitions
 
 Outputs definitions in the process blocks typically require a qualifier and a variable name:
 
@@ -38,7 +36,7 @@ See the [Nextflow documentation](https://www.nextflow.io/docs/latest/process.htm
     """
     ```
 
-```groovy title="hello-world.nf" linenums="6"
+```groovy title="hello-world.nf"
 output:
     path 'output.txt'
 ```

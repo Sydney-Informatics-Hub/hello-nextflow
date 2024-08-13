@@ -1,20 +1,22 @@
-# `hello-world.nf`
+# Your first pipeline
 
-`hello-world.nf`
+Nextflow is a workflow orchestration engine and domain-specific language (DSL) that makes it easy to write data-intensive computational workflows.
 
-## Your first pipeline
+It is designed around the idea that the Linux platform is the lingua franca of data science. Linux provides many simple but powerful command-line and scripting tools that, when chained together, facilitate complex data manipulations.
 
-Nextflow provides a robust command line interface for the management and execution pipelines.
+Here we're going to create and run a script (named `hello-world.nf`) that will print 'Hello World!'.
 
-You can run `nextflow -h` to see a list of available top-level Nextflow options and commands.
+## `hello-world.nf`
+
+Nextflow provides a robust command line interface for the management and execution pipelines. You can view a full list of nextflow options and commands using the `-h` option:
 
 ```bash
 nextflow -h
 ```
 
-Nextflow scripts are written with the `.nf` suffix. For example, `myscript.nf`.
+Nextflow scripts are saved with the `.nf` suffix. For example, `myscript.nf`.
 
-The `nextflow run` command is used to execute a local or remote pipeline projects.
+The `nextflow run` command is used to execute a local or remote pipeline.
 
 ```bash
 nextflow run <pipeline.nf>
@@ -22,7 +24,7 @@ nextflow run <pipeline.nf>
 
 !!!question "Exercise"
 
-    Copy the following text and add it to a file named `hello-world.nf` and execute it using the `run` command:
+    Copy the following text and add it to a file named `hello-world.nf`, save it, and execute it using the ` nextflow run` command:
 
     ```groovy title="hello-world.nf"
     process SAYHELLO {
@@ -48,7 +50,7 @@ nextflow run <pipeline.nf>
         nextflow run hello-world.nf
         ```
 
-## Terminal outputs
+## What just happened?
 
 Congratulations, you ran your first Nextflow pipeline!
 
@@ -88,6 +90,8 @@ You should find the following files:
 -   **`.command.out`**: Regular output (stdout) by the process task
 -   **`.command.sh`**: The command that was run by the process task call
 -   **`.exitcode`**: The exit code resulting from the command
+
+While these file are not required now, you may need to interrogate them to troubleshoot issues later.
 
 !!!question "Exercise"
 

@@ -8,7 +8,7 @@ Let's demonstrate this with a simple command that we run directly in the termina
 
 The `echo` command in Linux is a built-in command that allows users to display lines of text or strings that are passed as arguments. It is commonly used in shell scripts and batch files to output status text to the screen or a file.
 
-The most straightforward usage of the echo command is to display a text or string on the terminal. To do this, you simply provide the desired text or string as an argument to the echo command.
+The most straightforward usage of the `echo` command is to display a text or string on the terminal. To do this, you simply provide the desired text or string as an argument to the `echo` command.
 
 ```bash
 echo [string]
