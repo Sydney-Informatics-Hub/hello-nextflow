@@ -4,7 +4,7 @@ A "Hello, World!" is a minimalist example that is meant to demonstrate the basic
 
 Let's demonstrate this with a simple command that we run directly in the terminal.
 
-## Print a string to your terminal
+## Print a string
 
 The `echo` command in Linux is a built-in command that allows users to display lines of text or strings that are passed as arguments. It is commonly used in shell scripts and batch files to output status text to the screen or a file.
 
@@ -24,7 +24,7 @@ echo [string]
         echo 'Hello World!'
         ```
 
-## Redirected outputs
+## Redirect outputs
 
 The output of the `echo` can be redirected to a file instead of displaying it on the terminal. We can achive this by using the `>` operator for output redirection. For example:
 

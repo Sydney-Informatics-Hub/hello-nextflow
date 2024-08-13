@@ -4,46 +4,69 @@
 
 ## Your first pipeline
 
-Copy the following text and add it to a file named `hello-world.nf` in your text editor:
+Nextflow provides a robust command line interface for the management and execution pipelines.
 
-```groovy title="hello-world.nf"
-process SAYHELLO {
-    debug true
-
-    output: 
-        stdout
-    
-    """
-    echo 'Hello World!'
-    """
-}
-
-workflow {
-    SAYHELLO()
-}
-```
-
-## Nextflow run
-
-Execute your new pipeline with the `nextflow run` command:
+You can run `nextflow -h` to see a list of available top-level Nextflow options and commands.
 
 ```bash
-nextflow run hello-world.nf
+nextflow -h
 ```
+
+Nextflow scripts are written with the `.nf` suffix. For example, `myscript.nf`.
+
+The `nextflow run` command is used to execute a local or remote pipeline projects.
+
+```bash
+nextflow run <pipeline.nf>
+```
+
+!!!question "Exercise"
+
+    Copy the following text and add it to a file named `hello-world.nf` and execute it using the `run` command:
+
+    ```groovy title="hello-world.nf"
+    process SAYHELLO {
+        debug true
+
+        output: 
+            stdout
+        
+        script:
+        """
+        echo 'Hello World!'
+        """
+    }
+
+    workflow {
+        SAYHELLO()
+    }
+    ```
+
+    ??? "Solution"
+
+        ```bash
+        nextflow run hello-world.nf
+        ```
+
+## Terminal outputs
+
+Congratulations, you ran your first Nextflow pipeline!
 
 You console should look something like this:
 
 ```console title="Output" linenums="1"
-N E X T F L O W  ~  version 23.10.1
-Launching `hello-world.nf` [mighty_murdock] DSL2 - revision: 80e92a677c
-executor >  local (1)
-[4e/6ba912] process > sayHello [100%] 1 of 1 ✔
-Hello World!
+N E X T F L O W  ~  version 23.10.1 // (1)!
+Launching `hello-world.nf` [mighty_murdock] DSL2 - revision: 80e92a677c // (2)!
+executor >  local (1) // (3)!
+[4e/6ba912] process > SAYHELLO [100%] 1 of 1 ✔ // (4)!
+Hello World! // (5)!
 ```
 
-Congratulations, you ran your first Nextflow pipeline!
-
-The most important output here is line 4, which reports that the `sayHello` process was successfully executed `1 of 1`.
+1. The version of Nextflow that was executed
+2. The script and version names
+3. The executor used (in the above case: local)
+4. The first process is executed once, which means there is one task. The line starts with a unique hexadecimal value, and ends with the task completion information
+5. The result string from stdout is printed
 
 When a Nextflow pipeline is run a `work` directory that stores various files is created.
 
@@ -55,7 +78,9 @@ When a task is created, Nextflow stages the task input files, script, and other 
 
     Your work directory won't necessarily have the same hash as the one shown above.
 
-Browse the `work` directory in the file explorer to find the log files and any outputs created by the task. You should find the following files:
+You can browse the `work` directory to find the log files and any outputs created by the task.
+
+You should find the following files:
 
 -   **`.command.begin`**: Metadata related to the beginning of the execution of the process task
 -   **`.command.err`**: Error messages (stderr) emitted by the process task
@@ -64,7 +89,17 @@ Browse the `work` directory in the file explorer to find the log files and any o
 -   **`.command.sh`**: The command that was run by the process task call
 -   **`.exitcode`**: The exit code resulting from the command
 
-In this case, look for your output in the `.command.out` file.
+!!!question "Exercise"
+
+    Browse the work directory and view the `.command.sh` file.
+
+    ??? "Solution"
+
+        _Note: Your hash will be different to the example shown below_
+
+        ```bash
+        cat work/4e/6ba9138vhsbcbsc83bcka/.command.sh
+        ```
 
 !!! tip
 
@@ -74,6 +109,6 @@ In this case, look for your output in the `.command.out` file.
 
     In this step you have learned:  
 
-    1. How to  
-    2. How to 
-    3. How to 
+    1. How to create a Nextflow pipeline 
+    2. How to run a Nextflow pipeline
+    3. How to view log files create by Nextflow
