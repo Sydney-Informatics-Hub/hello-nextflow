@@ -2,7 +2,6 @@
  * pipeline input parameters
  */
 params.transcriptome_file = "$projectDir/data/ggal/transcriptome.fa"
-params.outdir = "results"  
 
 /*
  * define the `INDEX` process that creates a binary index

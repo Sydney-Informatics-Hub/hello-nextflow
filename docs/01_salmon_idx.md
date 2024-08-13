@@ -15,8 +15,8 @@ Where:
 Note that `-i` outputs the directory `salmon_index` and does not need to be 
 piped in the process script definition.
 
-(Usually should run manually on CLI to test I/O but introduces docker
-complexity)  
+> Usually should run manually on CLI to test I/O but introduces docker
+complexity
 
 ## 2.1.1 Add the `INDEX` process
 
@@ -188,20 +188,6 @@ navigate and inspect each directory for the output files.
 Next, you will create a centralised directory where all output files will be
 copied to with the `publishDir` directive.  
 
-!!! question "Exercise"
-
-    Add a second parameter named `outdir`, and assign the string `"results"`.
-
-    ??? Solution
-
-        ```groovy linenums="1" title="main.nf"
-        /*
-         * pipeline input parameters
-         */
-        params.transcriptome_file = "$projectDir/data/ggal/transcriptome.fa"
-        params.outdir = "results"
-        ```
-
 Add the `publishDir` directive to `INDEX`:  
 
 ```groovy title="main.nf"
@@ -217,23 +203,32 @@ process INDEX {
 More information and other modes can be found on
 [publishDir](https://www.nextflow.io/docs/latest/process.html#publishdir).
 
-Run the workflow:  
+Recall that parameters can be provided in the `nextflow run` command by adding
+a double hyphen (`--`).  
 
-```bash
-nextflow run main.nf
-```  
+
+!!! question "Exercise"
+
+    Run the workflow so that `params.outdir` is `results`.  
+
+    ```bash
+    nextflow run main.nf --outdir results
+    ```  
 
 The files are now output to `results/salmon_index`.  
 
-`container` and `publishDir` will be included in each following process. The
+> Can include use of `ls` and `cat` here  
+
+The `container` and `publishDir` directives will be included in each following process. The
 remaining output files generated with the workflow will now be copied from the
-`workDir` to here.
+`workDir` to `results`.  
 
 !!! abstract "Summary"
 
     In this step you have learned:  
 
         1. How to implement a simple process with input data  
-        2. How to define parameters in your workflow scripts  
+        2. How to define parameters in your workflow scripts and the command
+        line
         3. How to use a docker container for a process  
         4. How to output files in a dedicated `publishDir`  
