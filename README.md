@@ -83,6 +83,7 @@ docker run hello-world
 
 ```bash
 docker pull quay.io/biocontainers/salmon:1.10.1--h7e5ed60_0
+docker pull quay.io/biocontainers/fastqc:0.12.1--hdfd78af_0
 ```
 
 ### Usage  
