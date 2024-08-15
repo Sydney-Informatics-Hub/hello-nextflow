@@ -1,45 +1,45 @@
-# 2.4 Scaling to multiple samples  
+# 2.5 Scaling to multiple samples  
 
 Next, we will amend the workflow to take in multiple paired-end reads, do some
 profiling and optimisation.  
 
-## 2.4.1 Using glob to take multiple samples  
+## 2.5.1 Adding samples to the samplesheet
 
-> What parameter should be changed to take in additional paired-reads?  
+!!! question "Exercise"
 
-> What should the updated parameter be amended to? Tip: see [docs](https://www.nextflow.io/docs/latest/channel.html#fromfilepairs)  
+    Add the `liver` and `lung` samples to `data/samplesheet.csv`.  
 
-First, update `params.reads`:  
-```
-params.reads = "$projectDir/data/ggal/*_{1,2}.fq"
-```
+    ??? note "Solution"
 
-> View the output of the channel
+        ```bash
+        cat data/samplesheet
+        ```
 
-```
-workflow {
-    ...
-   
-    read_pairs_ch.view()
-}
-```
+        ```console title="Output"
+        sample,fastq_1,fastq_2
+        gut,data/ggal/gut_1.fq,data/ggal/gut_2.fq
+        liver,data/ggal/liver_1.fq,data/ggal/liver_2.fq
+        lung,data/ggal/lung_1.fq,data/ggal/lung_2.fq
+        ```
 
-Run with `-resume`.  
+!!! question "Exercise"
 
-```
-$ nextflow run main.nf -resume  
+    Run the workflow. Using `.view()`, what is the new output of `read_pairs_ch`?
 
-...
-executor >  local (5)
-[98/bc54e7] INDEX                            | 1 of 1, cached: 1 ✔
-[13/b79c22] QUANTIFICATION (salmon on lung)  | 3 of 3, cached: 1 ✔
-[42/3c2765] FASTQC (FASTQC on liver)         | 3 of 3, cached: 1 ✔
-[9a/758ecc] MULTIQC                          | 1 of 1 ✔
-[lung, [/home/temp/GitHub/hello-nextflow/data/ggal/lung_1.fq, /home/temp/GitHub/hello-nextflow/data/ggal/lung_2.fq]]
-[gut, [/home/temp/GitHub/hello-nextflow/data/ggal/gut_1.fq, /home/temp/GitHub/hello-nextflow/data/ggal/gut_2.fq]]
-[liver, [/home/temp/GitHub/hello-nextflow/data/ggal/liver_1.fq, /home/temp/GitHub/hello-nextflow/data/ggal/liver_2.fq]]
+    ??? note "Solution"
 
-```
+        ```console title="Output"
+        Launching `main.nf` [hopeful_boyd] DSL2 - revision: 2d38d1462e
+
+        [6e/e2025a] INDEX                           [100%] 1 of 1, cached: 1 ✔
+        [96/81fd93] QUANTIFICATION (salmon on lung) [100%] 3 of 3, cached: 1 ✔
+        [5a/f92355] FASTQC (fastqc on liver)        [100%] 3 of 3, cached: 1 ✔
+        [ab/1eabe7] MULTIQC                         [100%] 1 of 1, cached: 1 ✔
+        [gut, .../data/ggal/gut_1.fq, .../data/ggal/gut_2.fq]
+        [liver, .../data/ggal/liver_1.fq, .../data/ggal/liver_2.fq]
+        [lung, .../data/ggal/lung_1.fq, .../data/ggal/lung_2.fq]
+ 
+        ```
 
 Key differences to note: 
 - Total of three tuples, for each sample  
@@ -47,16 +47,16 @@ Key differences to note:
 - Added `results/` outputs for each paired sample  
 - `multiqc_report.html` now has 9 samples  
 
-> Remove .view() channelfor next steps. 
+Remove `read_pairs_ch.view()` before proceeding.  
 
-## 2.4.2 Profiling/scaling/optimisation  
+## 2.5.2 Benchmarking/profiling  
 
 First we need a baseline report of the resource usage per process. The 
 `-resume` flag cannot be used here as we need to run the processes again
 to record resource usage.  
 
-```
-$ nextflow run main.nf -with-report baseline.html
+```bash
+nextflow run main.nf -with-report baseline.html
 ```
 
 - The `-with-report` flag indicates to create an HTML
@@ -67,21 +67,14 @@ $ nextflow run main.nf -with-report baseline.html
 
 Refactor `nextflow.config` and add more cpus per process:   
 
-```
-process {
-    cpus = 2
-    container = 'nextflow/rnaseq-nf'
-}
-
-docker {
-    enabled = true
-    runOptions = '-u $(id -u):$(id -g)'
-}
+```groovy linenums="1" title="nextflow.config
+process.cpus = 2
+docker.enabled = true
 ```
 
 Run with report:  
 
-```
+```bash
 nextflow run main.nf -with-report cpus_2.html
 ```
 
@@ -94,31 +87,34 @@ nextflow run main.nf -with-report cpus_2.html
 
 Some programs have options to better utilise resources such as multithreading.
 
-Add multithreading for `FASTQC`:  
+From `fastqc --help`:
 
+```console title="Output"
+-t --threads    Specifies the number of files which can be processed    
+                simultaneously.
 ```
-script:
-"""
-mkdir fastqc_${sample_id}_logs
-fastqc -o fastqc_${sample_id}_logs -f fastq -q ${reads} -t ${task.cpus}
-"""
+
+`FASTQC` requires multithreading to be explicitly specific in the script.
+
+```groovy title="main.nf"
+    script:
+    """
+    mkdir fastqc_${sample_id}_logs
+    fastqc --outdir "fastqc_${sample_id}_logs" -f fastq $reads_1 $reads_2 -t $task.cpus
+    """
 ```
+
+The [`cpus`](https://www.nextflow.io/docs/latest/process.html#cpus) directive
+allows the number of CPUs the process' task should use.  
+
+The `FASTQC` tasks processes paired reads (2 files) per task. Adding
+`-t ${task.cpus}` allows them to be processed simultaneously.  
 
 Run again:  
 
-```
+```bash
 nextflow run main.nf -with-report fastqc_mt.html
 ```
-From `fastqc --help`:
-
-```
--t --threads    Specifies the number of files which can be processed    
-                simultaneously.
-...
-```
-
-`FASTQC` processes read pairs (2 files) per task. The `-t` flag allows them to
-be processed at the same time using `${task.cpus}` (2 cpus defined in .config).  
 
 > Compare `cpus_2.html` and `fastqc_mt.html` and note the differences between
 > %cpu and duration of the FASTQC tasks
@@ -126,3 +122,11 @@ be processed at the same time using `${task.cpus}` (2 cpus defined in .config).
 - run time decreased  
 - %cpu increased  
 - duration decreased  
+
+!!! abstract "Summary"
+
+    In this step you have learned:
+
+        1. How to
+        1. How to
+        1. How to

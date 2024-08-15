@@ -88,6 +88,7 @@ workflow {
         .map { row -> [row.sample, file(row.fastq_1), file(row.fastq_2)] }
         .set { read_pairs_ch }
 
+    read_pairs_ch.view()
     index_ch = INDEX(params.transcriptome_file)
     quant_ch = QUANTIFICATION(index_ch, read_pairs_ch)
     fastqc_ch = FASTQC(read_pairs_ch)

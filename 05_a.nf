@@ -60,7 +60,7 @@ process FASTQC {
     script:
     """
     mkdir -p "fastqc_${sample_id}_logs"
-    fastqc --outdir "fastqc_${sample_id}_logs" --format fastq $reads_1 $reads_2 -t $task.cpus
+    fastqc --outdir "fastqc_${sample_id}_logs" --format fastq $reads_1 $reads_2
     """
 }
 
@@ -88,6 +88,7 @@ workflow {
         .map { row -> [row.sample, file(row.fastq_1), file(row.fastq_2)] }
         .set { read_pairs_ch }
 
+    read_pairs_ch.view()
     index_ch = INDEX(params.transcriptome_file)
     quant_ch = QUANTIFICATION(index_ch, read_pairs_ch)
     fastqc_ch = FASTQC(read_pairs_ch)
