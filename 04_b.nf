@@ -64,6 +64,23 @@ process FASTQC {
     """
 }
 
+process MULTIQC {
+
+    container "quay.io/biocontainers/multiqc:1.19--pyhdfd78af_0"
+    publishDir params.outdir, mode: 'copy'
+
+    input:
+    path "*"
+
+    output:
+    path "multiqc_report.html"
+
+    script:
+    """
+    multiqc .
+    """
+}
+
 workflow {
     Channel
         .fromPath(params.reads)
@@ -78,5 +95,7 @@ workflow {
     quant_ch
         .mix(fastqc_ch)
         .collect()
-        .view()
+        .set { all_qc_ch }
+
+    MULTIQC(all_qc_ch)
 }
