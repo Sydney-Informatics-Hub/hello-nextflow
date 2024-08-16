@@ -7,8 +7,9 @@ nav:
   - 0. Introduction: 00_intro.md
   - 1. Indexing: 01_salmon_idx.md
   - 2. Quantification: 02_quant.md
-  - 3. Quality Control: 03_qc.md
-  - 4. Upscaling: 04_scale.md
+  - 3. Quality Control: 03_fastqc.md
+  - 4. MultiQC: 04_multiqc.md
+  - 5. Upscaling: 05_scale.md
 
 theme:
   name: material

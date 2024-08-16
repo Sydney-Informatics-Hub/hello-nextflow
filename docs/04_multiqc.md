@@ -1,11 +1,11 @@
-## 2.4 MultiQC report
+# 2.4 MultiQC report
 
 This step collects the outputs from the `QUANTIFICATION` and `FASTQC` processes
 to create a final report using `multiqc`.  
 
 > collect, reduce graphics/description  
 
-### 2.4.1 Combining channels with operators  
+## 2.4.1 Combining channels with operators  
 
 This is a snippet of the help page for `multiqc`:  
 

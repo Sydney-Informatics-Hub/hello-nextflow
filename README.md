@@ -102,13 +102,16 @@ when the workflow needs to be run. Participants will build on the one
 
 ### mkdocs  
 
+To render docs for website:  
+
 ```bash
 # mkdocs new .
 mkdocs build
 ```
 
-To generate pretty html docs:
+To generate html docs during development:
 ```bash
 cd ~/hello-nextflow/
 mkdocs serve
+# open http://127.0.0.1:8000/ in browser
 ```
