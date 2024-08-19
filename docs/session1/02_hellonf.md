@@ -2,21 +2,90 @@
 
 Nextflow is a workflow orchestration engine and domain-specific language (DSL) that makes it easy to write data-intensive computational workflows.
 
-It is designed around the idea that the Linux platform is the lingua franca of data science. Linux provides many simple but powerful command-line and scripting tools that, when chained together, facilitate complex data manipulations.
-
-Here we're going to create and run a script (named `hello-world.nf`) that will print 'Hello World!'.
-
 ## `hello-world.nf`
 
-Nextflow provides a robust command line interface for the management and execution pipelines. You can view a full list of nextflow options and commands using the `-h` option:
+In Nextflow, **process** is the basic processing primitive to execute a user script.
 
-```bash
-nextflow -h
+The process definition starts with the keyword `process`, followed by process name, and finally the process body delimited by curly braces. The process body must contain a script block which represents the command or, more generally, a script that is executed by it.
+
+A process may contain any of the following definition blocks: `directives`, `inputs`, `outputs`, `when` clauses, and of course, the `script`.
+
+A **workflow** is a composition of processes and dataflow logic.
+
+The workflow definition starts with the keyword `workflow`, followed by an optional name, and finally the workflow body delimited by curly braces.
+
+Processes are connected through queues, called **channels**. The interaction between processes, and ultimately the workflow execution flow itself, are defined by the process input and output declarations in each process.
+
+Let's review the structure of  `hello-world.nf`.
+
+```groovy title="hello-world.nf" linenums="1"
+process SAYHELLO {
+    debug true
+
+    output: 
+    stdout
+    
+    script:
+    """
+    echo 'Hello World!'
+    """
+}
+
+workflow {
+    SAYHELLO()
+}
 ```
 
-Nextflow scripts are saved with the `.nf` suffix. For example, `myscript.nf`.
+The first block of code (lines 1-11) describes a **process** called `SAYHELLO` with three definitions.
 
-The `nextflow run` command is used to execute a local or remote pipeline.
+- **debug**: a directive that, when true, will print the output to your console
+- **output**: directing `script` outputs to be printed to `stdout` (standard output)
+- **script**: the `echo 'Hello World!'` command
+
+Using `debug true` and `stdout` in combination will cause "Hello World!" to be printed to your terminal.
+
+The second block of code (13-15) lines describes the **workflow** itself, which consists of one call to the `SAYHELLO` process.
+
+## Commenting your code
+
+It is worthwhile to comment your code so you, and others, can easily understand your code.
+
+In Nextflow, a single line comment can be added by prepending it with two forward slash (`//`):
+
+```groovy
+// This is my comment` 
+```
+
+Similarly, multi-line comments can be added using the following format:
+
+```groovy
+/*
+ * Use echo to print 'Hello World!' to standard out
+ */
+```
+
+As a developer you can to choose how and where to comment your code.
+
+!!!question "Exercise"
+
+    Add a comment to your pipeline to describe what the **process** block is doing:
+
+    ??? "Solution"
+
+        Your solution may look something like this:
+
+        ```groovy title="hello-world.nf"
+        /*
+         * Use echo to print 'Hello World!' to standard out
+         */
+        process SAYHELLO {
+        ```
+
+---
+
+## Run `hello-world.nf`
+
+The `run` command is used to execute these pipelines.
 
 ```bash
 nextflow run <pipeline.nf>
@@ -24,35 +93,13 @@ nextflow run <pipeline.nf>
 
 !!!question "Exercise"
 
-    Copy the following text and add it to a file named `hello-world.nf`, save it, and execute it using the ` nextflow run` command:
-
-    ```groovy title="hello-world.nf"
-    process SAYHELLO {
-        debug true
-
-        output: 
-            stdout
-        
-        script:
-        """
-        echo 'Hello World!'
-        """
-    }
-
-    workflow {
-        SAYHELLO()
-    }
-    ```
-
-    ??? "Solution"
+    Use ` nextflow run` command to execute `hello-world.nf`:
 
         ```bash
         nextflow run hello-world.nf
         ```
 
-## What just happened?
-
-Congratulations, you ran your first Nextflow pipeline!
+Congratulations! You have just ran your first pipeline!
 
 You console should look something like this:
 
@@ -78,11 +125,9 @@ When a task is created, Nextflow stages the task input files, script, and other 
 
 !!! warning
 
-    Your work directory won't necessarily have the same hash as the one shown above.
+    Your work directory might not have the same hash as the one shown above.
 
-You can browse the `work` directory to find the log files and any outputs created by the task.
-
-You should find the following files:
+A series of files log files and any outputs are created by each task in the work directory:
 
 -   **`.command.begin`**: Metadata related to the beginning of the execution of the process task
 -   **`.command.err`**: Error messages (stderr) emitted by the process task
@@ -91,11 +136,11 @@ You should find the following files:
 -   **`.command.sh`**: The command that was run by the process task call
 -   **`.exitcode`**: The exit code resulting from the command
 
-While these file are not required now, you may need to interrogate them to troubleshoot issues later.
+These files are created by Nextflow to manage the execution of your pipeline. While these file are not required now, you may need to interrogate them to troubleshoot issues later.
 
 !!!question "Exercise"
 
-    Browse the work directory and view the `.command.sh` file.
+    Browse the `work` directory and view the `.command.sh` file.
 
     ??? "Solution"
 
@@ -113,6 +158,8 @@ While these file are not required now, you may need to interrogate them to troub
 
     In this step you have learned:  
 
-    1. How to create a Nextflow pipeline 
-    2. How to run a Nextflow pipeline
-    3. How to view log files create by Nextflow
+    1. How to create a Nextflow pipeline
+    2. How to interpret `hello-world.nf`
+    3. How to add comments to your pipelines 
+    4. How to `run` a Nextflow pipeline
+    5. How to view log files create by Nextflow
