@@ -52,37 +52,21 @@ ERROR ~ Unexpected error while finalizing task 'SAYHELLO' - cause: Target path f
 Without a default value, a value must be supplied to `outdir` each execution.
 
 ```bash
-nextflow run hello-world.nf --outdir results
-```
-
-However, a default value can be added at the top of a nextflow script.
-
-```
-params.outdir = 'results'
+nextflow run hello-world.nf --outdir new_results
 ```
 
 !!!question "Exercise"
 
-    Add a default `outdir` to your script.
+    Execute `hello-world.nf` with the `--outdir` parameters flag and a file name of your choice. View the output folder in your working directory.
 
-    ??? "Solution"
+    ???"Solution"
 
-        ```groovy title="hello-world.nf" hl_lines="1 2"
-        // Add default parameter for outdir
-        params.outdir = 'results'
+        ```bash
+        nextflow run hello-world.nf --outdir new_results
+        ```
 
-        // Use echo to print 'Hello World!' and redirect to output.txt
-        process SAYHELLO {
-            publishDir params.outdir
-
-            output: 
-            path 'output.txt'
-            
-            script:
-            """
-            echo 'Hello World!' > output.txt
-            """
-        }
+        ```bash
+        ls new_results
         ```
 
 !!! abstract "Summary"
