@@ -54,7 +54,7 @@ This will write the output of the echo command to the file name `output.txt`.
 ls
 ```
 
-:::question "Exercise"  
+!!!question "Exercise"  
 
     List the files in your working directory to verify `output.txt` was created.
 
@@ -76,7 +76,7 @@ The most basic use of `cat` is to display the contents of a file on the terminal
 cat <file name>
 ```
 
-:::question "Exercise"
+!!!question "Exercise"
 
     Use the `cat` command to print the contents of `output.txt`.
 

@@ -42,9 +42,11 @@ The first block of code (lines 1-11) describes a **process** called `SAYHELLO` w
 - **output**: directing `script` outputs to be printed to `stdout` (standard output)
 - **script**: the `echo 'Hello World!'` command
 
-Using `debug true` and `stdout` in combination will cause "Hello World!" to be printed to your terminal.
-
 The second block of code (13-15) lines describes the **workflow** itself, which consists of one call to the `SAYHELLO` process.
+
+!!!note
+
+    Using `debug true` and `stdout` in combination will cause "Hello World!" to be printed to your terminal.
 
 ## Commenting your code
 
@@ -79,16 +81,31 @@ As a developer you can to choose how and where to comment your code.
          * Use echo to print 'Hello World!' to standard out
          */
         process SAYHELLO {
+        <truncated>
+        ```
+
+        Or this:
+
+        ```groovy title="hello-world.nf"
+        // Use echo to print 'Hello World!' to standard out
+        process SAYHELLO {
+        <truncated>
         ```
 
 ---
 
 ## Run `hello-world.nf`
 
-The `run` command is used to execute these pipelines.
+The `nextflow run` command is used to execute pipelines.
 
 ```bash
 nextflow run <pipeline.nf>
+```
+
+When a pipeline is stored locally you need to supply the full path to the script. However, if the pipeline has been submitted to GitHub (and you have an internet connection) you can execute it without a local copy. For example, the `hello` repository hosted on the `nextflow-io` GitHub account:
+
+```bash
+nextflow run nextflow-io/hello
 ```
 
 !!!question "Exercise"
@@ -99,29 +116,33 @@ nextflow run <pipeline.nf>
         nextflow run hello-world.nf
         ```
 
-Congratulations! You have just ran your first pipeline!
+**Congratulations! You have just ran your first pipeline!**
 
-You console should look something like this:
+Your console should look something like this:
 
-```console title="Output" linenums="1"
-N E X T F L O W  ~  version 23.10.1 // (1)!
-Launching `hello-world.nf` [mighty_murdock] DSL2 - revision: 80e92a677c // (2)!
+```console linenums="1"
+N E X T F L O W  ~  version 23.10.1
+Launching `hello-world.nf` [mighty_murdock] DSL2 - revision: 80e92a677c
 executor >  local (1) // (3)!
-[4e/6ba912] process > SAYHELLO [100%] 1 of 1 ✔ // (4)!
-Hello World! // (5)!
+[4e/6ba912] process > SAYHELLO [100%] 1 of 1 ✔
+Hello World!
 ```
 
-1. The version of Nextflow that was executed
+**Line:**
+
+1. The version of Nextflow that was executed 
 2. The script and version names
 3. The executor used (in the above case: local)
 4. The first process is executed once, which means there is one task. The line starts with a unique hexadecimal value, and ends with the task completion information
 5. The result string from stdout is printed
 
-When a Nextflow pipeline is run a `work` directory that stores various files is created.
-
-Each task uses a unique directory based on its [hash](https://www.nextflow.io/docs/latest/cache-and-resume.html#task-hash) (e.g., `4e/6ba912`) within the work directory.
+When a Nextflow pipeline is executed, a `work` directory is created. Processes are executed in isolated task directories. Each task uses a unique directory based on its [hash](https://www.nextflow.io/docs/latest/cache-and-resume.html#task-hash) (e.g., `4e/6ba912`) within the work directory.
 
 When a task is created, Nextflow stages the task input files, script, and other helper files into the task directory. The task writes any output files to this directory during its execution, and Nextflow uses these output files for downstream tasks and/or publishing.
+
+!!!note
+
+    You can execute `tree work` to view the work directory structure.
 
 !!! warning
 
@@ -138,6 +159,8 @@ A series of files log files and any outputs are created by each task in the work
 
 These files are created by Nextflow to manage the execution of your pipeline. While these file are not required now, you may need to interrogate them to troubleshoot issues later.
 
+As these are dot files you may need to use `ls -la` to view them.
+
 !!!question "Exercise"
 
     Browse the `work` directory and view the `.command.sh` file.
@@ -149,10 +172,6 @@ These files are created by Nextflow to manage the execution of your pipeline. Wh
         ```bash
         cat work/4e/6ba9138vhsbcbsc83bcka/.command.sh
         ```
-
-!!! tip
-
-    Some of the specifics will be different in your log output. For example, here `[mighty_murdock]` and `[4e/6ba912]` are randomly generated names, so those will be different every time.
 
 !!! abstract "Summary"
 
