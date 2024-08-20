@@ -2,13 +2,13 @@
 
 Parameters are constructs that can hold command line arguments.
 
-They are useful because there will be many parameters, such as filenames and processing options, that you may want to decide or change at the time you execute your run. Simply, parameters allow you to do this without editing the script itself.
+They are useful because there will be many parameters, such as filenames and processing options, that we may want to change at the time we execute our run. Simply, parameters allow us to do this without editing the script itself.
 
 Here we're going to update the script with parameters to make it more flexible.
 
 ## Adding parameters
 
-Parameters can be created by prefixing a parameter name with the parameters scope (e.g., `params.outdir`). They are accessible by processes and workflows and can be modified when you run your pipeline by adding a double hyphen (`--`) to the start of the parameter.
+Parameters can be created by prefixing a parameter name with the parameters scope (e.g., `params.outdir`). They are accessible by processes and workflows and can be modified when we run our pipeline by adding a double hyphen (`--`) to the start of the parameter.
 
 It is good practice to make a pipelines publishing directory flexible so outputs from a pipeline are not all put into the same place. As such, making the publishing directory a parameter would allow the user to rename it at the time of execution: 
 
@@ -57,7 +57,7 @@ nextflow run hello-world.nf --outdir new_results
 
 !!!question "Exercise"
 
-    Execute `hello-world.nf` with the `--outdir` parameters flag and a file name of your choice. View the output folder in your working directory.
+    Execute `hello-world.nf` with the `--outdir` parameters flag and a file name of our choice. View the output folder in the working directory.
 
     ???Solution
 
@@ -71,7 +71,7 @@ nextflow run hello-world.nf --outdir new_results
 
 !!! abstract "Summary"
 
-    In this step you have learned:  
+    In this step we have learned:  
 
     1. How to how to add a parameter to a pipeline 
     2. How to modify a parameter using the command line

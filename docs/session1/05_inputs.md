@@ -28,11 +28,11 @@ We're going to start by creating a channel with the `Channel.of()` channel facto
 
 !!!note
 
-    You can build different kinds of channels depending on the shape of the input data.
+    We can build different kinds of channels depending on the shape of the input data.
 
 ## Channel.of()
 
-The `Channel.of` method allows you to create a channel that emits the arguments provided to it. For example:
+The `Channel.of` method allows us to create a channel that emits the arguments provided to it. For example:
 
 ```groovy
 ch = channel.of( 1, 3, 5, 7 )
@@ -153,6 +153,34 @@ echo '$greeting' > output.txt
         }
         ```
 
+!!!note
+
+    The number of inputs must match! If we had multiple inputs they would be listed across multiple lines in the process input definition and listed inside the brackets in the workflow block.
+
+    ???tip "example.nf"
+
+        ```groovy title="example.nf"
+        process MYFUNCTION {
+            debug true 
+
+            input:
+            val input_1
+            val input_2
+
+            output:
+            stdout
+
+            script:
+            """
+            echo $input_1 $input_2
+            """
+        }
+
+        workflow {
+            MYFUNCTION("Hello", "World!")
+        }
+        ```
+
 ## Parameter inputs
 
 A parameter can also be used as an input.
@@ -205,7 +233,7 @@ greeting_ch = Channel.of(params.greeting)
 
 !!! abstract "Summary"
 
-    In this step you have learned:  
+    In this step we have learned:  
 
     1. How to how to add process inputs
     2. How to use Channel factories 

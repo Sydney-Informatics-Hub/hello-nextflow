@@ -56,7 +56,7 @@ ls
 
 !!!question "Exercise"  
 
-    List the files in your working directory to verify `output.txt` was created.
+    List the files in the working directory to verify `output.txt` was created.
 
     ??? Solution
 
@@ -64,7 +64,7 @@ ls
         ls
         ```
 
-        You should see a file named `output.txt` listed.
+        A file named `output.txt` should now be listed.
 
 ## View file contents
 
@@ -88,9 +88,9 @@ cat <file name>
 
 !!! abstract "Summary"
 
-    In this step you have learned:  
+    In this step we have learned:  
 
     1. How to use the `echo` command to print a string to the terminal
     2. How to use the `>` operator to redirect the output of `echo`
-    3. How to use the `ls` command to list the files in your working directory
+    3. How to use the `ls` command to list the files in our working directory
     4. How to use the `cat` command to print the contents of files
