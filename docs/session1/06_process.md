@@ -14,19 +14,19 @@ tr '[a-z]' '[A-Z]'`
 
 ## Pipe commands
 
-The pipe command in Linux, represented by the vertical bar symbol `|`, is an essential tool for command-line enthusiasts and professionals alike. The primary purpose of the pipe command is to connect the output of one command directly into the input of another.
+The pipe command in Linux, represented by the vertical bar symbol `|`, is an essential tool for command-line enthusiasts and professionals alike. The primary purpose of the pipe command is to connect the output of one command directly into the input of another:
 
 ```bash
 echo 'Hello World' | tr '[a-z]' '[A-Z]'
 ```
 
-The contents of a file can be piped using the `cat` command.
+The contents of a file can be piped using the `cat` command:
 
 ```bash
 cat output.txt | tr '[a-z]' '[A-Z]'
 ```
 
-Like before, the output can be redirected to an output file.
+Like before, the output can be redirected to an output file:
 
 ```bash
 cat output.txt | tr '[a-z]' '[A-Z]' > upper.txt
@@ -148,13 +148,13 @@ Using what we have learned in the previous sections we will now write a new proc
 
 Outputs from one process can be used as inputs for another.
 
-Outputs from a process can be accessed by adding `.out` to the end of a process name in the workflow block.
+Outputs from a process can be accessed by adding `.out` to the end of a process name in the workflow block:
 
 ```groovy
 SAYHELLO.out
 ```
 
-Outputs can then be used as an input for another process.
+Outputs can then be used as an input for another process:
 
 ```groovy
 CONVERTTOUPPER(SAYHELLO.out)

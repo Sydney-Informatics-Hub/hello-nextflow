@@ -41,7 +41,7 @@ Outputs definitions in the process blocks typically require an **output qualifie
 
 The **output qualifier** defines the type of data to be received. This information is used by Nextflow to apply the semantic rules associated with each qualifier, and handle it properly.
     
-Common output qualifiers include `val` and `path`.
+Common output qualifiers include `val` and `path`:
 
 - `val`: Emit the variable with the specified name
     - For example, `val "Hello World!"` 
@@ -54,7 +54,7 @@ See the [Nextflow documentation](https://www.nextflow.io/docs/latest/process.htm
 
     If we set the wrong qualifier the pipeline will likely throw errors or have unexpected outputs.
 
-The **output name** is a name given to the output variable. If a specific file is being produced it can be named in single quotes. 
+The **output name** is a name given to the output variable. If a specific file is being produced it can be named in single quotes: 
 
 ```groovy title="hello-world.nf"
 output:

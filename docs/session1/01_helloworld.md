@@ -8,7 +8,7 @@ Let's demonstrate this with simple commands that we run directly in the terminal
 
 The `echo` command in Linux is a built-in command that allows users to display lines of text or strings that are passed as arguments. It is commonly used in shell scripts and batch files to output status text to the screen or a file.
 
-The most straightforward usage of the `echo` command is to display a text or string on the terminal. To do this, you simply provide the desired text or string as an argument to the `echo` command.
+The most straightforward usage of the `echo` command is to display a text or string on the terminal. To do this, you simply provide the desired text or string as an argument to the `echo` command:
 
 ```bash
 echo [string]
@@ -29,7 +29,7 @@ echo [string]
 The output of the `echo` can be redirected to a file instead of displaying it on the terminal. We can achive this by using the `>` operator for output redirection. For example:
 
 ```bash
-echo "Welcome GFG" > output.txt
+echo "Welcome!" > output.txt
 ```
 
 This will write the output of the echo command to the file name `output.txt`. 
@@ -48,7 +48,7 @@ This will write the output of the echo command to the file name `output.txt`.
 
 `ls` is a Linux shell command that lists directory contents of files and directories.  It provides valuable information about files, directories, and their attributes. 
 
-`ls` will display the contents of the current directory. 
+`ls` will display the contents of the current directory: 
 
 ```bash
 ls

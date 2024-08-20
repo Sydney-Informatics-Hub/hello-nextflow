@@ -44,7 +44,7 @@ Channels need to be created within the `workflow` block.
 
 ## Input
 
-The `input` definition in the process block, much like the `output` definition, must have a qualifier and a name.
+The `input` definition in the process block, much like the `output` definition, must have a qualifier and a name:
 
 ```
 <input qualifier> <input name>
@@ -80,13 +80,13 @@ The `SAYHELLO` process is now expecting an input.
 
 Without this, Nextflow will throw an error.
 
-The `Channel.of` channel factory can be used to create a channel containing a greeting.
+The `Channel.of` channel factory can be used to create a channel containing a greeting:
 
 ```groovy
 greeting_ch = Channel.of('Hello world!')
 ```
 
-The `greeting_ch` channel can then be supplied to `SAYHELLO()` process within the workflow block.
+The `greeting_ch` channel can then be supplied to `SAYHELLO()` process within the workflow block:
 
 
 ```groovy
@@ -114,7 +114,7 @@ Note how the channel is being used as the input for `SAYHELLO`.
 
 The final piece is to update the `scrip`t block to use the `input` value.
 
-For an input to be treated like a variable in the script block, a `$` must be prepended to the input name.
+For an input to be treated like a variable in the script block, a `$` must be prepended to the input name:
 
 ```groovy
 echo '$greeting' > output.txt

@@ -16,7 +16,7 @@ The workflow definition starts with the keyword `workflow`, followed by an optio
 
 Processes are connected through queues, called **channels**. The interaction between processes, and ultimately the workflow execution flow itself, are defined by the process input and output declarations in each process.
 
-Let's review the structure of  `hello-world.nf`.
+Let's review the structure of  `hello-world.nf`:
 
 ```groovy title="hello-world.nf" linenums="1"
 process SAYHELLO {
@@ -36,7 +36,7 @@ workflow {
 }
 ```
 
-The first block of code (lines 1-11) describes a **process** called `SAYHELLO` with three definitions.
+The first block of code (lines 1-11) describes a **process** called `SAYHELLO` with three definitions:
 
 - **debug**: a directive that, when true, will print the output to the console
 - **output**: directing `script` outputs to be printed to `stdout` (standard output)
@@ -70,7 +70,7 @@ As a developer we can to choose how and where to comment our code.
 
 !!!question "Exercise"
 
-    Add a comment to the pipeline to describe what the **process** block is doing:
+    Add a comment to the pipeline to describe what the **process** block is doing.
 
     ??? "Solution"
 
@@ -96,7 +96,7 @@ As a developer we can to choose how and where to comment our code.
 
 ## Run `hello-world.nf`
 
-The **`nextflow run`** command is used to execute pipelines.
+The **`nextflow run`** command is used to execute pipelines:
 
 ```bash
 nextflow run <pipeline.nf>

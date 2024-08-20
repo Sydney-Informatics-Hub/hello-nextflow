@@ -20,7 +20,7 @@ The parameter `--outdir` could now be included in the run command (e.g., `nextfl
 
 !!!question "Exercise"
 
-    Replace `results` with an `outdir` parameter in process block:
+    Replace `results` with an `outdir` parameter in process block.
 
     ???Solution
 
@@ -43,13 +43,13 @@ The parameter `--outdir` could now be included in the run command (e.g., `nextfl
 
 No default value has been supplied to the pipeline.
 
-Executing `hello-world.nf` without supplying a vale for `outdir` will throw an error.
+Executing `hello-world.nf` without supplying a vale for `outdir` will throw an error:
 
 ```console
 ERROR ~ Unexpected error while finalizing task 'SAYHELLO' - cause: Target path for directive publishDir cannot be null
 ```
 
-Without a default value, a value must be supplied to `outdir` each execution.
+Without a default value, a value must be supplied to `outdir` each execution:
 
 ```bash
 nextflow run hello-world.nf --outdir new_results
