@@ -50,7 +50,7 @@ The second block of code (13-15) lines describes the **workflow** itself, which 
 
 ## Commenting your code
 
-It is worthwhile to comment your code so you, and others, can easily understand your code.
+It is worthwhile to **comment** your code so you, and others, can easily understand your code.
 
 In Nextflow, a single line comment can be added by prepending it with two forward slash (`//`):
 
@@ -96,7 +96,7 @@ As a developer you can to choose how and where to comment your code.
 
 ## Run `hello-world.nf`
 
-The `nextflow run` command is used to execute pipelines.
+The **`nextflow run`** command is used to execute pipelines.
 
 ```bash
 nextflow run <pipeline.nf>
@@ -148,7 +148,7 @@ When a task is created, Nextflow stages the task input files, script, and other 
 
     Your work directory might not have the same hash as the one shown above.
 
-A series of files log files and any outputs are created by each task in the work directory:
+A series of files **log** files and any outputs are created by each task in the work directory:
 
 -   **`.command.begin`**: Metadata related to the beginning of the execution of the process task
 -   **`.command.err`**: Error messages (stderr) emitted by the process task
