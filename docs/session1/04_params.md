@@ -59,7 +59,7 @@ nextflow run hello-world.nf --outdir new_results
 
     Execute `hello-world.nf` with the `--outdir` parameters flag and a file name of your choice. View the output folder in your working directory.
 
-    ???"Solution"
+    ???Solution
 
         ```bash
         nextflow run hello-world.nf --outdir new_results

@@ -4,7 +4,7 @@ Pipelines generally consist of multiple steps.
 
 Up until now we've been modifying a single step. It's now time to step things up and add another process.
 
-## `tr`
+## Translate
 
 The `tr` command is a UNIX command-line utility for translating or deleting characters. It supports a range of transformations including uppercase to lowercase, squeezing repeating characters, deleting specific characters, and basic find and replace. It can be used with UNIX pipes to support more complex translation. `tr` stands for translate. 
 
