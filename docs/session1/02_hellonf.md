@@ -2,6 +2,8 @@
 
 Nextflow is a workflow orchestration engine and domain-specific language (DSL) that makes it easy to write data-intensive computational workflows.
 
+Here, we're going to take our first steps in making a our first Nextflow pipeline. 
+
 ## `hello-world.nf`
 
 In Nextflow, **process** is the basic processing primitive to execute a user script.

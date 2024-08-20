@@ -1,6 +1,6 @@
 # Inputs
 
-So far, we've been emitting a greeting hardcoded into the process command.
+So far, we've been emitting a greeting hardcoded into the process command. While this has been a good introduction, it is more likely that we will want to flexible change these without changing the underlying pipeline code.
 
 Now we're going to add some flexibility by introducing channels.
 
