@@ -62,7 +62,7 @@ nextflow run hello-world.nf --greeting 'Bonjour le monde!'
         nextflow run hello-world.nf --greeting 'Bonjour le monde!'
         ```
 
-**Yay! Our pipeline now has an input greeting parameter!**
+We can now check the output to see if our new `output.txt` file contains our new greeting.
 
 !!! abstract "Summary"
 

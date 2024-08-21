@@ -233,8 +233,6 @@ executor >  local (2)
 [cd/c8cf1b] CONVERTTOUPPER (1) [100%] 1 of 1 ✔
 ```
 
-**Congratulations! We now have a multi-step Nextflow pipeline!**
-
 !!! abstract "Summary"
 
     In this step you have learned:  

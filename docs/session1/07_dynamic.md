@@ -115,8 +115,6 @@ We should now see some new files in our results folder:
 Hello.txt       upper_Hello.txt
 ```
 
-**Yay! Our pipeline now has dynamic output file names!**
-
 !!! abstract "Summary"
 
     In this step you have learned:  

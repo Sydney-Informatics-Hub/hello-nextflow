@@ -61,9 +61,9 @@ Channels need to be created within the `workflow` block.
 
 ## Input definitions
 
-Before `greeting_ch` can be passed to the `SAYHELLO` process as an input, we must first add an `input` definition in the process block.
+Before `greeting_ch` can be passed to the `SAYHELLO` process as an input, we must first add an **input definition** in the process block.
 
-The `input` definition in the process block, much like the `output` definition, must have a qualifier and a name:
+The input definition in the process block, much like the `output` definition, must have a qualifier and a name:
 
 ```
 <input qualifier> <input name>
@@ -117,7 +117,7 @@ Without this, Nextflow will throw an error.
 
     ???Solution
 
-        ```groovy title="hello-world.nf" hl_lines="3 4 7"
+        ```groovy title="hello-world.nf" hl_lines="7"
         workflow {
 
             // Create a channel for inputs
@@ -136,7 +136,7 @@ For an input to be treated like a variable in the script block, a `$` must be pr
 echo '$greeting' > output.txt
 ```
 
-The `'` are required to treat the greeting as a string.
+The `'` around `$greeting` are required to treat the greeting as a single string.
 
 !!!question "Exercise"
 
@@ -173,7 +173,7 @@ The `'` are required to treat the greeting as a string.
 
 !!!note
 
-    The number of inputs must match! If we had multiple inputs they would be listed across multiple lines in the process input definition and listed inside the brackets in the workflow block.
+    **The number of inputs in the input definition and the workflow must match!** If we had multiple inputs they would be listed across multiple lines in the process input definition and listed inside the brackets in the workflow block.
 
     ???tip "Example"
 
@@ -199,7 +199,7 @@ The `'` are required to treat the greeting as a string.
         }
         ```
 
-**Our pipeline now uses an input channel!**
+**Yes! Our pipeline now uses an input channel!**
 
 !!! abstract "Summary"
 

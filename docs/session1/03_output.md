@@ -123,8 +123,6 @@ By adding the above to a process, all output files would be saved in a new folde
         }
         ```
 
-**Yay! Our pipeline now saves our outputs in a results folder!**
-
 !!! abstract "Summary"
 
     In this step we have learned:  
