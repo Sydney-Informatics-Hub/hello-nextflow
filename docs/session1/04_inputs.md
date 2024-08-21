@@ -40,7 +40,7 @@ ch_greeting = channel.of( "Hello World!" )
 
 Would create a channel (named `ch_greeting`) that contains the string "Hello World!"
 
-Channels need to be created within the `workflow` block.
+Channels need to be created within the `workflow` definition.
 
 !!!question "Exercise"
 
@@ -59,11 +59,11 @@ Channels need to be created within the `workflow` block.
         }
         ```
 
-## Input definitions
+## Input definition blocks
 
-Before `greeting_ch` can be passed to the `SAYHELLO` process as an input, we must first add an **input definition** in the process block.
+Before `greeting_ch` can be passed to the `SAYHELLO` process as an input, we must first add an **input block** in the process definition.
 
-The input definition in the process block, much like the `output` definition, must have a qualifier and a name:
+The inputs in the input block, much like the output block, must have a qualifier and a name:
 
 ```
 <input qualifier> <input name>
@@ -79,7 +79,7 @@ val greeting
 
 !!!question "Exercise"
 
-    Add a path `input` definition to the `SAYHELLO` process block. Update the comment at the same time.
+    Add an `input` block to the `SAYHELLO` process  with an input. Update the comment at the same time.
 
     ???Solution
 
@@ -173,7 +173,7 @@ The `'` around `$greeting` are required to treat the greeting as a single string
 
 !!!note
 
-    **The number of inputs in the input definition and the workflow must match!** If we had multiple inputs they would be listed across multiple lines in the process input definition and listed inside the brackets in the workflow block.
+    **The number of inputs in the input block and the workflow must match!** If we had multiple inputs they would be listed across multiple lines in the process input block and listed inside the brackets in the workflow block.
 
     ???tip "Example"
 
