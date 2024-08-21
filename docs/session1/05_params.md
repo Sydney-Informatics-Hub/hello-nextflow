@@ -34,7 +34,7 @@ nextflow run hello-world.nf --greeting 'Bonjour le monde!'
 
 !!!question "Exercise"
 
-    Update the workflow block with a default `greeting` parameter.
+    Update the workflow definition with a default `greeting` parameter.
 
     ???Solution
 

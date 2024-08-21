@@ -93,7 +93,7 @@ Using what we have learned in the previous sections we will now write a new proc
         cat $input_file | tr '[a-z]' '[A-Z]' > upper.txt
         ```
 
-        _Hint 1: `input_file` must be the same as what was specified as the input name in the input definition._
+        _Hint 1: `input_file` must be the same as what was specified as the input name in the input block._
 
         _Hint 2: The output text file is named `upper.txt`
 
@@ -149,7 +149,7 @@ Using what we have learned in the previous sections we will now write a new proc
 
 Outputs from one process can be used as inputs for another.
 
-Outputs from a process can be accessed by adding `.out` to the end of a process name in the workflow block:
+Outputs from a process can be accessed by adding `.out` to the end of a process name in the workflow definition:
 
 ```groovy
 SAYHELLO.out
@@ -169,7 +169,7 @@ The same output could be used as inputs for multiple processes.
 
 !!!question "Exercise"
 
-    Add the `CONVERTTOUPPER` process to your workflow block. Use the output from `SAYHELLO` as its input.
+    Add the `CONVERTTOUPPER` process to your workflow definition. Use the output from `SAYHELLO` as its input.
 
     ???solution
 

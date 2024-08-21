@@ -29,7 +29,7 @@ process SAYHELLO {
 }
 ```
 
-Curly brackets `{}` have been used to wrap `greeting` in the `output` and script definitions so it is interpreted as a variable as a part of a file name. 
+Curly brackets `{}` have been used to wrap `greeting` in the `output` and `script` block so it is interpreted as a variable as a part of a file name. 
 
 There is an important difference between single-quoted (`'`) and double-quoted (`"`)strings. Double-quoted strings support variable interpolations while single-quoted strings do not.
 
