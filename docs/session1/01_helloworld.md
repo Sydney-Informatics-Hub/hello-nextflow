@@ -16,7 +16,7 @@ echo [string]
 
 !!!question "Exercise"
 
-    Use the `echo` command to print `'Hello World!'` to the terminal.
+    Use the `echo` command to print the string 'Hello World!' to the terminal.
 
     ??? Solution
 
@@ -26,7 +26,7 @@ echo [string]
 
 ## Redirect outputs
 
-The output of the `echo` can be redirected to a file instead of displaying it on the terminal. We can achive this by using the `>` operator for output redirection. For example:
+The output of the `echo` can be redirected to a file instead of displaying it on the terminal. We can achieve this by using the `>` operator for output redirection. For example:
 
 ```bash
 echo "Welcome!" > output.txt
@@ -64,7 +64,7 @@ ls
         ls
         ```
 
-        A file named `output.txt` should now be listed.
+        A file named `output.txt` should now be listed in your current directory.
 
 ## View file contents
 
@@ -85,6 +85,8 @@ cat <file name>
         ```bash
         cat output.txt
         ```
+
+        You should see `Hello World!` printed to your terminal.
 
 !!! abstract "Summary"
 

@@ -2,23 +2,49 @@
 
 Nextflow is a workflow orchestration engine and domain-specific language (DSL) that makes it easy to write data-intensive computational workflows.
 
-Here, we're going to take our first steps in making a our first Nextflow pipeline. 
+Here, we're going learn more about the Nextflow language and take our first steps making a Nextflow pipeline. 
+
+## Processes and Channels
+
+A Nextflow workflow is made by joining together **processes**. Each process can be written in any scripting language that can be executed by the Linux platform.
+
+Processes are executed independently and are isolated from each other, i.e., they do not share a common (writable) state. The only way they can communicate is via asynchronous first-in, first-out (FIFO) queues, called **channels**. In other words, every input and output of a process is represented as a channel. The interaction between these processes, and ultimately the workflow execution flow itself, is implicitly defined by these input and output declarations.
+
+![Image title](img/myworkflow.excalidraw.png)
 
 ## `hello-world.nf`
 
-In Nextflow, **process** is the basic processing primitive to execute a user script.
+Nextflow pipelines need to be saved as `.nf` files.
 
-The process definition starts with the keyword `process`, followed by process name, and finally the process body delimited by curly braces. The process body must contain a script block which represents the command or, more generally, a script that is executed by it.
+The process definition starts with the keyword `process`, followed by process name, and finally the process body delimited by curly braces. The process body must contain a `script` block which represents the command or, more generally, a script that is executed by it.
 
 A process may contain any of the following definition blocks: `directives`, `inputs`, `outputs`, `when` clauses, and of course, the `script`.
 
-A **workflow** is a composition of processes and dataflow logic.
+```groovy
+process < name > {
+  [ directives ]
+
+  input:
+    < process inputs >
+
+  output:
+    < process outputs >
+
+  when:
+    < condition >
+
+  script:
+  """
+  < script to be executed >
+  """
+}
+```
+
+A workflow is a composition of processes and dataflow logic.
 
 The workflow definition starts with the keyword `workflow`, followed by an optional name, and finally the workflow body delimited by curly braces.
 
-Processes are connected through queues, called **channels**. The interaction between processes, and ultimately the workflow execution flow itself, are defined by the process input and output declarations in each process.
-
-Let's review the structure of  `hello-world.nf`:
+Let's review the structure of  `hello-world.nf`, a toy example we will be executing and developing:
 
 ```groovy title="hello-world.nf" linenums="1"
 process SAYHELLO {
@@ -40,19 +66,19 @@ workflow {
 
 The first block of code (lines 1-11) describes a **process** called `SAYHELLO` with three definitions:
 
-- **debug**: a directive that, when true, will print the output to the console
-- **output**: directing `script` outputs to be printed to `stdout` (standard output)
+- **debug**: a directive that, when set to true, will print the output to the console
+- **output**: directing outputs to be printed to `stdout` (standard output)
 - **script**: the `echo 'Hello World!'` command
 
 The second block of code (13-15) lines describes the **workflow** itself, which consists of one call to the `SAYHELLO` process.
 
 !!!note
 
-    Using `debug true` and `stdout` in combination will cause "Hello World!" to be printed to the terminal.
+    Using `debug true` and `stdout` in combination will cause 'Hello World!' to be printed to the terminal.
 
 ## Commenting our code
 
-It is worthwhile to **comment** our code so we, and others, can easily understand our code.
+It is worthwhile to **comment** our code so we, and others, can easily understand what the code is doing (we will thank ourselves later).
 
 In Nextflow, a single line comment can be added by prepending it with two forward slash (`//`):
 
@@ -72,7 +98,7 @@ As a developer we can to choose how and where to comment our code.
 
 !!!question "Exercise"
 
-    Add a comment to the pipeline to describe what the **process** block is doing.
+    Add a comment to the pipeline to describe what the **process** block is doing
 
     ??? "Solution"
 
@@ -94,17 +120,19 @@ As a developer we can to choose how and where to comment our code.
         <truncated>
         ```
 
+        As a developer, you get to choose!
+
 ---
 
-## Run `hello-world.nf`
+## Executing `hello-world.nf`
 
-The **`nextflow run`** command is used to execute pipelines:
+The **`nextflow run`** command is used to execute Nextflow pipelines:
 
 ```bash
 nextflow run <pipeline.nf>
 ```
 
-When a pipeline is stored locally we need to supply the full path to the script. However, if the pipeline has been submitted to GitHub (and we have an internet connection) we can execute it without a local copy. For example, the `hello` repository hosted on the `nextflow-io` GitHub account:
+When a pipeline is stored locally we need to supply the full path to the script. However, if the pipeline has been submitted to GitHub (and we have an internet connection) we can execute it without a local copy. For example, the **hello** repository hosted on the **nextflow-io** GitHub account can be executed using:
 
 ```bash
 nextflow run nextflow-io/hello
@@ -112,7 +140,9 @@ nextflow run nextflow-io/hello
 
 !!!question "Exercise"
 
-    Use ` nextflow run` command to execute `hello-world.nf`:
+    Use the `nextflow run` command to execute `hello-world.nf`
+
+    ???Solution
 
         ```bash
         nextflow run hello-world.nf
@@ -120,7 +150,7 @@ nextflow run nextflow-io/hello
 
 **Yay! We have just ran our first pipeline!**
 
-The console should look something like this:
+Our console should look something like this:
 
 ```console linenums="1"
 N E X T F L O W  ~  version 23.10.1
@@ -130,7 +160,7 @@ executor >  local (1)
 Hello World!
 ```
 
-**Line:**
+**What does each line mean?**
 
 1. The version of Nextflow that was executed 
 2. The script and version names
@@ -138,9 +168,13 @@ Hello World!
 4. The first process is executed once, which means there is one task. The line starts with a unique hexadecimal value, and ends with the task completion information
 5. The result string from stdout is printed
 
-When a Nextflow pipeline is executed, a `work` directory is created. Processes are executed in isolated task directories. Each task uses a unique directory based on its [hash](https://www.nextflow.io/docs/latest/cache-and-resume.html#task-hash) (e.g., `4e/6ba912`) within the work directory.
+## Task directories
+
+When a Nextflow pipeline is executed, a `work` directory is created. Processes are executed in isolated **task** directories. Each task uses a unique directory based on its [hash](https://www.nextflow.io/docs/latest/cache-and-resume.html#task-hash) (e.g., `4e/6ba912`) within the work directory.
 
 When a task is created, Nextflow stages the task input files, script, and other helper files into the task directory. The task writes any output files to this directory during its execution, and Nextflow uses these output files for downstream tasks and/or publishing.
+
+These directories do not share a writable state, and any required files or information must be passed through channels (this will be important later).
 
 !!!note
 
@@ -155,21 +189,19 @@ A series of files **log** files and any outputs are created by each task in the 
 -   **`.command.begin`**: Metadata related to the beginning of the execution of the process task
 -   **`.command.err`**: Error messages (stderr) emitted by the process task
 -   **`.command.log`**: Complete log output emitted by the process task
--   **`.command.out`**: Regular output (stdout) by the process task
+-   **`.command.out`**: Regular output (`stdout`) by the process task
 -   **`.command.sh`**: The command that was run by the process task call
 -   **`.exitcode`**: The exit code resulting from the command
 
 These files are created by Nextflow to manage the execution of our pipeline. While these file are not required now, we may need to interrogate them to troubleshoot issues later.
 
-As these are dot files we may need to use `ls -la` to view them.
-
 !!!question "Exercise"
 
-    Browse the `work` directory and view the `.command.sh` file.
+    Browse the `work` directory and view the `.command.sh` file
 
     ??? "Solution"
 
-        _Note: The hash may be different to the example shown below_
+        _Note: The hash may be different to the example shown below._
 
         ```bash
         cat work/4e/6ba9138vhsbcbsc83bcka/.command.sh

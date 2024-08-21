@@ -1,10 +1,10 @@
-# Next steps
+# Adding processes
 
 Up until now we've been modifying a single step. However, pipelines generally consist of multiple steps where outputs from one step are used as inputs for the next.
 
-Here we're going to step things up and add another process to the pipeline.
+Here we're going to step things up again and add another process to the pipeline.
 
-## Translate text
+## Translating text
 
 The `tr` command is a UNIX command-line utility for **translating** or deleting characters. It supports a range of transformations including uppercase to lowercase, squeezing repeating characters, deleting specific characters, and basic find and replace. It can be used with UNIX pipes to support more complex translation. `tr` stands for translate. 
 
@@ -12,7 +12,7 @@ The `tr` command is a UNIX command-line utility for **translating** or deleting 
 tr '[a-z]' '[A-Z]'`
 ```
 
-## Pipe commands
+## Piping commands
 
 The pipe command in Linux, represented by the vertical bar symbol `|`, is an essential tool for command-line enthusiasts and professionals alike. The primary purpose of the pipe command is to connect the output of one command directly into the input of another:
 
@@ -32,17 +32,17 @@ Like before, the output can be redirected to an output file:
 cat output.txt | tr '[a-z]' '[A-Z]' > upper.txt
 ```
 
-## Write `CONVERTTOUPPER`
+## `CONVERTTOUPPER`
 
 The output of the `SAYHELLO` process is a text file called `output.txt`.
 
-In the next step of the pipeline, we will convert all of the lower case letters in this file to a uppercase letters and save them as a new file.
+In the next step of the pipeline, we will add a new process named convert `CONVERTTOUPPER` that will convert all of the lower case letters in this file to a uppercase letters and save them as a new file.
 
 The `CONVERTTOUPPER` process will follow the same structure as the `SAYHELLO` process:
 
 ```groovy
 process CONVERTTOUPPER {
-    publishdir params.outdir
+    publishDir 'results'
 
     input:
     <input qualifier> <input name>
@@ -99,10 +99,10 @@ Using what we have learned in the previous sections we will now write a new proc
 
     ???Solution
 
-        ```groovy title="hello-world.nf" hl_lines="17-29"
+        ```groovy title="hello-world.nf" hl_lines="17-30"
         // Use echo to print 'Hello World!' and redirect to output.txt
         process SAYHELLO {
-            publishDir params.outdir
+            publishDir 'results'
 
             input:
             val greeting
@@ -117,7 +117,7 @@ Using what we have learned in the previous sections we will now write a new proc
         }
 
         process CONVERTTOUPPER {
-            publishDir params.outdir
+            publishDir 'results'
             
             input:
                 path input_file
@@ -125,6 +125,7 @@ Using what we have learned in the previous sections we will now write a new proc
             output:
                 path 'upper.txt'
 
+            script:
             """
             cat $input_file | tr '[a-z]' '[A-Z]' > upper.txt
             """
@@ -144,7 +145,7 @@ Using what we have learned in the previous sections we will now write a new proc
         }
         ```
 
-## Connect processes
+## Connecting processes
 
 Outputs from one process can be used as inputs for another.
 
@@ -172,10 +173,10 @@ The same output could be used as inputs for multiple processes.
 
     ???solution
 
-        ```groovy title="hello-world.nf" hl_lines="43 44"
+        ```groovy title="hello-world.nf" hl_lines="44 45"
         // Use echo to print 'Hello World!' and redirect to output.txt
         process SAYHELLO {
-            publishDir params.outdir
+            publishDir 'results'
 
             input:
             val greeting
@@ -191,7 +192,7 @@ The same output could be used as inputs for multiple processes.
 
         // Use tr to convert lowercase letters to upper case letters and save as upper.txt
         process CONVERTTOUPPER {
-            publishDir params.outdir
+            publishDir 'results'
             
             input:
                 path input_file
@@ -199,6 +200,7 @@ The same output could be used as inputs for multiple processes.
             output:
                 path 'upper.txt'
 
+            script:
             """
             cat $input_file | tr '[a-z]' '[A-Z]' > upper.txt
             """
@@ -231,7 +233,7 @@ executor >  local (2)
 [cd/c8cf1b] CONVERTTOUPPER (1) [100%] 1 of 1 ✔
 ```
 
-**Congratulations! You have now run a multi-step Nextflow pipeline!**
+**Congratulations! We now have a multi-step Nextflow pipeline!**
 
 !!! abstract "Summary"
 
