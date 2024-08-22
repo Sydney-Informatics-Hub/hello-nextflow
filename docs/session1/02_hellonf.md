@@ -83,7 +83,7 @@ It is worthwhile to **comment** our code so we, and others, can easily understan
 In Nextflow, a single line comment can be added by prepending it with two forward slash (`//`):
 
 ```groovy
-// This is my comment` 
+// This is my comment 
 ```
 
 Similarly, multi-line comments can be added using the following format:
