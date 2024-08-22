@@ -96,7 +96,7 @@ There is an important difference between single-quoted (`'`) and double-quoted (
 Let's execute our pipeline and view the changes to see if our outputs have been named dynamically.
 
 ```bash
-nextflow run hello-world.nf --greeting Hello
+nextflow run hello-world.nf --greeting 'Hello'
 ```
 
 While the output will look the same:
@@ -111,9 +111,8 @@ executor >  local (2)
 
 We should now see some new files in our results folder:
 
-```
-Hello.txt       upper_Hello.txt
-```
+- Hello.txt
+- upper_Hello.txt
 
 !!! abstract "Summary"
 
