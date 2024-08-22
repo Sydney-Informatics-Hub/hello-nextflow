@@ -2,9 +2,9 @@
 
 Nextflow is a workflow orchestration engine and domain-specific language (DSL) that makes it easy to write data-intensive computational workflows.
 
-Here, we're going learn more about the Nextflow language and take our first steps making a Nextflow pipeline. 
+Here, we're going learn more about the Nextflow language and take our first steps making a **our first pipeline** with Nextflow. 
 
-## Processes and Channels
+## Processes and channels
 
 A Nextflow workflow is made by joining together **processes**. Each process can be written in any scripting language that can be executed by the Linux platform.
 
@@ -18,7 +18,7 @@ Nextflow pipelines need to be saved as `.nf` files.
 
 The process definition starts with the keyword `process`, followed by process name, and finally the process body delimited by curly braces. The process body must contain a `script` block which represents the command or, more generally, a script that is executed by it.
 
-A process may contain any of the following definition blocks: `directives`, `inputs`, `outputs`, `when` clauses, and of course, the `script`.
+A process may contain any of the following definition blocks: `directives`, `inputs`, `outputs`, `when` clauses, and of course, `script`.
 
 ```groovy
 process < name > {
@@ -64,9 +64,9 @@ workflow {
 }
 ```
 
-The first block of code (lines 1-11) describes a **process** called `SAYHELLO` with three definitions:
+The first piece of code (lines 1-11) describes a **process** called `SAYHELLO` with three definition blocks:
 
-- **debug**: a directive that, when set to true, will print the output to the console
+- **debug**: a [directive](https://www.nextflow.io/docs/latest/process.html#directives) that, when set to true, will print the output to the console
 - **output**: directing outputs to be printed to `stdout` (standard output)
 - **script**: the `echo 'Hello World!'` command
 

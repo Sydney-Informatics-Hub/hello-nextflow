@@ -42,7 +42,7 @@ The `CONVERTTOUPPER` process will follow the same structure as the `SAYHELLO` pr
 
 ```groovy
 process CONVERTTOUPPER {
-    publishDir 'results'
+    publishDir params.outdir
 
     input:
     <input qualifier> <input name>
@@ -63,7 +63,7 @@ Using what we have learned in the previous sections we will now write a new proc
 
     Add new process named `CONVERTTOUPPER` that will take an input text file, convert all of the lowercase letters in the text file to uppercase letters, and save a new text file that contains the translated letters.
 
-    ???Tip "Hint: Input"
+    ???Tip "Hint: `input:`"
 
         ```
         path input_file
@@ -73,7 +73,7 @@ Using what we have learned in the previous sections we will now write a new proc
 
         _Hint 2: The input name is `input_file`, however, you may call it something different._
 
-    ???Tip "Hint: Output"
+    ???Tip "Hint: `output:`"
 
         The output
 
@@ -85,7 +85,7 @@ Using what we have learned in the previous sections we will now write a new proc
 
         _Hint 2: The output name is hard coded as 'upper.txt', however, you may call it something different._
 
-    ???Tip "Hint: Script"
+    ???Tip "Hint: `script:`"
 
         The script might look something like this:
 
@@ -100,9 +100,15 @@ Using what we have learned in the previous sections we will now write a new proc
     ???Solution
 
         ```groovy title="hello-world.nf" hl_lines="17-30"
+        // Set default greeting
+        params.greeting = 'Hello World!'
+
+        // Set a default output directory
+        params.outdir = 'results'
+
         // Use echo to print 'Hello World!' and redirect to output.txt
         process SAYHELLO {
-            publishDir 'results'
+            publishDir params.outdir
 
             input:
             val greeting
@@ -117,7 +123,7 @@ Using what we have learned in the previous sections we will now write a new proc
         }
 
         process CONVERTTOUPPER {
-            publishDir 'results'
+            publishDir params.outdir
             
             input:
                 path input_file
@@ -132,9 +138,6 @@ Using what we have learned in the previous sections we will now write a new proc
         }
 
         workflow {
-
-            // Set default greeting
-            params.greeting = "Hello World!"
 
             // Create a channel for inputs
             greeting_ch = Channel.of(params.greeting)
@@ -173,10 +176,16 @@ The same output could be used as inputs for multiple processes.
 
     ???solution
 
-        ```groovy title="hello-world.nf" hl_lines="44 45"
+        ```groovy title="hello-world.nf" hl_lines="17-30"
+        // Set default greeting
+        params.greeting = 'Hello World!'
+
+        // Set a default output directory
+        params.outdir = 'results'
+
         // Use echo to print 'Hello World!' and redirect to output.txt
         process SAYHELLO {
-            publishDir 'results'
+            publishDir params.outdir
 
             input:
             val greeting
@@ -190,9 +199,8 @@ The same output could be used as inputs for multiple processes.
             """
         }
 
-        // Use tr to convert lowercase letters to upper case letters and save as upper.txt
         process CONVERTTOUPPER {
-            publishDir 'results'
+            publishDir params.outdir
             
             input:
                 path input_file
@@ -208,9 +216,6 @@ The same output could be used as inputs for multiple processes.
 
         workflow {
 
-            // Set default greeting
-            params.greeting = "Hello World!"
-
             // Create a channel for inputs
             greeting_ch = Channel.of(params.greeting)
 
@@ -223,7 +228,7 @@ The same output could be used as inputs for multiple processes.
         }
         ```
 
-Executing `hello-world.nf` should now show a second step:
+Executing `hello-world.nf` will now show a second step:
 
 ```console
 N E X T F L O W  ~  version 23.10.1

@@ -44,7 +44,7 @@ The **output qualifier** defines the type of data to be received. This informati
 Common output qualifiers include `val` and `path`:
 
 - `val`: Emit the variable with the specified name
-    - For example, `val "Hello World!"` 
+    - For example, `val 'Hello World!'` 
 - `path`: Emit a file produced by the process with the specified name
     - For example, `path 'output.txt'`
 

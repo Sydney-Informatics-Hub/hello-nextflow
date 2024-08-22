@@ -1,12 +1,12 @@
 # Hello World!
 
-A "Hello, World!" is a minimalist example that is meant to demonstrate the basic syntax and structure of a programming language or software framework. The example typically consists of printing the phrase "Hello World!" to the output, such as the console or terminal, or writing it to a file.
+A **"Hello, World!"** is a minimalist example that is meant to demonstrate the basic syntax and structure of a programming language or software framework. The example typically consists of printing the phrase "Hello World!" to the output, such as the console or terminal, or writing it to a file.
 
 Let's demonstrate this with simple commands that we run directly in the terminal.
 
 ## Print a string
 
-The `echo` command in Linux is a built-in command that allows users to display lines of text or strings that are passed as arguments. It is commonly used in shell scripts and batch files to output status text to the screen or a file.
+The **`echo`** command in Linux is a built-in command that allows users to display lines of text or strings that are passed as arguments. It is commonly used in shell scripts and batch files to output status text to the screen or a file.
 
 The most straightforward usage of the `echo` command is to display a text or string on the terminal. To do this, you simply provide the desired text or string as an argument to the `echo` command:
 
@@ -26,7 +26,7 @@ echo [string]
 
 ## Redirect outputs
 
-The output of the `echo` can be redirected to a file instead of displaying it on the terminal. We can achieve this by using the `>` operator for output redirection. For example:
+The output of the `echo` can be redirected to a file instead of displaying it on the terminal. We can achieve this by using the **`>`** operator for output redirection. For example:
 
 ```bash
 echo "Welcome!" > output.txt
@@ -46,7 +46,7 @@ This will write the output of the echo command to the file name `output.txt`.
 
 ## List files
 
-`ls` is a Linux shell command that lists directory contents of files and directories.  It provides valuable information about files, directories, and their attributes. 
+The Linux shell command **`ls`** lists directory contents of files and directories.  It provides valuable information about files, directories, and their attributes. 
 
 `ls` will display the contents of the current directory: 
 
@@ -68,7 +68,7 @@ ls
 
 ## View file contents
 
-The `cat` command in Linux is a versatile companion for various file-related operations, allowing users to view, concatenate, create, copy, merge, and manipulate file contents.
+The **`cat`** command in Linux is a versatile companion for various file-related operations, allowing users to view, concatenate, create, copy, merge, and manipulate file contents.
 
 The most basic use of `cat` is to display the contents of a file on the terminal. This can be achieved by simply providing the filename as an argument:
 
