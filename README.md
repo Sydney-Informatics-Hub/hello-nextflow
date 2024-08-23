@@ -15,6 +15,9 @@ wget "https://github.com/conda-forge/miniforge/releases/latest/download/Miniforg
 bash Miniforge3-$(uname)-$(uname -m).sh
 # complete prompts with defaults
 
+export PATH="$HOME/miniforge3/bin:$PATH"
+source ~/.bashrc
+
 # confirm installation versions
 mamba --version
 ```
@@ -29,8 +32,8 @@ Install packages:
 ```bash
 mamba create -n day2
 mamba activate day2
-mamba -c bioconda nextflow # process tools via docker containers
-mamba -c conda-forge mkdocs mkdocs-material
+mamba install -c bioconda nextflow # process tools via docker containers
+mamba install -c conda-forge mkdocs mkdocs-material
 ```
 
 ```bash
@@ -71,7 +74,7 @@ sudo apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin 
 sudo docker run hello-world
 
 # post-install mods for non-root permissions
-sudo group add docker
+sudo groupadd docker
 sudo usermod -aG docker $USER
 newgrp docker
 
@@ -88,7 +91,10 @@ docker pull quay.io/biocontainers/multiqc:1.19--pyhdfd78af_0
 ```
 
 ### Usage  
+
 ```bash
+git clone https://github.com/Sydney-Informatics-Hub/hello-nextflow.git
+cd hello-nextflow
 nextflow run main.nf
 ```
 
