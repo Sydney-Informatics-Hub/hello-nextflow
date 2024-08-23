@@ -1,5 +1,7 @@
 # 2.0 Introduction  
 
+> Explain the data  
+
 To demonstrate a real-world biomedical scenario, you will implement a proof of concept RNA-Seq workflow which:  
 1. Indexes a transcriptome file  
 2. Performs quality controls  

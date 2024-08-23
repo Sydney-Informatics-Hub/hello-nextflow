@@ -16,11 +16,12 @@ nav:
     - 1.6 Adding processes: session1/06_process.md
     - 1.7 Dynamic naming: session1/07_dynamic.md
   - Session 2:
-    - 0. Introduction: 00_intro.md
-    - 1. Indexing: 01_salmon_idx.md
-    - 2. Quantification: 02_quant.md
-    - 3. Quality Control: 03_qc.md
-    - 4. Upscaling: 04_scale.md
+    - 2.0 Introduction: session2/00_intro.md
+    - 2.1 TBC: session2/01_salmon_idx.md
+    - 2.2 TBC: session2/02_quant.md
+    - 2.3 TBC: session2/03_fastqc.md
+    - 2.4 TBC: session2/04_multiqc.md
+    - 2.5 TBC: session2/05_scale.md
 
 theme:
   name: material
