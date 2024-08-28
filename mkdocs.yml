@@ -17,7 +17,7 @@ nav:
     - 1.7 Dynamic naming: day1/07_dynamic.md
   - Day 2:
     - 2.0 Introduction: day2/00_intro.md
-    - 2.1 TBC: day2/01_salmon_idx.md
+    - 2.1 The first process: day2/01_salmon_idx.md
     - 2.2 TBC: day2/02_quant.md
     - 2.3 TBC: day2/03_fastqc.md
     - 2.4 TBC: day2/04_multiqc.md
