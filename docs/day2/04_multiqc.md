@@ -176,3 +176,7 @@ Launching `main.nf` [hopeful_swanson] DSL2 - revision: a4304bbe73
 > Inspect `results/multiqc_report.html`, maybe Poll something in the file  
 
 You have a working pipeline for a single paired-end sample!
+
+---
+
+## scratch

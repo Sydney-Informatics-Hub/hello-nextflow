@@ -89,11 +89,11 @@ workflow {
         .set { read_pairs_ch }
 
     index_ch = INDEX(params.transcriptome_file)
-    quant_ch = QUANTIFICATION(index_ch, read_pairs_ch)
     fastqc_ch = FASTQC(read_pairs_ch)
+    quant_ch = QUANTIFICATION(index_ch, read_pairs_ch)
 
-    quant_ch
-        .mix(fastqc_ch)
+    fastqc_ch
+        .mix(quant_ch)
         .collect()
         .set { all_qc_ch }
 
