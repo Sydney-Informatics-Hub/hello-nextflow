@@ -135,4 +135,40 @@ nextflow run main.nf -with-report fastqc_mt.html
 
 ## scratch  
 
+## 2.2.3 Adding a `tag` directive
 
+Add `tag` for a more readable execution log. Will also help with profiling
+later, when additional samples are added.
+
+```groovy title="main.nf"
+process QUANTIFICATION {
+
+    tag "salmon on ${sample_id}"
+    container "quay.io/biocontainers/salmon:1.10.1--h7e5ed60_0"
+    publishDir params.outdir, mode: 'copy'
+
+```
+
+```bash
+nextflow run main.nf -resume
+```
+
+```
+Launching `main.nf` [reverent_lavoisier] DSL2 - revision: 10860f201c
+
+executor >  local (2)
+[11/010b59] INDEX                          | 1 of 1, cached: 1 ✔
+[21/5e9ec8] QUANTIFICATION (salmon on gut) | 1 of 1, cached: 1 ✔
+```
+
+> Mention output, cache, resume
+
+!!! abstract "Summary"
+
+    In this step you have learned:
+
+        1. How to
+        1. How to
+        1. How to
+        1. How to
+        1. How to

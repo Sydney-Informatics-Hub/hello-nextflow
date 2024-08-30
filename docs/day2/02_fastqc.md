@@ -1,4 +1,4 @@
-# 2.2 
+# 2.2 Samplesheets, operators, and groovy  
 
 !!! note "Learning objectives"
 

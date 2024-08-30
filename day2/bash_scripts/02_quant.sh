@@ -1,6 +1,6 @@
 #!/bin/bash
 
-SAMPLE_ID=$1
+SAMPLE_ID="gut"
 READS_1="data/ggal/${SAMPLE_ID}_1.fq"
 READS_2="data/ggal/${SAMPLE_ID}_2.fq"
 

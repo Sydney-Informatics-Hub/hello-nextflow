@@ -63,8 +63,8 @@ The output should look something like:
 Launching `main.nf` [hopeful_perlman] DSL2 - revision: c0603d2f16
 
 [aa/3b8821] INDEX                          | 1 of 1, cached: 1 ✔
-[c2/baa069] QUANTIFICATION (salmon on gut) | 1 of 1, cached: 1 ✔
 [ad/e49b20] FASTQC (fastqc on gut)         | 1 of 1, cached: 1 ✔
+[c2/baa069] QUANTIFICATION (salmon on gut) | 1 of 1, cached: 1 ✔
 /home/ubuntu/hello-nextflow/work/ad/e49b204c50c8f819dbddc4526010cf/fastqc_gut_logs
 /home/ubuntu/hello-nextflow/work/c2/baa0691de7afccb3ed6d285947c8bf/gut
 
@@ -176,7 +176,3 @@ Launching `main.nf` [hopeful_swanson] DSL2 - revision: a4304bbe73
 > Inspect `results/multiqc_report.html`, maybe Poll something in the file  
 
 You have a working pipeline for a single paired-end sample!
-
----
-
-## scratch
