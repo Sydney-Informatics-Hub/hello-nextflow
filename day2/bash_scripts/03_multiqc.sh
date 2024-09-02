@@ -1,3 +1,3 @@
 #!/bin/bash
 
-multiqc -o results/ results/
+multiqc --outdir results/ results/
