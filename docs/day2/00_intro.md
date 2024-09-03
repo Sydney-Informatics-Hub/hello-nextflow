@@ -50,6 +50,8 @@ they should be implemented in a Nextflow workflow.
 
 ## 2.0.3 Pipeline structure and design 
 
+![](img/0.excalidraw.png)
+
 High level description (and diagram) of the workflow we're building, why its structured this way, inputs and outputs, etc. 
 
 Additionally, will need a clear explanation of how we plan to work through the materials. Explaining the .nf files, building workflow in one file, how we will be running software (containers). 

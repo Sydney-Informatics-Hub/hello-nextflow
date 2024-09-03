@@ -11,7 +11,7 @@
 In this step you will have some hands-off practice with implementing a process
 using the concepts and steps covered in the previous steps.  
 
-> Add workflow diagram  
+![](img/3.excalidraw.png)
 
 You will implement the `02_quant.sh` bash script as a Nexflow process called
 `QUANTIFICATION`.  

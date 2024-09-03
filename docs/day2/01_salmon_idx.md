@@ -9,7 +9,7 @@
 In this step we will implement `00_index.sh` as a Nextflow process called
 `INDEX`. 
 
-> Add workflow diagram  
+![](img/1.excalidraw.png)
 
 ```bash title="00_index.sh"
 mkdir "results"

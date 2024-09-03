@@ -9,7 +9,7 @@
 In this step we will implement `01_fastqc.sh` as a process called `FASTQC` and
 use operators and Groovy to create a channel.  
 
-> Add workflow diagram  
+![](img/2.excalidraw.png)
 
 ```bash title="01_fastqc.sh"
 SAMPLE_ID=gut
