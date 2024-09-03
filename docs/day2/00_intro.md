@@ -45,18 +45,27 @@ tools:
 2. [FastQC](https://www.bioinformatics.babraham.ac.uk/projects/fastqc/) is a tool for quality analysis of high throughput sequence data. You can think of it as a way to assess the quality of your data.  
 3. [MultiQC](https://multiqc.info/) searches a given directory for analysis logs and compiles an HTML report for easy viewing. It's a general use tool, perfect for summarising the output from numerous bioinformatics tools.  
 
-We will not explore how the data and tools work further, and focus on how
-they should be implemented in a Nextflow workflow.  
+These tools will be run using Docker containers. We will not explore how the
+data and tools work further, and focus on how they should be implemented in a
+Nextflow workflow.  
 
 ## 2.0.3 Pipeline structure and design 
 
 ![](img/0.excalidraw.png)
 
-High level description (and diagram) of the workflow we're building, why its structured this way, inputs and outputs, etc. 
+The workflow we will build has four processes (discrete steps):
 
-Additionally, will need a clear explanation of how we plan to work through the materials. Explaining the .nf files, building workflow in one file, how we will be running software (containers). 
+1. `INDEX`
+2. `FASTQC`
+3. `QUANTIFICATION`
+4. `MULTIQC`  
 
-We will be following the `process` structure from Section 1.2:  
+Each section in the workshop focuses on implementing one process at a time. We
+will iteratively develop the workflow in a single `main.nf` file and lightly
+use a `nextflow.config` file for configuration.
+
+We will follow an ordered approach for each section building off the `process`
+structure from Section 1.2:
 
 ```groovy
 process < name > {
@@ -74,6 +83,19 @@ process < name > {
   """
 }
 ```
+
+Drawing upon the bash scripts for each process/section, the definitions will
+be completed in the following order:  
+
+1. `script`
+2. `output`
+3. `input`
+4. `directives`
+5. Adding to the `workflow` scope, any `params` and channels required  
+
+!!! warning "Important"
+
+    Ensure you `cd` into `hello-nextflow/day2` in the VSCode terminal.  
 
 ## 2.0.4 Advanced: `template-nf`  
 

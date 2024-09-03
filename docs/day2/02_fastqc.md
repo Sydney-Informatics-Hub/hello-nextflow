@@ -34,6 +34,7 @@ Similar to the bash script in the previous step (`00_index.sh`), `mkdir -p`
 creates an output folder so that the `fastqc` outputs can be saved here.  
 
 In the `fastqc` command,
+
 - `--outdir` specifies the name of the output directory
 - `--format` is a required flag to indicate what format the the reads are in
 - `${READS_1}` and `${READS_2}` propagate the paths of the `.fq` files  
@@ -164,23 +165,52 @@ The samplesheet has three columns:
          */
         params.transcriptome_file = "$projectDir/data/ggal/transcriptome.fa"
         params.reads = "$projectDir/data/samplesheet.csv"
+        ```
 
-Add the following lines in the workflow scope of the script:  
+In the next few steps, we will add a mix of Nextflow operators and Groovy
+syntax to read in an parse the samplesheet so it is in the correct format
+for the process we just added.  
 
-```groovy title="main.nf"
+!!! tip
+
+    You do not need to understand what each operator or command does in detail.
+    The key takeaway here is to practice inspecting the output of each step and
+    gain familiarity on using samplesheets and how operators/groovy can be
+    chained together to get the desired input.  
+
+Add the following to your workflow scope:  
+
+```
 workflow {
     Channel
         .fromPath(params.reads)
-        .splitCsv(header: true)
-        .map { row -> [row.sample, file(row.fastq_1), file(row.fastq_2)] }
-        .set { read_pairs_ch }
+        .view()
+}
+```
 
-    index_ch = INDEX(params.transcriptome_file)
+Run the workflow with the `-resume` flag:
+
+```bash
+nextflow run main.nf -resume
+```
+
+Your output should look something like:  
+
+```console title="Output"
+Launching `main.nf` [hungry_lalande] DSL2 - revision: 587b5b70d1
+
+[de/fef8c4] INDEX [100%] 1 of 1, cached: 1 ✔
+/home/setup2/hello-nextflow/day2/data/samplesheet.csv
 
 ```
 
-> Add prose about not having to understand in detail but use view to see what
-each command does. Add links, things on groovy, operators etc.  
+> Explain -resume, cached  
+
+> Explain cached
+
+---
+
+## scratch
 
 Use some groovy to read and view the samplesheet. Define the channel in the
 workflow, and add the
@@ -193,10 +223,6 @@ the contents of the channel:
 
     Add `.view()` after each command (`.fromPath()`, `.splitCsv()`, `.map{}`) and
     run the workflow. Note the output of each step.  
-
----
-
-## scratch  
 
 Your output will display a tuple consisting of three named elements, one for
 each of the columns in the samplesheet.

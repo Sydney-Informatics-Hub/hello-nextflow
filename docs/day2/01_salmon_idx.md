@@ -28,8 +28,8 @@ This is enough information to construct the process.
 
 ## 2.1.1 Adding the `INDEX` process
 
-In the `main.nf` script, add the following `process` scaffold with the script
-definition:  
+In the empty `main.nf` script, add the following `process` scaffold with the
+script definition:  
 
 ```groovy title="main.nf"
 process INDEX {
@@ -50,8 +50,13 @@ process INDEX {
 
 > Note about $transcriptome
 
-Next we will add the `input` and `output` definitions. The qualifiers will be
-`path` for both.  
+Next we will add the `input` and `output` definitions. 
+
+The qualifiers will be `path` for both as they are either a file or directory.
+The values are obtained from `--transcripts $transcriptome` and
+`--index salmon_index` respectively.
+
+> Needs better, slower, explanation.  
 
 ```groovy title="main.nf"
 process INDEX {
@@ -69,8 +74,6 @@ process INDEX {
   """
 }
 ```
-
-> Note about $transcriptome
 
 Note that the input `path transcriptome` is a variable and the output `path
 'salmon_index' is fixed.  
@@ -205,20 +208,26 @@ Your output should look something like:
 ```console title="Output"
 N E X T F L O W   ~  version 24.04.4
 
-Launching `01_b.nf` [loquacious_elion] DSL2 - revision: 3e244cb317
+Launching `main.nf` [chaotic_jones] DSL2 - revision: 6597720332
 
 executor >  local (1)
-[26/c410b1] INDEX | 1 of 1 ✔
-
+[de/fef8c4] INDEX | 1 of 1 ✔
 ```
 
 Recall that the specifics of the output are randomly generated (i.e.
-`[loquacious_elion]` and `[26/c410b1]` in this example).
+`[chaotic_jones]` and `[de/fef8c4]` in this example).
 
 In this example, the output files for the `INDEX` process is output in
 `work/26/c410b1...`.
 
 > Inspect results folder?  
+
+> results/salmon_index has a bunch of different files
+
+!!! question "Exercise"
+
+    Inspect the `.command.sh` file and compare it with `00_index.sh`. Note the
+    similarities and differences.  
 
 You have successfully run your first workflow!  
 
