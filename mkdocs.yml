@@ -17,11 +17,11 @@ nav:
     - 1.7 Dynamic naming: day1/07_dynamic.md
   - Day 2:
     - 2.0 Introduction: day2/00_intro.md
-    - 2.1 The first process: day2/01_salmon_idx.md
-    - 2.2 Handling grouped inputs: day2/02_fastqc.md
-    - 2.3 Multple process inputs: day2/03_quant.md
-    - 2.4 TBC: day2/04_multiqc.md
-    - 2.5 TBC: day2/05_scale.md
+    - 2.1 Our first process and container: day2/01_salmon_idx.md
+    - 2.2 Samplesheets, operators, and groovy: day2/02_fastqc.md
+    - 2.3 Multiple process inputs: day2/03_quant.md
+    - 2.4 Combining channels, multiple process outputs: day2/04_multiqc.md
+    - 2.5 Upscaling to multiple samples and introspection: day2/05_scale.md
 
 theme:
   name: material

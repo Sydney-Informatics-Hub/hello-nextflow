@@ -226,8 +226,8 @@ You have successfully run your first workflow!
 
     In this step you have learned:  
 
-        1. How to implement a simple process with input data  
-        2. How to define parameters in your workflow scripts and the command
-        line
-        3. How to use a Docker container for a process  
-        4. How to output files in a dedicated `publishDir`  
+    1. How to implement a simple process with input data  
+    2. How to define parameters in your workflow scripts and the command
+    line
+    3. How to use a Docker container for a process  
+    4. How to output files in a dedicated `publishDir`  

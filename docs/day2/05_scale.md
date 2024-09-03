@@ -1,13 +1,23 @@
 # 2.5 Scaling to multiple samples  
 
-Next, we will amend the workflow to take in multiple paired-end reads, do some
-profiling and optimisation.  
+Now that we have a working pipeline on a single-sample, we will update it 
+to take multiple samples and introduce Nextflow concepts that help with
+understanding and profiling the pipeline.  
 
 ## 2.5.1 Adding samples to the samplesheet
 
+Recall that the samplesheet is used to control which files/data are analysed by
+the workflow.
+
 !!! question "Exercise"
 
-    Add the `liver` and `lung` samples to `data/samplesheet.csv`.  
+    Add the `liver` and `lung` samples to the samplesheet by editing
+    `data/samplesheet.csv`.  
+
+    ??? tip "Hint"
+
+        Copy the lines where the `gut` samples are defined, and replace the
+        sample name with `liver` and `lung`.  
 
     ??? note "Solution"
 
@@ -22,26 +32,46 @@ profiling and optimisation.
         lung,data/ggal/lung_1.fq,data/ggal/lung_2.fq
         ```
 
+Next we will inspect how this changes the workflow.  
+
 !!! question "Exercise"
 
-    Run the workflow. Using `.view()`, what is the new output of `read_pairs_ch`?
+    In the workflow scope, add `.view()` to see the output of `read_pairs_ch`.
 
     ??? note "Solution"
 
-        ```console title="Output"
-        Launching `main.nf` [hopeful_boyd] DSL2 - revision: 2d38d1462e
-
-        [6e/e2025a] INDEX                           [100%] 1 of 1, cached: 1 ✔
-        [96/81fd93] QUANTIFICATION (salmon on lung) [100%] 3 of 3, cached: 1 ✔
-        [5a/f92355] FASTQC (fastqc on liver)        [100%] 3 of 3, cached: 1 ✔
-        [ab/1eabe7] MULTIQC                         [100%] 1 of 1, cached: 1 ✔
-        [gut, .../data/ggal/gut_1.fq, .../data/ggal/gut_2.fq]
-        [liver, .../data/ggal/liver_1.fq, .../data/ggal/liver_2.fq]
-        [lung, .../data/ggal/lung_1.fq, .../data/ggal/lung_2.fq]
- 
+        ```groovy title="main.nf"
+        Channel
+            .fromPath(params.reads)
+            .splitCsv(header: true)
+            .map { row -> [row.sample, file(row.fastq_1), file(row.fastq_2)] }
+            .set { read_pairs_ch }
+            read_pairs_ch.view()
         ```
 
+Run the workflow:  
+
+```bash
+nextflow run main.nf -resume
+```
+
+Your output should look something like:  
+
+```console title="Output"
+Launching `main.nf` [hopeful_boyd] DSL2 - revision: 2d38d1462e
+
+[6e/e2025a] INDEX          [100%] 1 of 1, cached: 1 ✔
+[96/81fd93] QUANTIFICATION [100%] 3 of 3, cached: 1 ✔
+[5a/f92355] FASTQC         [100%] 3 of 3, cached: 1 ✔
+[ab/1eabe7] MULTIQC        [100%] 1 of 1, cached: 1 ✔
+[gut, .../data/ggal/gut_1.fq, .../data/ggal/gut_2.fq]
+[liver, .../data/ggal/liver_1.fq, .../data/ggal/liver_2.fq]
+[lung, .../data/ggal/lung_1.fq, .../data/ggal/lung_2.fq]
+
+```
+
 Key differences to note: 
+
 - Total of three tuples, for each sample  
 - `QUANTIFICATION` and `FASTQC` have 3 processes and 1 cached  
 - Added `results/` outputs for each paired sample  
