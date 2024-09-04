@@ -1,6 +1,6 @@
 # Hello World!
 
-A **'Hello, World!'** is a minimalist example that is meant to demonstrate the basic syntax and structure of a programming language or software framework. The example typically consists of printing the phrase 'Hello World!' to the output, such as the console or terminal, or writing it to a file.
+A **Hello, World!** is a minimalist example that is meant to demonstrate the basic syntax and structure of a programming language or software framework. The example typically consists of printing the phrase 'Hello World!' to the output, such as the console or terminal, or writing it to a file.
 
 Let's demonstrate this with simple commands that you can run directly in the terminal.
 

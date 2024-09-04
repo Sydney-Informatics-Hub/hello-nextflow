@@ -35,7 +35,7 @@ process < name > {
 
   script:
   """
-  < script to be executed >
+  <script to be executed>
   """
 }
 ```

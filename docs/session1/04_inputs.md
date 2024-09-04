@@ -16,13 +16,13 @@ Importantly, there are two kinds of channels (**queue** channels and **value** c
 
 **Queue channel**
 
-- A non-blocking unidirectional first-in first-out queue connecting a producer process (i.e. outputting a value) to a consumer process, or an operators
-  Can be consumed only once
+- A non-blocking unidirectional first-in first-out queue connecting a producer process (i.e. outputting a value) to a consumer process, or an operators.
+- Can be consumed only once.
 
 **Value channel**
 
-- Can be bound (i.e. assigned) with one and only one value
-- Can be consumed any number of times
+- Can be bound (i.e. assigned) with one and only one value.
+- Can be consumed any number of times.
 
 You're going to start by creating a channel that will contain your greeting with the `Channel.of()` channel factory.
 
@@ -48,7 +48,7 @@ Channels need to be created within the `workflow` definition.
 
     ???Solution
 
-        ```groovy title="hello-world.nf" hl_lines="3 4 7"
+        ```groovy title="hello-world.nf" hl_lines="2 3 4"
         workflow {
 
             // Create a channel for inputs
@@ -83,7 +83,7 @@ val greeting
 
     ???Solution
 
-        ```groovy title="hello-world.nf" hl_lines="1 5 6"
+        ```groovy title="hello-world.nf" hl_lines="1 4 5 6"
         // Use echo to print a string and redirect to output.txt
         process SAYHELLO {
             publishDir 'results'

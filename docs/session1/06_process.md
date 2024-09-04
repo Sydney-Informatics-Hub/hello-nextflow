@@ -95,11 +95,11 @@ Using what you have learned in the previous sections you will now write a new pr
 
         _Hint 1: `input_file` must be the same as what was specified as the input name in the input block._
 
-        _Hint 2: The output text file is named `upper.txt`
+        _Hint 2: The output text file is named `upper.txt`_
 
     ???Solution
 
-        ```groovy title="hello-world.nf" hl_lines="17-30"
+        ```groovy title="hello-world.nf" hl_lines="23-36"
         // Set default greeting
         params.greeting = 'Hello World!'
 
@@ -176,7 +176,7 @@ The same output could be used as inputs for multiple processes.
 
     ???solution
 
-        ```groovy title="hello-world.nf" hl_lines="17-30"
+        ```groovy title="hello-world.nf" hl_lines="45 46 47"
         // Set default greeting
         params.greeting = 'Hello World!'
 

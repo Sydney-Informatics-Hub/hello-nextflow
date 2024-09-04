@@ -39,7 +39,7 @@ There is an important difference between single-quoted (`'`) and double-quoted (
 
     !!!warning
 
-        It's difficult to name a file with a space. Use a simple greeting, e.g., "Hello", when testing your pipeline.
+        It's difficult to name a file with a space. Use a simple greeting without spaces, e.g., "Hello", when testing your pipeline.
 
     ???solution
 
