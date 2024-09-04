@@ -32,7 +32,7 @@ The output of the `echo` can be redirected to a file instead of displaying it on
 echo "Welcome!" > output.txt
 ```
 
-This will write the output of the echo command to the file name `output.txt`. 
+This will write the output of the echo command to the file name `output.txt`.
 
 !!!question "Exercise"
 
@@ -46,15 +46,15 @@ This will write the output of the echo command to the file name `output.txt`.
 
 ## List files
 
-The Linux shell command **`ls`** lists directory contents of files and directories.  It provides valuable information about files, directories, and their attributes. 
+The Linux shell command **`ls`** lists directory contents of files and directories. It provides valuable information about files, directories, and their attributes.
 
-`ls` will display the contents of the current directory: 
+`ls` will display the contents of the current directory:
 
 ```bash
 ls
 ```
 
-!!!question "Exercise"  
+!!!question "Exercise"
 
     List the files in the working directory to verify `output.txt` was created.
 
@@ -90,7 +90,7 @@ cat <file name>
 
 !!! abstract "Summary"
 
-    In this step you have learned:  
+    In this step you have learned:
 
     1. How to use the `echo` command to print a string to the terminal
     2. How to use the `>` operator to redirect the output of `echo`

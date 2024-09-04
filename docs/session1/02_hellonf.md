@@ -2,7 +2,7 @@
 
 Nextflow is a workflow orchestration engine and domain-specific language (DSL) that makes it easy to write data-intensive computational workflows.
 
-Here, you're going learn more about the Nextflow language and take your first steps making a **your first pipeline** with Nextflow. 
+Here, you're going learn more about the Nextflow language and take your first steps making a **your first pipeline** with Nextflow.
 
 ## Processes and channels
 
@@ -44,15 +44,15 @@ A workflow is a composition of processes and dataflow logic.
 
 The workflow definition starts with the keyword `workflow`, followed by an optional name, and finally the workflow body delimited by curly braces.
 
-Let's review the structure of  `hello-world.nf`, a toy example you will be executing and developing:
+Let's review the structure of `hello-world.nf`, a toy example you will be executing and developing:
 
 ```groovy title="hello-world.nf" linenums="1"
 process SAYHELLO {
     debug true
 
-    output: 
+    output:
     stdout
-    
+
     script:
     """
     echo 'Hello World!'
@@ -83,7 +83,7 @@ It is worthwhile to **comment** your code so we, and others, can easily understa
 In Nextflow, a single line comment can be added by prepending it with two forward slash (`//`):
 
 ```groovy
-// This is my comment 
+// This is my comment
 ```
 
 Similarly, multi-line comments can be added using the following format:
@@ -162,7 +162,7 @@ Hello World!
 
 **What does each line mean?**
 
-1. The version of Nextflow that was executed 
+1. The version of Nextflow that was executed
 2. The script and version names
 3. The executor used (in the above case: local)
 4. The first process is executed once, which means there is one task. The line starts with a unique hexadecimal value, and ends with the task completion information
@@ -186,12 +186,12 @@ These directories do not share a writable state, and any required files or infor
 
 A series of files **log** files and any outputs are created by each task in the work directory:
 
--   **`.command.begin`**: Metadata related to the beginning of the execution of the process task
--   **`.command.err`**: Error messages (stderr) emitted by the process task
--   **`.command.log`**: Complete log output emitted by the process task
--   **`.command.out`**: Regular output (`stdout`) by the process task
--   **`.command.sh`**: The command that was run by the process task call
--   **`.exitcode`**: The exit code resulting from the command
+- **`.command.begin`**: Metadata related to the beginning of the execution of the process task
+- **`.command.err`**: Error messages (stderr) emitted by the process task
+- **`.command.log`**: Complete log output emitted by the process task
+- **`.command.out`**: Regular output (`stdout`) by the process task
+- **`.command.sh`**: The command that was run by the process task call
+- **`.exitcode`**: The exit code resulting from the command
 
 These files are created by Nextflow to manage the execution of your pipeline. While these file are not required now, you may need to interrogate them to troubleshoot issues later.
 
@@ -209,10 +209,10 @@ These files are created by Nextflow to manage the execution of your pipeline. Wh
 
 !!! abstract "Summary"
 
-    In this step you have learned:  
+    In this step you have learned:
 
     1. How to create a Nextflow pipeline
     2. How to interpret `hello-world.nf`
-    3. How to add comments to your pipelines 
+    3. How to add comments to your pipelines
     4. How to `run` a Nextflow pipeline
     5. How to view log files create by Nextflow

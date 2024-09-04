@@ -17,7 +17,7 @@ Importantly, there are two kinds of channels (**queue** channels and **value** c
 **Queue channel**
 
 - A non-blocking unidirectional first-in first-out queue connecting a producer process (i.e. outputting a value) to a consumer process, or an operators
-Can be consumed only once
+  Can be consumed only once
 
 **Value channel**
 
@@ -91,9 +91,9 @@ val greeting
             input:
             val greeting
 
-            output: 
+            output:
             path 'output.txt'
-            
+
             script:
             """
             echo 'Hello World!' > output.txt
@@ -152,9 +152,9 @@ The `'` around `$greeting` are required to treat the greeting as a single string
             input:
             val greeting
 
-            output: 
+            output:
             path 'output.txt'
-            
+
             script:
             """
             echo '$greeting' > output.txt
@@ -179,7 +179,7 @@ The `'` around `$greeting` are required to treat the greeting as a single string
 
         ```groovy title="example.nf"
         process MYFUNCTION {
-            debug true 
+            debug true
 
             input:
             val input_1
@@ -203,7 +203,7 @@ The `'` around `$greeting` are required to treat the greeting as a single string
 
 !!! abstract "Summary"
 
-    In this step you have learned:  
+    In this step you have learned:
 
-    1. How to use Channel factories 
+    1. How to use Channel factories
     2. How to how to add process inputs

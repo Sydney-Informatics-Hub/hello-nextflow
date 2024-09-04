@@ -6,7 +6,7 @@ Here you're going to step things up again and add another process to the pipelin
 
 ## Translating text
 
-The `tr` command is a UNIX command-line utility for **translating** or deleting characters. It supports a range of transformations including uppercase to lowercase, squeezing repeating characters, deleting specific characters, and basic find and replace. It can be used with UNIX pipes to support more complex translation. `tr` stands for translate. 
+The `tr` command is a UNIX command-line utility for **translating** or deleting characters. It supports a range of transformations including uppercase to lowercase, squeezing repeating characters, deleting specific characters, and basic find and replace. It can be used with UNIX pipes to support more complex translation. `tr` stands for translate.
 
 ```bash
 tr '[a-z]' '[A-Z]'`
@@ -68,7 +68,7 @@ Using what you have learned in the previous sections you will now write a new pr
         ```
         path input_file
         ```
-        
+
         _Hint 1: The input is a file and requires the `path` qualifier._
 
         _Hint 2: The input name is `input_file`, however, you may call it something different._
@@ -113,9 +113,9 @@ Using what you have learned in the previous sections you will now write a new pr
             input:
             val greeting
 
-            output: 
+            output:
             path 'output.txt'
-            
+
             script:
             """
             echo '$greeting' > output.txt
@@ -124,7 +124,7 @@ Using what you have learned in the previous sections you will now write a new pr
 
         process CONVERTTOUPPER {
             publishDir params.outdir
-            
+
             input:
                 path input_file
 
@@ -164,7 +164,7 @@ Outputs can then be used as an input for another process:
 CONVERTTOUPPER(SAYHELLO.out)
 ```
 
-The same output could be used as inputs for multiple processes. 
+The same output could be used as inputs for multiple processes.
 
 !!!warning
 
@@ -190,9 +190,9 @@ The same output could be used as inputs for multiple processes.
             input:
             val greeting
 
-            output: 
+            output:
             path 'output.txt'
-            
+
             script:
             """
             echo '$greeting' > output.txt
@@ -201,7 +201,7 @@ The same output could be used as inputs for multiple processes.
 
         process CONVERTTOUPPER {
             publishDir params.outdir
-            
+
             input:
                 path input_file
 
@@ -240,7 +240,7 @@ executor >  local (2)
 
 !!! abstract "Summary"
 
-    In this step you have learned:  
+    In this step you have learned:
 
     1. How to translate strings
     2. How add more processes to a script

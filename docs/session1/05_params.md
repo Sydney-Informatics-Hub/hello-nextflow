@@ -10,7 +10,7 @@ Nextflow has multiple levels of configuration and, as different levels may have 
 
 Parameters are useful because they can be set with a default value in a script but can then be overwritten at runtime using a flag. Simply, parameters allow us to configure some aspect of a pipeline without editing the script itself.
 
-Parameters can be created by prefixing a parameter name with the parameters scope (e.g., `params.greeting`) and are accessible by processes and workflows. They can be modified when you run your pipeline by adding a double hyphen (`--`) to the start of the parameter name (`--greeting`)  and adding it to an execution command:
+Parameters can be created by prefixing a parameter name with the parameters scope (e.g., `params.greeting`) and are accessible by processes and workflows. They can be modified when you run your pipeline by adding a double hyphen (`--`) to the start of the parameter name (`--greeting`) and adding it to an execution command:
 
 ```bash
 nextflow run hello-world.nf --greeting 'Hey'
@@ -53,15 +53,15 @@ nextflow run hello-world.nf --greeting 'Bonjour le monde!'
             input:
             val greeting
 
-            output: 
+            output:
             path 'output.txt'
-            
+
             script:
             """
             echo '$greeting' > output.txt
             """
         }
-        
+
         workflow {
 
             // Create a channel for inputs
@@ -69,7 +69,7 @@ nextflow run hello-world.nf --greeting 'Bonjour le monde!'
 
             // Emit a greeting
             SAYHELLO(greeting_ch)
-            
+
         }
         ```
 
@@ -87,7 +87,7 @@ Instead, a parameter can be used so you can change the publishing directory for 
 
 ```groovy
 publishDir params.outdir
-```  
+```
 
 A default value can be used for convenience as Nextflow will throw and error if `publishDir` is set to `null`.
 
@@ -117,15 +117,15 @@ However, you may consider having no default value here and letting the pipeline 
             input:
             val greeting
 
-            output: 
+            output:
             path 'output.txt'
-            
+
             script:
             """
             echo '$greeting' > output.txt
             """
         }
-        
+
         workflow {
 
             // Create a channel for inputs
@@ -133,13 +133,13 @@ However, you may consider having no default value here and letting the pipeline 
 
             // Emit a greeting
             SAYHELLO(greeting_ch)
-            
+
         }
         ```
 
 !!! abstract "Summary"
 
-    In this step you have learned:  
+    In this step you have learned:
 
-    1. How to how to add a parameter to a pipeline 
+    1. How to how to add a parameter to a pipeline
     2. How to modify a parameter using the command line

@@ -19,9 +19,9 @@ process SAYHELLO {
     input:
     val greeting
 
-    output: 
+    output:
     path "${greeting}.txt"
-    
+
     script:
     """
     echo '$greeting' > ${greeting}.txt
@@ -29,7 +29,7 @@ process SAYHELLO {
 }
 ```
 
-Curly brackets `{}` have been used to wrap `greeting` in the `output` and `script` block so it is interpreted as a variable as a part of a file name. 
+Curly brackets `{}` have been used to wrap `greeting` in the `output` and `script` block so it is interpreted as a variable as a part of a file name.
 
 There is an important difference between single-quoted (`'`) and double-quoted (`"`)strings. Double-quoted strings support variable interpolations while single-quoted strings do not.
 
@@ -51,9 +51,9 @@ There is an important difference between single-quoted (`'`) and double-quoted (
             input:
             val greeting
 
-            output: 
+            output:
             path "${greeting}.txt"
-            
+
             script:
             """
             echo '$greeting' > ${greeting}.txt
@@ -63,7 +63,7 @@ There is an important difference between single-quoted (`'`) and double-quoted (
         // Use tr to convert lowercase letters to upper case letters and save as upper.txt
         process CONVERTTOUPPER {
             publishDir 'results'
-            
+
             input:
                 path input_file
 
@@ -116,7 +116,7 @@ You should now see some new files in your results folder:
 
 !!! abstract "Summary"
 
-    In this step you have learned:  
+    In this step you have learned:
 
     1. How to utilize dynamic naming
     2. How to use curly brackets (`{}`)
