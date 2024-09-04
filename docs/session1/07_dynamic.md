@@ -111,8 +111,8 @@ executor >  local (2)
 
 You should now see some new files in your results folder:
 
-- Hello.txt
-- upper_Hello.txt
+- `Hello.txt`
+- `upper_Hello.txt`
 
 !!! abstract "Summary"
 
