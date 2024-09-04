@@ -1,8 +1,8 @@
 # Inputs
 
-So far, we've been emitting a greeting ('Hello World!') that has been hardcoded into the script block. In a more realistic situation, we want to pass a variable input to our script, much like we pass files to command line tools for analysis.
+So far, you've been emitting a greeting ('Hello World!') that has been hardcoded into the script block. In a more realistic situation, you might want to pass a variable input to your script, much like you pass files to command line tools for analysis.
 
-Here we're going to to add some flexibility by introducing **channels** to our workflow and an **input definition** to our `SAYHELLO` process.
+Here you're going to to add some flexibility by introducing **channels** to your workflow and an **input definition** to your `SAYHELLO` process.
 
 ## Channels
 
@@ -24,11 +24,11 @@ Can be consumed only once
 - Can be bound (i.e. assigned) with one and only one value
 - Can be consumed any number of times
 
-We're going to start by creating a channel that will contain our greeting with the `Channel.of()` channel factory.
+You're going to start by creating a channel that will contain your greeting with the `Channel.of()` channel factory.
 
 !!!note
 
-    We can build different kinds of channels depending on the shape of the input data.
+    You can build different kinds of channels depending on the shape of the input data.
 
 ### Channel.of()
 
@@ -61,7 +61,7 @@ Channels need to be created within the `workflow` definition.
 
 ## Input definition blocks
 
-Before `greeting_ch` can be passed to the `SAYHELLO` process as an input, we must first add an **input block** in the process definition.
+Before `greeting_ch` can be passed to the `SAYHELLO` process as an input, you must first add an **input block** in the process definition.
 
 The inputs in the input block, much like the output block, must have a qualifier and a name:
 
@@ -173,7 +173,7 @@ The `'` around `$greeting` are required to treat the greeting as a single string
 
 !!!note
 
-    **The number of inputs in the input block and the workflow must match!** If we had multiple inputs they would be listed across multiple lines in the process input block and listed inside the brackets in the workflow block.
+    **The number of inputs in the input block and the workflow must match!** If you had multiple inputs they would be listed across multiple lines in the process input block and listed inside the brackets in the workflow block.
 
     ???tip "Example"
 
@@ -199,11 +199,11 @@ The `'` around `$greeting` are required to treat the greeting as a single string
         }
         ```
 
-**Yes! Our pipeline now uses an input channel!**
+**Yes! Your pipeline now uses an input channel!**
 
 !!! abstract "Summary"
 
-    In this step we have learned:  
+    In this step you have learned:  
 
     1. How to use Channel factories 
     2. How to how to add process inputs

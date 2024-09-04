@@ -2,9 +2,9 @@
 
 Currently, the outputs of the `SAYHELLO` and `CONVERTTOUPPER` processes are being saved as `output.txt` and `upper.txt`, respectively.
 
-In some situations this would be fine. However, to help identify the outputs we want our outputs to be dynamic.
+In some situations this would be fine. However, to help identify the outputs you want your outputs to be dynamic.
 
-Let's get tricky and name our output files dynamically.
+Let's get tricky and name your output files dynamically.
 
 ### Dynamic outputs
 
@@ -93,7 +93,7 @@ There is an important difference between single-quoted (`'`) and double-quoted (
         }
         ```
 
-Let's execute our pipeline and view the changes to see if our outputs have been named dynamically.
+Let's execute your pipeline and view the changes to see if your outputs have been named dynamically.
 
 ```bash
 nextflow run hello-world.nf --greeting 'Hello'
@@ -109,7 +109,7 @@ executor >  local (2)
 [cd/c8cf1b] CONVERTTOUPPER (1) [100%] 1 of 1 ✔
 ```
 
-We should now see some new files in our results folder:
+You should now see some new files in your results folder:
 
 - Hello.txt
 - upper_Hello.txt

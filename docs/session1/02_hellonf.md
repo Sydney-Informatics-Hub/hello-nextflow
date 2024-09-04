@@ -1,14 +1,14 @@
-# Our first pipeline
+# Your first pipeline
 
 Nextflow is a workflow orchestration engine and domain-specific language (DSL) that makes it easy to write data-intensive computational workflows.
 
-Here, we're going learn more about the Nextflow language and take our first steps making a **our first pipeline** with Nextflow. 
+Here, you're going learn more about the Nextflow language and take your first steps making a **your first pipeline** with Nextflow. 
 
 ## Processes and channels
 
-A Nextflow workflow is made by joining together **processes**. Each process can be written in any scripting language that can be executed by the Linux platform.
+A Nextflow workflow is made by joining together **processes**. Each process can be written in any scripting language that can be executed by the Linux platform. Processes are executed independently and are isolated from each other, i.e., they do not share a common (writable) state.
 
-Processes are executed independently and are isolated from each other, i.e., they do not share a common (writable) state. The only way they can communicate is via asynchronous first-in, first-out (FIFO) queues, called **channels**. In other words, every input and output of a process is represented as a channel. The interaction between these processes, and ultimately the workflow execution flow itself, is implicitly defined by these input and output declarations.
+The only way they can communicate is via asynchronous first-in, first-out (FIFO) queues, called **channels**. In other words, every input and output of a process is represented as a channel. The interaction between these processes, and ultimately the workflow execution flow itself, is implicitly defined by these input and output declarations.
 
 ![Image title](img/myworkflow.excalidraw.png)
 
@@ -44,7 +44,7 @@ A workflow is a composition of processes and dataflow logic.
 
 The workflow definition starts with the keyword `workflow`, followed by an optional name, and finally the workflow body delimited by curly braces.
 
-Let's review the structure of  `hello-world.nf`, a toy example we will be executing and developing:
+Let's review the structure of  `hello-world.nf`, a toy example you will be executing and developing:
 
 ```groovy title="hello-world.nf" linenums="1"
 process SAYHELLO {
@@ -76,9 +76,9 @@ The second block of code (13-15) lines describes the **workflow** itself, which 
 
     Using `debug true` and `stdout` in combination will cause 'Hello World!' to be printed to the terminal.
 
-## Commenting our code
+## Commenting your code
 
-It is worthwhile to **comment** our code so we, and others, can easily understand what the code is doing (we will thank ourselves later).
+It is worthwhile to **comment** your code so we, and others, can easily understand what the code is doing (you will thank yourself later).
 
 In Nextflow, a single line comment can be added by prepending it with two forward slash (`//`):
 
@@ -94,7 +94,7 @@ Similarly, multi-line comments can be added using the following format:
  */
 ```
 
-As a developer we can to choose how and where to comment our code.
+As a developer you can to choose how and where to comment your code.
 
 !!!question "Exercise"
 
@@ -132,7 +132,7 @@ The **`nextflow run`** command is used to execute Nextflow pipelines:
 nextflow run <pipeline.nf>
 ```
 
-When a pipeline is stored locally we need to supply the full path to the script. However, if the pipeline has been submitted to GitHub (and we have an internet connection) we can execute it without a local copy. For example, the **hello** repository hosted on the **nextflow-io** GitHub account can be executed using:
+When a pipeline is stored locally you need to supply the full path to the script. However, if the pipeline has been submitted to GitHub (and you have an internet connection) you can execute it without a local copy. For example, the **hello** repository hosted on the **nextflow-io** GitHub account can be executed using:
 
 ```bash
 nextflow run nextflow-io/hello
@@ -148,9 +148,9 @@ nextflow run nextflow-io/hello
         nextflow run hello-world.nf
         ```
 
-**Yay! We have just ran our first pipeline!**
+**Yay! You have just ran your first pipeline!**
 
-Our console should look something like this:
+Your console should look something like this:
 
 ```console linenums="1"
 N E X T F L O W  ~  version 23.10.1
@@ -178,7 +178,7 @@ These directories do not share a writable state, and any required files or infor
 
 !!!note
 
-    We can execute `tree work` to view the work directory structure.
+    You can execute `tree work` to view the work directory structure.
 
 !!! warning
 
@@ -193,7 +193,7 @@ A series of files **log** files and any outputs are created by each task in the 
 -   **`.command.sh`**: The command that was run by the process task call
 -   **`.exitcode`**: The exit code resulting from the command
 
-These files are created by Nextflow to manage the execution of our pipeline. While these file are not required now, we may need to interrogate them to troubleshoot issues later.
+These files are created by Nextflow to manage the execution of your pipeline. While these file are not required now, you may need to interrogate them to troubleshoot issues later.
 
 !!!question "Exercise"
 
@@ -209,10 +209,10 @@ These files are created by Nextflow to manage the execution of our pipeline. Whi
 
 !!! abstract "Summary"
 
-    In this step we have learned:  
+    In this step you have learned:  
 
     1. How to create a Nextflow pipeline
     2. How to interpret `hello-world.nf`
-    3. How to add comments to our pipelines 
+    3. How to add comments to your pipelines 
     4. How to `run` a Nextflow pipeline
     5. How to view log files create by Nextflow

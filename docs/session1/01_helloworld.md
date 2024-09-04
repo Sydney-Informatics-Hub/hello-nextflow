@@ -2,7 +2,7 @@
 
 A **"Hello, World!"** is a minimalist example that is meant to demonstrate the basic syntax and structure of a programming language or software framework. The example typically consists of printing the phrase "Hello World!" to the output, such as the console or terminal, or writing it to a file.
 
-Let's demonstrate this with simple commands that we run directly in the terminal.
+Let's demonstrate this with simple commands that you can run directly in the terminal.
 
 ## Print a string
 
@@ -11,22 +11,22 @@ The **`echo`** command in Linux is a built-in command that allows users to displ
 The most straightforward usage of the `echo` command is to display a text or string on the terminal. To do this, you simply provide the desired text or string as an argument to the `echo` command:
 
 ```bash
-echo [string]
+echo <string>
 ```
 
 !!!question "Exercise"
 
-    Use the `echo` command to print the string 'Hello World!' to the terminal.
+    Use the `echo` command to print the string `"Hello World!"` to the terminal.
 
     ??? Solution
 
         ```bash
-        echo 'Hello World!'
+        echo "Hello World!"
         ```
 
 ## Redirect outputs
 
-The output of the `echo` can be redirected to a file instead of displaying it on the terminal. We can achieve this by using the **`>`** operator for output redirection. For example:
+The output of the `echo` can be redirected to a file instead of displaying it on the terminal. You can achieve this by using the **`>`** operator for output redirection. For example:
 
 ```bash
 echo "Welcome!" > output.txt
@@ -90,9 +90,9 @@ cat <file name>
 
 !!! abstract "Summary"
 
-    In this step we have learned:  
+    In this step you have learned:  
 
     1. How to use the `echo` command to print a string to the terminal
     2. How to use the `>` operator to redirect the output of `echo`
-    3. How to use the `ls` command to list the files in our working directory
+    3. How to use the `ls` command to list the files in your working directory
     4. How to use the `cat` command to print the contents of files

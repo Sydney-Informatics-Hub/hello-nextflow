@@ -2,7 +2,7 @@
 
 Parameters are constructs that can hold command line arguments.
 
-Here we're going to update the script with parameters to make it more flexible.
+Here you're going to update the script with parameters to make it more flexible.
 
 ## Why are parameters useful?
 
@@ -10,7 +10,7 @@ Nextflow has multiple levels of configuration and, as different levels may have 
 
 Parameters are useful because they can be set with a default value in a script but can then be overwritten at runtime using a flag. Simply, parameters allow us to configure some aspect of a pipeline without editing the script itself.
 
-Parameters can be created by prefixing a parameter name with the parameters scope (e.g., `params.greeting`) and are accessible by processes and workflows. They can be modified when we run our pipeline by adding a double hyphen (`--`) to the start of the parameter name (`--greeting`)  and adding it to an execution command:
+Parameters can be created by prefixing a parameter name with the parameters scope (e.g., `params.greeting`) and are accessible by processes and workflows. They can be modified when you run your pipeline by adding a double hyphen (`--`) to the start of the parameter name (`--greeting`)  and adding it to an execution command:
 
 ```bash
 nextflow run hello-world.nf --greeting 'Hey'
@@ -81,9 +81,9 @@ nextflow run hello-world.nf --greeting 'Bonjour le monde!'
 
 ## `--outdir`
 
-It isn't very convenient to have the same output directory created every time we run our pipeline as the results are being overwritten.
+It isn't very convenient to have the same output directory created every time you run your pipeline as the results are being overwritten.
 
-Instead, a parameter can be used so we can change the publishing directory for every execution:
+Instead, a parameter can be used so you can change the publishing directory for every execution:
 
 ```groovy
 publishDir params.outdir
@@ -139,7 +139,7 @@ However, you may consider having no default value here and letting the pipeline 
 
 !!! abstract "Summary"
 
-    In this step we have learned:  
+    In this step you have learned:  
 
     1. How to how to add a parameter to a pipeline 
     2. How to modify a parameter using the command line

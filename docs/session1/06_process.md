@@ -1,8 +1,8 @@
 # Adding processes
 
-Up until now we've been modifying a single step. However, pipelines generally consist of multiple steps where outputs from one step are used as inputs for the next.
+Up until now you've been modifying a single step. However, pipelines generally consist of multiple steps where outputs from one step are used as inputs for the next.
 
-Here we're going to step things up again and add another process to the pipeline.
+Here you're going to step things up again and add another process to the pipeline.
 
 ## Translating text
 
@@ -36,7 +36,7 @@ cat output.txt | tr '[a-z]' '[A-Z]' > upper.txt
 
 The output of the `SAYHELLO` process is a text file called `output.txt`.
 
-In the next step of the pipeline, we will add a new process named convert `CONVERTTOUPPER` that will convert all of the lower case letters in this file to a uppercase letters and save them as a new file.
+In the next step of the pipeline, you will add a new process named convert `CONVERTTOUPPER` that will convert all of the lower case letters in this file to a uppercase letters and save them as a new file.
 
 The `CONVERTTOUPPER` process will follow the same structure as the `SAYHELLO` process:
 
@@ -57,7 +57,7 @@ process CONVERTTOUPPER {
 }
 ```
 
-Using what we have learned in the previous sections we will now write a new process using the `tr` command from above.
+Using what you have learned in the previous sections you will now write a new process using the `tr` command from above.
 
 !!!question "Exercise"
 
