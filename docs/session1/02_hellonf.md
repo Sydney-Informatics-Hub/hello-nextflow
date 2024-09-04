@@ -148,7 +148,7 @@ nextflow run nextflow-io/hello
         nextflow run hello-world.nf
         ```
 
-**Yay! You have just ran your first pipeline!**
+**Yay! You have just run your first pipeline!**
 
 Your console should look something like this:
 
