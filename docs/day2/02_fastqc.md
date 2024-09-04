@@ -55,12 +55,16 @@ process FASTQC {
 
   script:
   """
+  mkdir -p "fastqc_${sample_id}_logs"
   fastqc --outdir "fastqc_${sample_id}_logs" --format fastq $reads_1 $reads_2
   """
 }
 ```
 
 > Note about ${}  
+
+Unlike `salmon` from the previous process, `fastqc` requires that the output
+directory be created before running the command, hence the `mkdir ...` line.
 
 !!! question "Exercise"
 
@@ -102,7 +106,7 @@ process FASTQC {
 }
 ```
 
-> Explain tuple a bit more, and the qualifiers  
+> Explain tuple a bit more, and the qualifiers i.e. needs brackets
 
 Finish the process by adding the following `container` and `publishDir`
 directives. This will be the same in all processes for the workshop, with 
@@ -122,6 +126,7 @@ process FASTQC {
 
     script:
     """
+    mkdir -p "fastqc_${sample_id}_logs"
     fastqc --outdir "fastqc_${sample_id}_logs" --format fastq $reads_1 $reads_2
     """
 }
@@ -129,7 +134,8 @@ process FASTQC {
 
 ## 2.2.2 Reading files with a samplesheet  
 
-In this step we will prepare the tuple input for the `FASTQC` process using a samplesheet.
+In this step we will prepare the tuple input for the `FASTQC` process using a
+samplesheet.
 
 A samplesheet is a delimited text file where each row contains information
 or metadata that needs to be processed together.  
@@ -152,6 +158,12 @@ The samplesheet has three columns:
 - `sample`: indicates the sample name/prefix
 - `fastq_1`, `fastq_2`: contains the relative paths to the reads  
 
+The goal in this step is to read the contents of the samplesheet, and transform
+it so it fits the input definition of `FASTQC` we just defined
+(`tuple val(sample_id), path(reads_1), path(reads_2)`).
+
+Before that, we need to add an input parameter that points to the samplesheet.  
+
 !!! question "Exercise"
 
     In your `main.nf` add an input parameter called `reads` and assign the path
@@ -168,25 +180,30 @@ The samplesheet has three columns:
         ```
 
 In the next few steps, we will add a mix of Nextflow operators and Groovy
-syntax to read in an parse the samplesheet so it is in the correct format
+syntax to read in and parse the samplesheet so it is in the correct format
 for the process we just added.  
 
 !!! tip
 
     You do not need to understand what each operator or command does in detail.
-    The key takeaway here is to practice inspecting the output of each step and
-    gain familiarity on using samplesheets and how operators/groovy can be
-    chained together to get the desired input.  
+    The key takeaway here is to understand that using samplesheets is best
+    practice for reading grouped files and metadata into Nextflow, and that
+    operators and groovy needs to be chained together to get these in the
+    correct format.
 
 Add the following to your workflow scope:  
 
-```
+```groovy title="main.nf"
 workflow {
     Channel
         .fromPath(params.reads)
+        .splitCsv(header: true)
+        .map { row -> [row.sample, file(row.fastq_1), file(row.fastq_2)] }
         .view()
 }
 ```
+
+> Explain view  
 
 Run the workflow with the `-resume` flag:
 
@@ -197,83 +214,109 @@ nextflow run main.nf -resume
 Your output should look something like:  
 
 ```console title="Output"
-Launching `main.nf` [hungry_lalande] DSL2 - revision: 587b5b70d1
+Launching `main.nf` [crazy_einstein] DSL2 - revision: 0ae3776a5e
 
 [de/fef8c4] INDEX [100%] 1 of 1, cached: 1 ✔
-/home/setup2/hello-nextflow/day2/data/samplesheet.csv
+[gut, /home/setup2/hello-nextflow/day2/data/ggal/gut_1.fq, /home/setup2/hello-nextflow/day2/data/ggal/gut_2.fq]
 
 ```
 
 > Explain -resume, cached  
 
-> Explain cached
-
----
-
-## scratch
-
-Use some groovy to read and view the samplesheet. Define the channel in the
-workflow, and add the
-[`view`](https://www.nextflow.io/docs/latest/operator.html#view) operator to see
-the contents of the channel:
-
-> Guided example of adding view, then let them do the rest independently  
-
-!!! question "Exercise"
-
-    Add `.view()` after each command (`.fromPath()`, `.splitCsv()`, `.map{}`) and
-    run the workflow. Note the output of each step.  
-
-Your output will display a tuple consisting of three named elements, one for
-each of the columns in the samplesheet.
-
-```console title="Output"
-Launching `main.nf` [ecstatic_goldwasser] DSL2 - revision: 2de2dd7b2a
-
-executor >  local (1)
-[20/0727ea] INDEX | 1 of 1 ✔
-[sample:gut, fastq_1:data/ggal/gut_1.fq, fastq_2:data/ggal/gut_2.fq]
-
-```
-
-The first element of the tuple is the sample name (`gut`), and `fastq_1` and
-`fastq_2` are the paths to the read files.
-
-!!! note
-
-    We will explore how this works for multiple samples (rows in the
-    samplesheet) in the later steps.
-
-One more command needs to be added to ensure that the inputs are in the correct
-format for the process. Add the following:
+The chain of commands produces a tuple with three elements that correspond to
+the row in the samplesheet. It now fits the requirements of the input
+definition of `tuple val(sample_id), path(reads_1), path(reads_2)`, we can
+assign the channel to a variable using the
+[`set`](https://www.nextflow.io/docs/latest/operator.html#set) operator:
 
 ```groovy title="main.nf"
 workflow {
     Channel
         .fromPath(params.reads)
         .splitCsv(header: true)
-        .map { row -> [row.sample, file(row.fastq_1), file(row.fastq_2)]
-        .view()
+        .map { row -> [row.sample, file(row.fastq_1), file(row.fastq_2)] }
+        .set { read_pairs_ch }
 
     index_ch = INDEX(params.transcriptome_file)
 ```
 
-Run the workflow.
+We can now call the `FASTQC` process.  
+
+!!! question "Exercise"
+
+    In the `workflow` scope, call the `FASTQC` process with `reads_pairs_ch`
+    as the input. Assign it to a variable called `fastqc_ch`
+
+    ??? note "Solution"
+    
+        ```groovy title="main.nf"
+        workflow {
+            Channel
+                .fromPath(params.reads)
+                .splitCsv(header: true)
+                .map { row -> [row.sample, file(row.fastq_1), file(row.fastq_2)] }
+                .set { read_pairs_ch }
+        
+            index_ch = INDEX(params.transcriptome_file)
+            fastqc_ch = FASTQC(read_pairs_ch)
+        ```
+
+Run the workflow:  
 
 ```bash
-nextflow run main.nf
+nextflow run main.nf -resume
 ```
 
-Your output should look similar to the following:
-
-```console title="Output"
-Launching `main.nf` [condescending_banach] DSL2 - revision: 1bb8f705ad
-
-[93/a56d38] INDEX              | 1 of 1 ✔
-[9b/44a943] QUANTIFICATION (1) | 1 of 1 ✔
-[gut, /home/ubuntu/hello-nextflow/data/ggal/gut_1.fq, /home/ubuntu/hello-nextflow/data/ggal/gut_2.fq]
+Your output should look something like:  
 
 ```
+Launching `main.nf` [tiny_aryabhata] DSL2 - revision: 9a45f4957b
+
+executor >  local (1)
+[de/fef8c4] INDEX      [100%] 1 of 1, cached: 1 ✔
+[bb/32a3aa] FASTQC (1) [100%] 1 of 1 ✔
+```
+
+If you inspect `results/fastqc_gut_logs` there is an `.html` and `.zip` file
+for each of the `.fastq` files.  
+
+??? example "Advanced exercise"  
+
+    Inspect what the `.fromPath()` and `.splitCsv()` commands do by using `.view()`
+
+    ```groovy title="main.nf"
+    workflow {
+        Channel
+            .fromPath(params.reads)
+            .view()
+    
+        index_ch = INDEX(params.transcriptome_file)
+    ```
+    
+    ```console title="Output"
+    Launching `main.nf` [hungry_lalande] DSL2 - revision: 587b5b70d1
+    
+    [de/fef8c4] INDEX [100%] 1 of 1, cached: 1 ✔
+    /home/setup2/hello-nextflow/day2/data/samplesheet.csv
+    
+    ```
+    
+    ```groovy title="main.nf"
+    workflow {
+        Channel
+            .fromPath(params.reads)
+            .splitCsv(header: true)
+            .view()
+    
+        index_ch = INDEX(params.transcriptome_file)
+    ```
+    
+    ```console title="Output"
+    Launching `main.nf` [tiny_yonath] DSL2 - revision: 22c2c9d28f
+    [de/fef8c4] INDEX | 1 of 1, cached: 1 ✔
+    [sample:gut, fastq_1:data/ggal/gut_1.fq, fastq_2:data/ggal/gut_2.fq]
+    
+    ```
 
 !!! abstract "Summary"
 
