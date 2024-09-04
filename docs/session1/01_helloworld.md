@@ -1,6 +1,6 @@
 # Hello World!
 
-A **"Hello, World!"** is a minimalist example that is meant to demonstrate the basic syntax and structure of a programming language or software framework. The example typically consists of printing the phrase "Hello World!" to the output, such as the console or terminal, or writing it to a file.
+A **'Hello, World!'** is a minimalist example that is meant to demonstrate the basic syntax and structure of a programming language or software framework. The example typically consists of printing the phrase 'Hello World!' to the output, such as the console or terminal, or writing it to a file.
 
 Let's demonstrate this with simple commands that you can run directly in the terminal.
 
@@ -16,12 +16,12 @@ echo <string>
 
 !!!question "Exercise"
 
-    Use the `echo` command to print the string `"Hello World!"` to the terminal.
+    Use the `echo` command to print the string `'Hello World!'` to the terminal.
 
     ??? Solution
 
         ```bash
-        echo "Hello World!"
+        echo 'Hello World!'
         ```
 
 ## Redirect outputs
@@ -29,7 +29,7 @@ echo <string>
 The output of the `echo` can be redirected to a file instead of displaying it on the terminal. You can achieve this by using the **`>`** operator for output redirection. For example:
 
 ```bash
-echo "Welcome!" > output.txt
+echo 'Welcome!' > output.txt
 ```
 
 This will write the output of the echo command to the file name `output.txt`.

@@ -35,7 +35,7 @@ You're going to start by creating a channel that will contain your greeting with
 The `Channel.of` method allows us to create a channel that emits the arguments provided to it. For example:
 
 ```groovy
-ch_greeting = channel.of( 'Hello World!' )
+ch_greeting = channel.of('Hello World!')
 ```
 
 Would create a channel (named `ch_greeting`) that contains the string 'Hello World!'
