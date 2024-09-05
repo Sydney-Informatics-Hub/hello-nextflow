@@ -122,7 +122,7 @@ process MULTIQC {
 }
 ```
 
-## 2.4.1 Combining channels with operators  
+## 2.4.2 Combining channels with operators  
 
 > Add that the goal of this step is to get a tuple 
 
@@ -263,8 +263,69 @@ Launching `main.nf` [hopeful_swanson] DSL2 - revision: a4304bbe73
 
 You have a working pipeline for a single paired-end sample!
 
-> Possibly add tags and log info here
+## 2.4.3 Adding a `tag` directive
+
+Now that we have an end-to-end workflow, we will add things to help understand
+what is being executed. These will be particularly useful when we run more
+samples later.  
+
+Add the following tag directives to your `FASTQC` and `QUANTIFICATION`
+processes:  
+
+```groovy title="main.nf"
+process FASTQC {
+
+    tag "fastqc on ${sample_id}"
+    container "quay.io/biocontainers/fastqc:0.12.1--hdfd78af_0"
+    publishDir params.outdir, mode: 'copy'
+
+```
+
+```groovy title="main.nf"
+process QUANTIFICATION {
+
+    tag "salmon on ${sample_id}"
+    container "quay.io/biocontainers/salmon:1.10.1--h7e5ed60_0"
+    publishDir params.", mode: 'copy'
+
+```
+
+> Maybe a note on how directives can use the same variable from the input
+definition  
+
+Run the workflow:  
+
+```bash
+nextflow run main.nf -resume
+```
+
+Your output should look like:  
+
+```
+[de/fef8c4] INDEX                          | 1 of 1, cached: 1 ✔
+[bb/32a3aa] FASTQC (fastqc on gut)         | 1 of 1, cached: 1 ✔
+[a9/000f36] QUANTIFICATION (salmon on gut) | 1 of 1, cached: 1 ✔
+[2f/f0f05e] MULTIQC                        | 1 of 1, cached: 1 ✔
+
+```
+
+Nothing was re-run, but the execution log now shows the sample that was
+processed.
+
+### log.info
+
+From [template-nf](https://github.com/Sydney-Informatics-Hub/Nextflow_DSL2_template/blob/abee48950a81ea22526774fd4fa6f30693cbf7f2/%7B%7Bcookiecutter.app_name%7D%7D/main.nf#L28).  
+
+??? example "Advanced exercise"
+
+   add `helpMessage()`. 
 
 !!! abstract "Summary"
 
-    1.  
+    In this step you have learned:
+
+        1. How to
+        1. How to
+        1. How to
+        1. How to
+        1. How to

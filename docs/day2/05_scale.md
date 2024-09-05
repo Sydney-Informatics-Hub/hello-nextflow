@@ -4,35 +4,46 @@ Now that we have a working pipeline on a single-sample, we will update it
 to take multiple samples and introduce Nextflow concepts that help with
 understanding and profiling the pipeline.  
 
-## 2.5.1 Adding samples to the samplesheet
+## 2.5.1 Using a samplesheet with multiple samples  
 
 Recall that the samplesheet is used to control which files/data are analysed by
-the workflow.
+the workflow. Inspect `data/samplesheet_full.csv`.  
 
-!!! question "Exercise"
+```console linenums="1" title="samplesheet_full.csv"
+sample,fastq_1,fastq_2
+gut,data/ggal/gut_1.fq,data/ggal/gut_2.fq
+liver,data/ggal/liver_1.fq,data/ggal/liver_2.fq
+lung,data/ggal/lung_1.fq,data/ggal/lung_2.fq
+```
 
-    Add the `liver` and `lung` samples to the samplesheet by editing
-    `data/samplesheet.csv`.  
+Compared to the samplesheet we have been using `data/samplesheet.csv`, this one
+contains two additional lines for the `liver` and `lung` paired reads.
 
-    ??? tip "Hint"
+Next we will run the workflow with all three samples by inputting 
+`data/samplesheet_full.csv` using the double hyphen approach `--` in the run
+command.
 
-        Copy the lines where the `gut` samples are defined, and replace the
-        sample name with `liver` and `lung`.  
+Run the workflow:  
 
-    ??? note "Solution"
+```bash
+nextflow run main.nf -resume --reads data/samplesheet_full.csv
+```
 
-        ```bash
-        cat data/samplesheet
-        ```
+Your output should look similar to:  
 
-        ```console title="Output"
-        sample,fastq_1,fastq_2
-        gut,data/ggal/gut_1.fq,data/ggal/gut_2.fq
-        liver,data/ggal/liver_1.fq,data/ggal/liver_2.fq
-        lung,data/ggal/lung_1.fq,data/ggal/lung_2.fq
-        ```
+```console title="Output"
+Launching `main.nf` [distraught_bell] DSL2 - revision: dcb06191e7
 
-Next we will inspect how this changes the workflow.  
+executor >  local (5)
+[de/fef8c4] INDEX                           | 1 of 1, cached: 1 ✔
+[4e/b4c797] FASTQC (fastqc on liver)        | 3 of 3, cached: 1 ✔
+[36/93c8b4] QUANTIFICATION (salmon on lung) | 3 of 3, cached: 1 ✔
+[e7/5d91ea] MULTIQC                         | 1 of 1 ✔
+
+```
+
+- Two new tasks run for FASTQC and QUANTIFICATION 
+- Tags show different sample (non-gut)
 
 !!! question "Exercise"
 
@@ -49,37 +60,42 @@ Next we will inspect how this changes the workflow.
             read_pairs_ch.view()
         ```
 
-Run the workflow:  
+        Your output should look something like:  
 
-```bash
-nextflow run main.nf -resume
-```
+        ```console title="Output"
 
-Your output should look something like:  
+        executor >  local (5)
+        [de/fef8c4] INDEX                           | 1 of 1, cached: 1 ✔
+        [4e/b4c797] FASTQC (fastqc on liver)        | 3 of 3, cached: 3 ✔
+        [36/93c8b4] QUANTIFICATION (salmon on lung) | 3 of 3, cached: 3 ✔
+        [e7/5d91ea] MULTIQC                         | 1 of 1 ✔
+        [gut, .../data/ggal/gut_1.fq, .../data/ggal/gut_2.fq]
+        [liver, .../data/ggal/liver_1.fq, .../data/ggal/liver_2.fq]
+        [lung, .../data/ggal/lung_1.fq, .../data/ggal/lung_2.fq]
 
-```console title="Output"
-Launching `main.nf` [hopeful_boyd] DSL2 - revision: 2d38d1462e
+        Key differences to note: 
+        
+        - Total of three tuples, for each sample  
+        - `QUANTIFICATION` and `FASTQC` have 3 processes and 1 cached  
+        - Added `results/` outputs for each paired sample  
+        - `multiqc_report.html` now has 9 samples  
 
-[6e/e2025a] INDEX          [100%] 1 of 1, cached: 1 ✔
-[96/81fd93] QUANTIFICATION [100%] 3 of 3, cached: 1 ✔
-[5a/f92355] FASTQC         [100%] 3 of 3, cached: 1 ✔
-[ab/1eabe7] MULTIQC        [100%] 1 of 1, cached: 1 ✔
-[gut, .../data/ggal/gut_1.fq, .../data/ggal/gut_2.fq]
-[liver, .../data/ggal/liver_1.fq, .../data/ggal/liver_2.fq]
-[lung, .../data/ggal/lung_1.fq, .../data/ggal/lung_2.fq]
+        Remove `read_pairs_ch.view()` before proceeding.  
 
-```
+## 2.5.2 Introspection
 
-Key differences to note: 
+> Run `-with-report`, `-with-timeline`
 
-- Total of three tuples, for each sample  
-- `QUANTIFICATION` and `FASTQC` have 3 processes and 1 cached  
-- Added `results/` outputs for each paired sample  
-- `multiqc_report.html` now has 9 samples  
+!!! abstract "Summary"
 
-Remove `read_pairs_ch.view()` before proceeding.  
+    In this step you have learned:
 
-## 2.5.2 Benchmarking/profiling  
+        1. How to
+        1. How to
+        1. How to
+---
+
+## scratch
 
 First we need a baseline report of the resource usage per process. The 
 `-resume` flag cannot be used here as we need to run the processes again
@@ -153,52 +169,3 @@ nextflow run main.nf -with-report fastqc_mt.html
 - %cpu increased  
 - duration decreased  
 
-!!! abstract "Summary"
-
-    In this step you have learned:
-
-        1. How to
-        1. How to
-        1. How to
-
----
-
-## scratch  
-
-## 2.2.3 Adding a `tag` directive
-
-Add `tag` for a more readable execution log. Will also help with profiling
-later, when additional samples are added.
-
-```groovy title="main.nf"
-process QUANTIFICATION {
-
-    tag "salmon on ${sample_id}"
-    container "quay.io/biocontainers/salmon:1.10.1--h7e5ed60_0"
-    publishDir params.outdir, mode: 'copy'
-
-```
-
-```bash
-nextflow run main.nf -resume
-```
-
-```
-Launching `main.nf` [reverent_lavoisier] DSL2 - revision: 10860f201c
-
-executor >  local (2)
-[11/010b59] INDEX                          | 1 of 1, cached: 1 ✔
-[21/5e9ec8] QUANTIFICATION (salmon on gut) | 1 of 1, cached: 1 ✔
-```
-
-> Mention output, cache, resume
-
-!!! abstract "Summary"
-
-    In this step you have learned:
-
-        1. How to
-        1. How to
-        1. How to
-        1. How to
-        1. How to
