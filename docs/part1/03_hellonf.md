@@ -1,16 +1,8 @@
 # Your first pipeline
 
-Nextflow is a workflow orchestration engine and domain-specific language (DSL) that makes it easy to write data-intensive computational workflows.
+Workflow languages are better than Bash scripts because they handle errors and run tasks in parallel more easily, which is important for complex jobs. They also have clearer structure, making it easier to maintain and work on with others.
 
 Here, you're going learn more about the Nextflow language and take your first steps making a **your first pipeline** with Nextflow.
-
-## Processes and channels
-
-A Nextflow workflow is made by joining together **processes**. Each process can be written in any scripting language that can be executed by the Linux platform. Processes are executed independently and are isolated from each other, i.e., they do not share a common (writable) state.
-
-The only way they can communicate is via asynchronous first-in, first-out (FIFO) queues, called **channels**. In other words, every input and output of a process is represented as a channel. The interaction between these processes, and ultimately the workflow execution flow itself, is implicitly defined by these input and output declarations.
-
-![Image title](img/myworkflow.excalidraw.png)
 
 ## `hello-world.nf`
 
