@@ -4,6 +4,7 @@
 
     1. Implement a channel that combines the contents of two channels.  
     2. Implement a process with multiple output files.  
+    3. Improve execution logging with process directives and groovy.
 
 In this step we will add `03_multiqc.sh` to our workflow. MultiQC aggregates
 results from all our analyses and renders it into a nice report. You can see an
@@ -176,8 +177,6 @@ The outputs have been emitted one after the other, meaning that it will be
 processed separately. We need them to be processed together (generated in the
 same report) so need one more step.  
 
-> Convert below to exercise, see issue #5  
-
 Add the [`collect`](https://www.nextflow.io/docs/latest/operator.html#collect)
 operator to ensure all samples are processed together in the same
 process and view the output:  
@@ -228,8 +227,8 @@ We are now ready to call the process in the `workflow`.
 
 !!! question "Exercise"
 
-    Add the workflow scope for `MULTIQC`. Do not assign this to a variable as
-    it is the final process in our workflow.  
+    Add the workflow scope for `MULTIQC` with `all_qc_ch` as input. Do not
+    assign this to a variable as it is the final process in our workflow.  
 
     ??? note "Solution"
 
@@ -312,13 +311,9 @@ Your output should look like:
 Nothing was re-run, but the execution log now shows the sample that was
 processed.
 
-### log.info
-
-From [template-nf](https://github.com/Sydney-Informatics-Hub/Nextflow_DSL2_template/blob/abee48950a81ea22526774fd4fa6f30693cbf7f2/%7B%7Bcookiecutter.app_name%7D%7D/main.nf#L28).  
-
 ??? example "Advanced exercise"
 
-   add `helpMessage()`. 
+   Implement `log.info`? `-with-profile`?
 
 !!! abstract "Summary"
 
