@@ -47,7 +47,23 @@ mkdocs-material-extensions 1.3.1              pyhd8ed1ab_0    conda-forge
 nextflow                  24.04.4              hdfd78af_0    bioconda
 ```
 
-#### Docker   
+### mkdocs  
+
+To render docs for website:  
+
+```bash
+# mkdocs new .
+mkdocs build
+```
+
+To generate html docs during development:
+```bash
+cd ~/hello-nextflow/
+mkdocs serve
+# open http://127.0.0.1:8000/ in browser
+```
+
+### Docker   
 
 Follows [ubuntu installation](https://docs.docker.com/engine/install/ubuntu/#install-using-the-repository) and [linux post-install steps](https://docs.docker.com/engine/install/linux-postinstall/).
 
@@ -90,7 +106,14 @@ docker pull quay.io/biocontainers/fastqc:0.12.1--hdfd78af_0
 docker pull quay.io/biocontainers/multiqc:1.19--pyhdfd78af_0
 ```
 
-### Usage  
+## Usage (testing)   
+
+```bash
+git clone https://github.com/Sydney-Informatics-Hub/hello-nextflow.git # need some extra args for draft branch  
+cd hello-nextflow/day2  
+```
+
+Run:  
 
 ```bash
 git clone https://github.com/Sydney-Informatics-Hub/hello-nextflow.git
