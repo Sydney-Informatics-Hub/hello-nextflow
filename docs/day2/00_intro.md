@@ -103,8 +103,8 @@ Having reviewed the bash scripts, we've decided to keep its modular structure an
 
 1. `INDEX` - Transcriptome indexing (tool: [Salmon](https://combine-lab.github.io/salmon/)): create an index of the reference transcriptome for faster and efficient data processing.
 2. `FASTQC` - Raw data quality control (tool: [FastQC](https://www.bioinformatics.babraham.ac.uk/projects/fastqc/)): assess the quality of fastq files to ensure our data is usable. 
-* `QUANTIFICATION` - Gene quantification (tool: [Salmon](https://combine-lab.github.io/salmon/)): counting how many reads map to each gene in the transcriptome. 
-* MULTIQC` - Summarise results in a report (tool: [MultiQC](https://multiqc.info/)): generate a report that summarises quality control and gene quantification results. 
+3. `QUANTIFICATION` - Gene quantification (tool: [Salmon](https://combine-lab.github.io/salmon/)): counting how many reads map to each gene in the transcriptome. 
+4. `MULTIQC` - Summarise results in a report (tool: [MultiQC](https://multiqc.info/)): generate a report that summarises quality control and gene quantification results. 
   
 ![](./img/2.0_workflow.png)
 
