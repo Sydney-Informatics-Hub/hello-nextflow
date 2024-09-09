@@ -1,24 +1,19 @@
 /*
  * pipeline input parameters
  */
-params.reads = "$projectDir/data/ggal/gut_{1,2}.fq"
 params.transcriptome_file = "$projectDir/data/ggal/transcriptome.fa"
-params.multiqc = "$projectDir/multiqc"
+params.reads = "$projectDir/data/samplesheet.csv"
 params.outdir = "results"
-log.info """\
-    R N A S E Q - N F   P I P E L I N E
-    ===================================
-    transcriptome: ${params.transcriptome_file}
-    reads        : ${params.reads}
-    outdir       : ${params.outdir}
-    """
-    .stripIndent()
 
 /*
  * define the `INDEX` process that creates a binary index
  * given the transcriptome file
  */
 process INDEX {
+
+    container "quay.io/biocontainers/salmon:1.10.1--h7e5ed60_0"
+    publishDir params.outdir, mode: 'copy'
+
     input:
     path transcriptome
 
@@ -27,51 +22,58 @@ process INDEX {
 
     script:
     """
-    salmon index --threads $task.cpus -t $transcriptome -i salmon_index
+    salmon index -t $transcriptome -i salmon_index
     """
 }
 
 process QUANTIFICATION {
-    tag "Salmon on $sample_id"
-    publishDir params.outdir, mode:'copy'
 
+    tag "salmon on ${sample_id}"
+    container "quay.io/biocontainers/salmon:1.10.1--h7e5ed60_0"
+    publishDir params.outdir, mode: 'copy'
+    
     input:
     path salmon_index
-    tuple val(sample_id), path(reads)
+    tuple val(sample_id), path(reads_1), path(reads_2)
 
     output:
     path "$sample_id"
 
     script:
     """
-    salmon quant --threads $task.cpus --libType=U -i $salmon_index -1 ${reads[0]} -2 ${reads[1]} -o $sample_id
+    salmon quant --libType=U -i $salmon_index -1 ${reads_1} -2 ${reads_2} -o $sample_id
     """
 }
 
 process FASTQC {
-    tag "FASTQC on $sample_id"
+
+    tag "fastqc on ${sample_id}"
+    container "quay.io/biocontainers/fastqc:0.12.1--hdfd78af_0"
+    publishDir params.outdir, mode: 'copy'
 
     input:
-    tuple val(sample_id), path(reads)
+    tuple val(sample_id), path(reads_1), path(reads_2)
 
     output:
     path "fastqc_${sample_id}_logs"
 
     script:
     """
-    mkdir fastqc_${sample_id}_logs
-    fastqc -o fastqc_${sample_id}_logs -f fastq -q ${reads}
+    mkdir -p "fastqc_${sample_id}_logs"
+    fastqc --outdir "fastqc_${sample_id}_logs" --format fastq $reads_1 $reads_2 -t $task.cpus
     """
 }
 
 process MULTIQC {
-    publishDir params.outdir, mode:'copy'
+
+    container "quay.io/biocontainers/multiqc:1.19--pyhdfd78af_0"
+    publishDir params.outdir, mode: 'copy'
 
     input:
-    path '*'
+    path "*"
 
     output:
-    path 'multiqc_report.html'
+    path "multiqc_report.html"
 
     script:
     """
@@ -81,15 +83,19 @@ process MULTIQC {
 
 workflow {
     Channel
-        .fromFilePairs(params.reads, checkIfExists: true)
+        .fromPath(params.reads)
+        .splitCsv(header: true)
+        .map { row -> [row.sample, file(row.fastq_1), file(row.fastq_2)] }
         .set { read_pairs_ch }
 
     index_ch = INDEX(params.transcriptome_file)
     quant_ch = QUANTIFICATION(index_ch, read_pairs_ch)
     fastqc_ch = FASTQC(read_pairs_ch)
-    MULTIQC(quant_ch.mix(fastqc_ch).collect())
-}
 
-workflow.onComplete {
-    log.info ( workflow.success ? "\nDone! Open the following report in your browser --> $params.outdir/multiqc_report.html\n" : "Oops .. something went wrong" )
+    quant_ch
+        .mix(fastqc_ch)
+        .collect()
+        .set { all_qc_ch }
+
+    MULTIQC(all_qc_ch)
 }
