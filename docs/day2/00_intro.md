@@ -114,7 +114,7 @@ Each lesson in part 2 of our workshop focuses on implementing one process of
 the workflow at a time. We will iteratively build the workflow and processes 
 in a single `main.nf` file and lightly use a `nextflow.config` file for configuration.
 
-![](./img/hello-nf_config_main.png)
+![](./img/2.0_main_config.png)
 
 ### `main.nf`
 
