@@ -1,6 +1,4 @@
-/*
- * pipeline input parameters
- */
+// pipeline input parameters
 params.transcriptome_file = "$projectDir/data/ggal/transcriptome.fa"
 params.reads = "$projectDir/data/samplesheet.csv"
 params.outdir = "results"

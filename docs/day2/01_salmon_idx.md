@@ -12,6 +12,8 @@ In this step we will implement `00_index.sh` as a Nextflow process called
 
 ![](img/1.excalidraw.png)
 
+Open the bash script `00_index.sh`:  
+
 ```bash title="00_index.sh"
 mkdir "results"
 salmon index \
