@@ -10,13 +10,17 @@ Each lesson in Part 2 will build on the previous lessons, so you can gain a
 deeper understanding of the techniques and the impact they have on your 
 resulting workflow. 
 
-In Part 2 of this workshop, we will explore a scenario of create a multi-sample 
+In Part 2 of this workshop, we will explore a scenario of creating a multi-sample 
 Nextflow workflow for preparing RNAseq data. We will build the workflow, 
 step-by-step, by converting a series of provided bash scripts into small workflow 
 components.  
 
 Along the way, you will encounter Nextflow concepts (from yesterday, and some
 new) and our best practice recommendations for developing your own pipeline.  
+
+Part 2 is based off the 
+[Simple RNA-Seq workflow](https://training.nextflow.io/basic_training/rnaseq_pipeline/)
+training material developed by Seqera.  
 
 ## 2.0.1 Log back into your instance 
 
@@ -81,6 +85,7 @@ Nextflow.
 **Data**  
 
 The data we will use includes:
+
 - `*.fastq`: Paired-end RNAseq reads from three different samples (gut, liver,
 lung)
 - `transcriptome.fa`  
