@@ -96,25 +96,45 @@ log "Installing the latest Docker packages..."
 sudo apt install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
 
 log "Verifying docker install (root)..."
-# -----------------------------------------------------------------------------
-#
-#sudo docker run hello-world
-#
-## post-install mods for non-root permissions
-#sudo groupadd docker
-#sudo usermod -aG docker $USER
-#newgrp docker
-#
-## confirm user access
-#docker run hello-world
-#
-##### Pull containers  
-#docker pull quay.io/biocontainers/salmon:1.10.1--h7e5ed60_0
-#docker pull quay.io/biocontainers/fastqc:0.12.1--hdfd78af_0
-#docker pull quay.io/biocontainers/multiqc:1.19--pyhdfd78af_0
-#
-### Git content
-#git clone https://github.com/Sydney-Informatics-Hub/hello-nextflow.git
-#cd hello-nextflow/day2  
-#
-#nextflow run main.nf
+if ! sudo docker run hello-world; then
+	log "ERROR: Failed to run `sudo docker run hello-world`"  
+	exit 1
+fi
+
+log "Docker post-install mods for non-root permissions"
+if ! getent group docker; then
+	sudo groupadd docker
+	sudo usermod -aG docker $USER
+	newgrp docker
+fi
+
+log "Confirming non-root docker access"
+if ! docker run hello-world; then
+	log "ERROR: Failed to run docker without root access"
+	exit 1
+fi
+
+log "Pulling docker containers"
+IMAGES=(
+	"quay.io/biocontainers/salmon:1.10.1--h7e5ed60_0"
+	"quay.io/biocontainers/fastqc:0.12.1--hdfd78af_0"
+	"quay.io/biocontainers/multiqc:1.19--pyhdfd78af_0"
+)
+
+for image in "${IMAGES[@]}"; do
+	docker pull $image
+done
+
+log "Validating docker containers"
+for image in "${IMAGES[@]}"; do
+	if ! docker run $image; then
+		log "ERROR: Failed to run $image"
+		exit 1
+	fi
+done
+
+log "Download workshop content from git"
+git clone https://github.com/Sydney-Informatics-Hub/hello-nextflow.git
+# TODO: Add check once content is (near-) finalised
+
+log "INSTALLATION SUCCESSFUL!"
