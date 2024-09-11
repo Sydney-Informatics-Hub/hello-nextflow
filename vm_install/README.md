@@ -52,8 +52,9 @@ docker run "quay.io/biocontainers/salmon:1.10.1--h7e5ed60_0"
 docker run "quay.io/biocontainers/fastqc:0.12.1--hdfd78af_0"
 docker run "quay.io/biocontainers/multiqc:1.19--pyhdfd78af_0"
 
-# Create dirs and get files for workshop (in user1)
-#cd $HOME
-mkdir part1 part2
-# TODO: add files 
+# Set dir structure and get files required for the workshop (in user1)
+cd $HOME
+git clone https://github.com/Sydney-Informatics-Hub/hello-nextflow.git
+cp -r hello-nextflow/part1 hello-nextflow/part2
+rm -rfv hello-nextflow/
 ```
