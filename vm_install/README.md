@@ -33,14 +33,27 @@ sudo usermod -aG $uname
 newgrp docker # not sure if this is needed if rebooting
 sudo reboot
 
-## Install and validate for root user, set docker permissions for user
+# Install and validate for root user, set docker permissions for user
 bash hello-nextflow/vm_install/ubuntu_install.sh $uname
 
-## Test installs for user
+# Test installs for user
 sudo su - $uname
-nextflow info
-docker run hello-world
+
+## utils
+tree
+tr
+
+## nextflow
+nextflow run nextflow-io/hello # in $HOME
+rm -rfv .nextflow* work/
+
+## docker
 docker run "quay.io/biocontainers/salmon:1.10.1--h7e5ed60_0"
 docker run "quay.io/biocontainers/fastqc:0.12.1--hdfd78af_0"
 docker run "quay.io/biocontainers/multiqc:1.19--pyhdfd78af_0"
+
+# Create dirs and get files for workshop (in user1)
+#cd $HOME
+mkdir part1 part2
+# TODO: add files 
 ```
