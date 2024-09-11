@@ -1,24 +1,26 @@
-#!/usr/bin/bash -e
+#!/usr/bin/bash -eu
+
+uname=$1 # For extra (non-root) user
 
 # Set timezone (for logging)  
 TZ=$(timedatectl show --property=Timezone --value)
 if [ $TZ != "Australia/Sydney" ]; then
-	echo "Setting timezone to Australia/Sydney"
-	sudo timedatectl set-timezone Australia/Sydney
+    echo "Setting timezone to Australia/Sydney"
+    sudo timedatectl set-timezone Australia/Sydney
 fi
 
 # Define logger
 log() {
-	TIMESTAMP=`date +%y-%m-%d\ %H:%M:%S`
-	echo "[${TIMESTAMP}] $@"
+    TIMESTAMP=`date +%y-%m-%d\ %H:%M:%S`
+    echo "[${TIMESTAMP}] $@"
 }
 
 # Check executable
 check_executable() {
-	if [ ! -x "$(command -v $1)" ]; then
-		log "ERROR: $1 not executable"
-		exit 1
-	fi
+    if [ ! -x "$(command -v $1)" ]; then
+        log "ERROR: $1 not executable"
+        exit 1
+    fi
 }
 
 ## apt
@@ -31,39 +33,15 @@ sudo apt install -y "${SYSUTILS[@]}"
 
 log "Checking system utilities are executable..."
 for util in "${SYSUTILS[@]}"; do
-	check_executable $util
+    check_executable $util
 done
 check_executable tr
 
-## sdkman
-# Use `sdkman` for java install, recommended by Nextflow docs
-# https://www.nextflow.io/docs/latest/install.html
-
-# Install latest java LTS version of Temurin with sdkman
-log "Installing sdkman..."
-curl -s https://get.sdkman.io | bash
-source ~/.bashrc
-source ~/.sdkman/bin/sdkman-init.sh # contains [[ -n "$ZSH_VERSION" ]] that fails bash set -u
-
-log "Verifying sdkman install..."
-# can't use check_executable()
-EXP_OUT="\nSDKMAN!\nscript: 5.18.2\nnative: 0.4.6\n\n"
-if [ "$(sdk version 2>&1)" != "$(echo -e $EXP_OUT)" ]; then
-	log "ERROR: bad sdkman installation"
-	exit 1
-fi
-
-## java
-log "Installing java..."
-sdk install java 17.0.10-tem
+log "Installing default-jre"
+sudo apt install default-jre
 
 log "Verifying java install..."
 check_executable "java -version"
-
-# Move for access for all users (probably not needed)
-#sudo mkdir /usr/lib/jvm
-#sudo mv ${SDKMAN_CANDIDATES_DIR}/java/17.0.10-tem /usr/lib/jvm
-#sudo ln -s /usr/lib/jvm/17.0.10-tem/bin/java /usr/bin/java
 
 ## Nextflow
 log "Installing nextflow..."
@@ -95,23 +73,16 @@ sudo apt update -y
 log "Installing the latest Docker packages..."
 sudo apt install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
 
-log "Verifying docker install (root)..."
+log "Verifying docker install for $USER (root)..."
 if ! sudo docker run hello-world; then
-	log "ERROR: Failed to run `sudo docker run hello-world`"  
-	exit 1
+    log "ERROR: Failed to run `sudo docker run hello-world`"  
+    exit 1
 fi
 
-log "Docker post-install mods for non-root permissions"
-if ! getent group docker; then
-	sudo groupadd docker
-	sudo usermod -aG docker $USER
-	newgrp docker
-fi
-
-log "Confirming non-root docker access"
+log "Verifying docker install for $USER (non-root)..."
 if ! docker run hello-world; then
-	log "ERROR: Failed to run docker without root access"
-	exit 1
+    log "ERROR: Failed to run `sudo docker run hello-world`"  
+    exit 1
 fi
 
 log "Pulling docker containers"
@@ -122,19 +93,15 @@ IMAGES=(
 )
 
 for image in "${IMAGES[@]}"; do
-	docker pull $image
+    docker pull $image
 done
 
 log "Validating docker containers"
 for image in "${IMAGES[@]}"; do
-	if ! docker run $image; then
-		log "ERROR: Failed to run $image"
-		exit 1
-	fi
+    if ! docker run $image; then
+       	log "ERROR: Failed to run $image"
+    	exit 1
+    fi
 done
 
-log "Download workshop content from git"
-git clone https://github.com/Sydney-Informatics-Hub/hello-nextflow.git
-# TODO: Add check once content is (near-) finalised
-
-log "INSTALLATION SUCCESSFUL!"
+log "Installation for $USER successful!"
