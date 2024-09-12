@@ -1,14 +1,13 @@
 # hello-nextflow
 Training materials for a Nextflow beginners workshop 2024
 
-## Day 2  
+## VM Installation (for users)  
 
-Adapated from
-[nf-training](https://github.com/nextflow-io/training/blob/master/nf-training/script7.nf).
+See [vm_install/](/vm_install).  
 
-### Installation (temporary)  
+## Developer Installation  
 
-#### `mamba`  
+### `mamba`  
 
 ```bash
 wget "https://github.com/conda-forge/miniforge/releases/latest/download/Miniforge3-$(uname)-$(uname -m).sh"
@@ -47,7 +46,23 @@ mkdocs-material-extensions 1.3.1              pyhd8ed1ab_0    conda-forge
 nextflow                  24.04.4              hdfd78af_0    bioconda
 ```
 
-#### Docker   
+### mkdocs  
+
+To render docs for website:  
+
+```bash
+# mkdocs new .
+mkdocs build
+```
+
+To generate html docs during development:
+```bash
+cd ~/hello-nextflow/
+mkdocs serve
+# open http://127.0.0.1:8000/ in browser
+```
+
+### Docker   
 
 Follows [ubuntu installation](https://docs.docker.com/engine/install/ubuntu/#install-using-the-repository) and [linux post-install steps](https://docs.docker.com/engine/install/linux-postinstall/).
 
@@ -82,7 +97,7 @@ newgrp docker
 docker run hello-world
 ```
 
-##### Pull containers  
+#### Pull containers  
 
 ```bash
 docker pull quay.io/biocontainers/salmon:1.10.1--h7e5ed60_0
@@ -90,34 +105,17 @@ docker pull quay.io/biocontainers/fastqc:0.12.1--hdfd78af_0
 docker pull quay.io/biocontainers/multiqc:1.19--pyhdfd78af_0
 ```
 
-### Usage  
+## Usage (testing)   
 
 ```bash
-git clone https://github.com/Sydney-Informatics-Hub/hello-nextflow.git
-cd hello-nextflow
-nextflow run main.nf
+git clone https://github.com/Sydney-Informatics-Hub/hello-nextflow.git # need some extra args for draft branch  
+cd hello-nextflow/day2  
 ```
 
-Finished running within seconds on laptop with specs:
-> CPU: 12th Gen Intel i7-1265U (12) @ 4.800GHz  
-> Memory: ~32GB
-
-**Note:** Numbered `.nf` files are for checkpoints throughout the workshop
-when the workflow needs to be run. Participants will build on the one
-`main.nf`.  
-
-### mkdocs  
-
-To render docs for website:  
+Run:  
 
 ```bash
-# mkdocs new .
-mkdocs build
+nextflow run .main.nf
 ```
 
-To generate html docs during development:
-```bash
-cd ~/hello-nextflow/
-mkdocs serve
-# open http://127.0.0.1:8000/ in browser
-```
+**Note:** there are hidden files (`part2/.*`) that represent the final nf scripts and config.
