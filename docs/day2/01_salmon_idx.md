@@ -12,6 +12,9 @@ In this step we will implement `00_index.sh` as a Nextflow process called
 
 ![](img/1.excalidraw.png)
 
+> Add more context with an additional detailed workflow diagram
+See: https://sydney-informatics-hub.github.io/rnaseq-workshop-2023/notebooks/1.3_nfcore-run.html
+
 Open the bash script `00_index.sh`:  
 
 ```bash title="00_index.sh"

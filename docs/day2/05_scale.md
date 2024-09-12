@@ -134,7 +134,16 @@ process.cpus = 2
 docker.enabled = true
 ```
 
-> How can we demonstrate the benefit here, without profile/trace  
+> Show what happens when you add trace, report, timeline to the config.
+This will give insight into task resource requirements and consumption.
+
+```groovy linenums="1" title="nextflow.config
+process.cpus = 2
+docker.enabled = true
+trace.enabled = true
+report.enabled = true
+timeline.enabled = true
+```
 
 !!! abstract "Summary"
 

@@ -8,9 +8,13 @@
     4. Understand the components of a process such as `input`, `output`,
     `script`, `directive`, and the `workflow` scope.  
 
+> Update learning objective. Inputs outputs previously explained, adjust this one
+
 In this section you will implement the `QUANTIFICATION` process. This section
 contains more self-directed exercises for you to practice applying the
 concepts introduced in the previous sections.
+
+> Add more detail here, less focus on quantification, more on nextflow components they will be practicing
 
 ![](img/3.excalidraw.png)
 
@@ -73,6 +77,8 @@ process QUANTIFICATION {
 
 ### 2. Define the process `script`  
 
+> Too tricky without inputs and outputs in place, to be amended in next iteration
+
 !!! question "Exercise"
 
     Add the `script` definition. Remember to convert hardcoded paths and bash
@@ -100,6 +106,8 @@ process QUANTIFICATION {
         ```
 
 ### 3. Define the process `output`
+
+> Too tricky, fix in next iteration
 
 !!! question "Exercise"
 
@@ -170,6 +178,8 @@ process QUANTIFICATION {
 
 Secondly, add the tuple input:  
 
+> Needs more explanation, fixed in next code iteration i.e. use of val vs path
+
 ```groovy title="main.nf"
 process QUANTIFICATION {
 
@@ -193,6 +203,10 @@ process QUANTIFICATION {
 You have just defined a process with multiple inputs!  
 
 ### 5. Call the process in the `workflow` scope  
+
+> More explanation and guidance needed. Guide through making the input channel from the indexing step. Fixed in next code iter.
+
+> We should be using .out here, connect back to part 1 https://training.nextflow.io/basic_training/processes/#output-definitions
 
 !!! question "Exercise"
 

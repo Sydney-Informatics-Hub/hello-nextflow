@@ -6,9 +6,14 @@
     2. Implement a process with multiple output files.  
     3. Improve execution logging with process directives and groovy.
 
-In this step we will add `03_multiqc.sh` to our workflow. MultiQC aggregates
-results from all our analyses and renders it into a nice report. You can see an
+> Update learning objectives, check if it was done in the previous lesson  
+
+In this step we will add `03_multiqc.sh` to our workflow. MultiQC is a popular
+tool for summarising the outputs of many different bioinformatics tools. It
+aggregates results from all our analyses and renders it into a nice report. You can see an
 example report [here](https://multiqc.info/examples/rna-seq/multiqc_report).
+
+> May need to be more explicit about what tool outputs we're pulling in 
 
 From the MultiQC [docs](https://multiqc.info/docs/):  
 
@@ -81,6 +86,9 @@ channel as input to `MULTIQC`.
     required data is ready, maintaining proper worfklow control.
 
 More on this in the next section.  
+
+> Use work directory to explore outputs of a process. How do we know what
+outputs of QUANTIFICATION we're trying to capture?
 
 !!! question "Exercise"
 
@@ -268,6 +276,8 @@ Launching `main.nf` [hopeful_swanson] DSL2 - revision: a4304bbe73
 You have a working pipeline for a single paired-end sample!
 
 ## 2.4.3 Adding a `tag` directive
+
+> Probably move to final lesson
 
 Now that we have an end-to-end workflow, we will add things to help understand
 what is being executed. These will be particularly useful when we run more

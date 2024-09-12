@@ -284,6 +284,8 @@ workflow {
 
 We can now call the `FASTQC` process.  
 
+> Update workflow in next iter to have dedicated input channels  
+
 !!! question "Exercise"
 
     In the `workflow` scope, call the `FASTQC` process with `reads_pairs_ch`
