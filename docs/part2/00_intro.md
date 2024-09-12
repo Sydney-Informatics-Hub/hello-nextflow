@@ -15,7 +15,7 @@ Nextflow workflow for preparing RNAseq data. We will build the workflow,
 step-by-step, by converting a series of provided bash scripts into small workflow 
 components.  
 
-Along the way, you will encounter Nextflow concepts (from yesterday, and some
+Along the way, you will encounter Nextflow concepts (from Part 1, and some
 new) and our best practice recommendations for developing your own pipeline.  
 
 Part 2 is based off the 
@@ -26,7 +26,7 @@ training material developed by Seqera.
 
 Follow set up instructions to log back into your instance.
   > Add link to set up instructions   
-  > Add some instruction on how to do this and where to navigate for day 2.
+  > Add some instruction on how to do this and where to navigate for part 2.
 
 ## 2.0.2 Our scenario: from bash scripts to scalable workflows  
 
@@ -49,7 +49,7 @@ You decide to use Nextflow.
 Take a look at the scripts your colleague provided: 
 
 ```bash title="navigate to the bash scripts" 
-cd ~/hello-nextflow/day2/data/bash-scripts
+cd ~/hello-nextflow/part2/data/bash-scripts
 ```
 
 Note the different scripts in this directory: 

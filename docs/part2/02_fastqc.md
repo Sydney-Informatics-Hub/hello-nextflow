@@ -259,7 +259,7 @@ Your output should look something like:
 Launching `main.nf` [crazy_einstein] DSL2 - revision: 0ae3776a5e
 
 [de/fef8c4] INDEX [100%] 1 of 1, cached: 1 ✔
-[gut, /home/setup2/hello-nextflow/day2/data/ggal/gut_1.fq, /home/setup2/hello-nextflow/day2/data/ggal/gut_2.fq]
+[gut, /home/setup2/hello-nextflow/part2/data/ggal/gut_1.fq, /home/setup2/hello-nextflow/part2/data/ggal/gut_2.fq]
 
 ```
 
@@ -344,7 +344,7 @@ for each of the `.fastq` files.
     Launching `main.nf` [hungry_lalande] DSL2 - revision: 587b5b70d1
     
     [de/fef8c4] INDEX [100%] 1 of 1, cached: 1 ✔
-    /home/setup2/hello-nextflow/day2/data/samplesheet.csv
+    /home/setup2/hello-nextflow/part2/data/samplesheet.csv
     
     ```
     
