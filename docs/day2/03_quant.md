@@ -17,6 +17,8 @@ concepts introduced in the previous sections.
 You will implement the `02_quant.sh` bash script as a Nexflow process called
 `QUANTIFICATION`.  
 
+Open the bash script `02_quant.sh`.  
+
 ```bash title="02_quant.sh"
 SAMPLE_ID=gut
 READS_1="data/ggal/${SAMPLE_ID}_1.fq"
@@ -45,13 +47,16 @@ salmon quant --libType=U -i results/salmon_index -1 ${READS_1} -2 ${READS_2} -o 
 
 ## 2.3.1 Implementing the process  
 
-### 1. The empty process  
+### 1. Process directives  
 
-Here is the empty `process` template to get you started:  
+Here is the empty `process` template with the `container` and `publishDir`
+directives we'll be using to get you started:  
 
 ```groovy title="main.nf"
 process QUANTIFICATION {
-  [ directives ]
+  
+  container "quay.io/biocontainers/salmon:1.10.1--h7e5ed60_0"
+  publishDir "results", mode: 'copy'
 
   input:
     < process inputs >
@@ -77,7 +82,9 @@ process QUANTIFICATION {
 
         ```groovy title="main.nf"
         process QUANTIFICATION {
-          [ directives ]
+
+          container "quay.io/biocontainers/salmon:1.10.1--h7e5ed60_0"
+          publishDir "results", mode: 'copy'
         
           input:
             < process inputs >
@@ -106,8 +113,10 @@ process QUANTIFICATION {
 
         ```groovy title="main.nf"
         process QUANTIFICATION {
-          [ directives ]
         
+          container "quay.io/biocontainers/salmon:1.10.1--h7e5ed60_0"
+          publishDir "results", mode: 'copy'
+
           input:
             < process inputs >
         
@@ -142,7 +151,9 @@ First, add the input definition for `$salmon_index`. Recall that we use the
 
 ```groovy title="main.nf"
 process QUANTIFICATION {
-  [ directives ]
+
+  container "quay.io/biocontainers/salmon:1.10.1--h7e5ed60_0"
+  publishDir "results", mode: 'copy'
 
   input:
   path salmon_index
@@ -161,7 +172,9 @@ Secondly, add the tuple input:
 
 ```groovy title="main.nf"
 process QUANTIFICATION {
-  [ directives ]
+
+  container "quay.io/biocontainers/salmon:1.10.1--h7e5ed60_0"
+  publishDir "results", mode: 'copy'
 
   input:
   path salmon_index
@@ -179,36 +192,7 @@ process QUANTIFICATION {
 
 You have just defined a process with multiple inputs!  
 
-### 5. Add the process `directives`
-
-!!! question "Exercise"
-
-    Add the `container` and `publishDir` directives to the `QUANTIFICATION`
-    process. The container is the same as the `INDEX` process.  
-
-    ??? note "Solution"
-
-        ```groovy title="main.nf"
-        process QUANTIFICATION {
-        
-          container "quay.io/biocontainers/salmon:1.10.1--h7e5ed60_0"
-          publishDir "results", mode: 'copy'
-
-          input:
-          path salmon_index
-          tuple val(sample_id), path(reads_1), path(reads_2)
-        
-          output:
-          path "$sample_id"
-        
-          script:
-          """
-          salmon quant --libType=U -i $salmon_index -1 $reads_1 -2 $reads_2 -o $sample_id
-          """
-        }
-        ```
-
-### 6. Call the process in the `workflow` scope  
+### 5. Call the process in the `workflow` scope  
 
 !!! question "Exercise"
 

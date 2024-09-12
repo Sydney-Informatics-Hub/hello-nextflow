@@ -66,14 +66,19 @@ From the information above we know that the input for `multiqc` is the
 (`fastqc_gut_logs/`) and `QUANTIFICATION` (`gut/`) processes into a single
 channel as input to `MULTIQC`.  
 
-!!! info
+??? warning "Why you should NOT use the `publishDir` folder as a process input"
 
-    One might be tempted to have the `results/` folder as the input to the
-    process here. However, bringing the channels together explicitly tells
-    Nextflow to expect the outputs from the upstream processes.
+    It might make sense to have the `results/` folder (set by `publishDir`) as
+    the input to the process here, but it may not exist until the workflow
+    finishes. 
 
-    Using the `results/` folder as input may trigger Nextflow to run the process
-    even if the `results/` directory is empty.  
+    Using the `results/` directory, or `publishDir` as a process input can
+    cause downstream processes prematurely, even if the directory is empty or
+    incomplete. (In this case, MultiQC might miss some inputs)
+
+    Use **channels* to pass data between processes. Channels enable Nextflow
+    to track outputs and ensure that downstream processes only run when all
+    required data is ready, maintaining proper worfklow control.
 
 More on this in the next section.  
 

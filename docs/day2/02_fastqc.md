@@ -287,7 +287,10 @@ We can now call the `FASTQC` process.
 !!! question "Exercise"
 
     In the `workflow` scope, call the `FASTQC` process with `reads_pairs_ch`
-    as the input. Assign it to a variable called `fastqc_ch`
+    as the input. Assign it to a variable called `fastqc_ch`.
+
+    Ensure you remove the `.view()` operator as this is no longer needed after
+    we have confirmed our channel is structured correctly.  
 
     ??? note "Solution"
     
