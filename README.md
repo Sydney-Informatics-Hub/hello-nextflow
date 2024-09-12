@@ -1,6 +1,10 @@
 # hello-nextflow
 Training materials for a Nextflow beginners workshop 2024
 
+## VM Installation (for users)  
+
+See [vm_install/](/vm_install).  
+
 ## Developer Installation  
 
 ### `mamba`  
@@ -42,10 +46,6 @@ mkdocs-material-extensions 1.3.1              pyhd8ed1ab_0    conda-forge
 nextflow                  24.04.4              hdfd78af_0    bioconda
 ```
 
-### Docker
-
-Follow Docker instructions under "User" Installation.  
-
 ### mkdocs  
 
 To render docs for website:  
@@ -60,64 +60,6 @@ To generate html docs during development:
 cd ~/hello-nextflow/
 mkdocs serve
 # open http://127.0.0.1:8000/ in browser
-```
-
-## "User" Installation  
-
-Installing dependencies on account with root access for all (non-root) users.  
-
-### Java  
-
-Use `sdkman` for java install, recommended by 
-[Nextflow docs](https://www.nextflow.io/docs/latest/install.html).
-
-```bash
-# sdkman dependencies
-cd $HOME
-sudo apt update
-sudo apt upgrade -yU
-sudo apt install zip unzip tree # tree for day1
-
-# Install latest java LTS version of Temurin with sdkman
-curl -s https://get.sdkman.io | bash
-source ~/.bashrc
-sdk install java 17.0.10-tem
-
-# Move for access for all users  
-sudo mkdir /usr/lib/jvm
-sudo mv ${SDKMAN_CANDIDATES_DIR}/java/17.0.10-tem /usr/lib/jvm
-sudo ln -s /usr/lib/jvm/17.0.10-tem/bin/java /usr/bin/java
-```
-
-Validate `java` install:  
-
-```bash
-java -version
-```
-
-```console
-openjdk version "17.0.10" 2024-01-16
-OpenJDK Runtime Environment Temurin-17.0.10+7 (build 17.0.10+7)
-OpenJDK 64-Bit Server VM Temurin-17.0.10+7 (build 17.0.10+7, mixed mode, sharing)
-```
-
-### Nextflow
-
-```bash
-curl -s https://get.nextflow.io | bash
-chmod 755 nextflow
-sudo mv nextflow
-
-# Validate
-nextflow info
-```
-
-```console
-  Version: 24.04.4 build 5917
-  Created: 01-08-2024 07:05 UTC
-  System: Linux 6.8.0-35-generic
-  Runtime: Groovy 4.0.21 on OpenJDK 64-Bit Server VM 21-internal-adhoc.conda.src
-  Encoding: UTF-8 (UTF-8)
 ```
 
 ### Docker   
@@ -170,16 +112,10 @@ git clone https://github.com/Sydney-Informatics-Hub/hello-nextflow.git # need so
 cd hello-nextflow/day2  
 ```
 
-Complete metadata and config to run the full, final pipeline:  
-
-```bash
-echo "docker.enabled=true" > nextflow.config
-echo "liver,data/ggal/liver_1.fq,data/ggal/liver_2.fq" >> data/samplesheet.csv
-echo "lung,data/ggal/lung_1.fq,data/ggal/lung_2.fq" >> data/samplesheet.csv
-```
-
 Run:  
 
 ```bash
-nextflow run main.nf
+nextflow run .main.nf
 ```
+
+**Note:** there are hidden files (`part2/.*`) that represent the final nf scripts and config.
