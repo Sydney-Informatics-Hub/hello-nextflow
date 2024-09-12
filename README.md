@@ -107,15 +107,24 @@ docker pull quay.io/biocontainers/multiqc:1.19--pyhdfd78af_0
 
 ## Usage (testing)   
 
-```bash
-git clone https://github.com/Sydney-Informatics-Hub/hello-nextflow.git # need some extra args for draft branch  
-cd hello-nextflow/day2  
+### Part 1
+```
+nextflow run nextflow-io/hello
 ```
 
-Run:  
+### Part 2
+
+**Note:** `.main.nf` and `.nextflow.config` runs the final pipeline. 
 
 ```bash
-nextflow run .main.nf
+git clone https://github.com/Sydney-Informatics-Hub/hello-nextflow.git
+cd hello-nextflow/part2  
+mv .nextflow.config nextflow.config
 ```
 
-**Note:** there are hidden files (`part2/.*`) that represent the final nf scripts and config.
+Run completed pipeline (includes introspection reports etc., multi-sample and multiple cpus):  
+
+```bash
+nextflow run .main.nf --reads data/samplesheet_full.csv
+```
+
