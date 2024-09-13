@@ -1,5 +1,10 @@
 # Outputs
 
+!!! info "Learning objectives"
+
+    1. Utlizie Nextflow process output blocks
+    2. Publish results from your pipeline with directives
+
 Instead of printing 'Hello World!' to the standard output it can be saved to a file. In a "real-world" pipeline, this is like having a command that specifies an output file as part of its normal syntax.
 
 Here you're going to update the `script` and the `output` definition blocks to save the 'Hello World!' as an output.

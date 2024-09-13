@@ -1,5 +1,9 @@
 # Dynamic naming
 
+!!! info "Learning objectives"
+
+    1. Dynamically name variables in Nextflow
+
 Currently, the outputs of the `SAYHELLO` and `CONVERTTOUPPER` processes are being saved as `output.txt` and `upper.txt`, respectively.
 
 In some situations this would be fine. However, to help identify the outputs you want your outputs to be dynamic.
