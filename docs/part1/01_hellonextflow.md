@@ -1,5 +1,11 @@
 # Why Nextflow?
 
+!!! info "Learning objectives"
+
+    1. Describe the benefits of using Nextflow to write complex pipelines
+    2. List community resources you can access to get help developing your pipelines
+
+
 Nextflow is a **workflow orchestration engine and domain-specific language (DSL)** that makes it easy to write data-intensive computational workflows.
 
 It is designed around the idea that the Linux platform is the lingua franca of data science. Linux provides many simple but powerful command-line and scripting tools that, when chained together, facilitate complex data manipulations.
@@ -26,9 +32,11 @@ The only way they can communicate is via asynchronous first-in, first-out (FIFO)
 
 ## Execution abstraction
 
-While a process defines what command or script is **executed**, the executor determines how and where the script is executed.
+While a process defines what command or script is executed, the **executor** determines how and where the script is executed.
 
 Nextflow provides an **abstraction** between the workflow’s functional logic and the underlying execution system. This abstraction allows users to define a workflow once and execute it on different computing platforms without having to modify the workflow definition. Nextflow provides a variety of built-in execution options, such as local execution, HPC cluster execution, and cloud-based execution, and allows users to easily switch between these options using command-line arguments.
+
+![Image title](img/abstraction.excalidraw.png)
 
 ## More information
 

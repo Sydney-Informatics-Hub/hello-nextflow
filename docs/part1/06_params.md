@@ -1,5 +1,10 @@
 # Parameters
 
+!!! info "Learning objectives"
+
+    1. Implement pipeline parameters
+    2. Understand the importance of parameters for flexible pipelines
+
 Parameters are constructs that can hold command line arguments.
 
 Here you're going to update the script with parameters to make it more flexible.

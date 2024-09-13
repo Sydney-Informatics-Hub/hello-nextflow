@@ -1,5 +1,10 @@
 # Your first pipeline
 
+!!! info "Learning objectives"
+
+    1. Write your first  Nextflow pipeline
+    2. Execute your first Nextflow pipeline and understand the outputs
+
 Workflow languages are better than Bash scripts because they handle errors and run tasks in parallel more easily, which is important for complex jobs. They also have clearer structure, making it easier to maintain and work on with others.
 
 Here, you're going learn more about the Nextflow language and take your first steps making a **your first pipeline** with Nextflow.
