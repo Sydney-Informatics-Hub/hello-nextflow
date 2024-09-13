@@ -1,5 +1,6 @@
 *.swp
-.nextflow*
+.nextflow
+.nextflow.log*
 results/
 work/
 site/

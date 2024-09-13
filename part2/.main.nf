@@ -79,21 +79,33 @@ process MULTIQC {
     """
 }
 
+// Define the workflow
 workflow {
-    Channel
-        .fromPath(params.reads)
+
+  // Run the index step with the transcriptome parameter
+  INDEX(params.transcriptome_file)
+
+  // Define the fastqc input channel
+  reads_in = Channel.fromPath(params.reads)
         .splitCsv(header: true)
         .map { row -> [row.sample, file(row.fastq_1), file(row.fastq_2)] }
-        .set { read_pairs_ch }
 
-    index_ch = INDEX(params.transcriptome_file)
-    fastqc_ch = FASTQC(read_pairs_ch)
-    quant_ch = QUANTIFICATION(index_ch, read_pairs_ch)
+  // Run the fastqc step with the fastqc_in channel
+  FASTQC(reads_in)
 
-    fastqc_ch
-        .mix(quant_ch)
-        .collect()
-        .set { all_qc_ch }
+  // Run the quantification step with the index and reads_in channels
+  transcriptome_index_in = INDEX.out[0]
+  QUANTIFICATION(transcriptome_index_in, reads_in)
 
-    MULTIQC(all_qc_ch)
+  // Define the multiqc input channel
+  multiqc_in = FASTQC.out[0]
+    .mix(QUANTIFICATION.out[0])
+    .collect()
+
+  /*
+   * Generate the analysis report with the 
+   * outputs from FASTQC and QUANTIFICATION
+   */ 
+  MULTIQC(multiqc_in)
+
 }
