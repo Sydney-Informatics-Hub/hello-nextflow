@@ -33,7 +33,9 @@ READS_1="data/ggal/${SAMPLE_ID}_1.fq"
 READS_2="data/ggal/${SAMPLE_ID}_2.fq"
 
 mkdir -p "results/fastqc_${SAMPLE_ID}_logs"
-fastqc --outdir "results/fastqc_${SAMPLE_ID}_logs" --format fastq ${READS_1} ${READS_2}
+fastqc \
+    --outdir "results/fastqc_${SAMPLE_ID}_logs" \
+    --format fastq ${READS_1} ${READS_2}
 ```
 
 There's a lot going on in this script, let's break it down.
@@ -238,14 +240,21 @@ The input channel has used common [Nextflow operators](https://www.nextflow.io/d
 
 Add the following to your workflow scope above where `INDEX` is called:
 
-```groovy title="main.nf"
+```groovy title="main.nf" hl_lines="7-12"
+// Define the workflow  
 workflow {
-    Channel
-        .fromPath(params.reads)
+
+    // Run the index step with the transcriptome parameter
+    INDEX(params.transcriptome_file)
+
+    // Define the fastqc input channel
+    Channel.fromPath(params.reads)
         .splitCsv(header: true)
         .map { row -> [row.sample, file(row.fastq_1), file(row.fastq_2)] }
         .view()
+
 }
+```
 
 Run the workflow with the `-resume` flag:
 
@@ -267,45 +276,55 @@ Launching `main.nf` [crazy_einstein] DSL2 - revision: 0ae3776a5e
 
 The chain of commands produces a tuple with three elements that correspond to
 the row in the samplesheet. It now fits the requirements of the input
-definition of `tuple val(sample_id), path(reads_1), path(reads_2)`, we can
-assign the channel to a variable using the
-[`set`](https://www.nextflow.io/docs/latest/operator.html#set) operator:
+definition of `tuple val(sample_id), path(reads_1), path(reads_2)`. 
 
-```groovy title="main.nf"
+Next, we need to assign this output to a variable so it can be passed to the `FASTQC`
+process. Assign to a variable called `reads_in`, and remove the `.view()`
+operator as we now know what the output looks like.
+
+```groovy title="main.nf" hl_lines="8-11"
+// Define the workflow  
 workflow {
-    Channel
-        .fromPath(params.reads)
+
+    // Run the index step with the transcriptome parameter
+    INDEX(params.transcriptome_file)
+
+    // Define the fastqc input channel
+    reads_in = Channel.fromPath(params.reads)
         .splitCsv(header: true)
         .map { row -> [row.sample, file(row.fastq_1), file(row.fastq_2)] }
-        .set { read_pairs_ch }
 
-    index_ch = INDEX(params.transcriptome_file)
+}
 ```
 
-We can now call the `FASTQC` process.  
+Now that we have an input channel with that provides the correct format ready,
+we will now call the `FASTQC` process.  
 
 > Update workflow in next iter to have dedicated input channels  
 
 !!! question "Exercise"
 
-    In the `workflow` scope, call the `FASTQC` process with `reads_pairs_ch`
-    as the input. Assign it to a variable called `fastqc_ch`.
-
-    Ensure you remove the `.view()` operator as this is no longer needed after
-    we have confirmed our channel is structured correctly.  
+    In the `workflow` scope after where `reads_in` was defined, call the
+    `FASTQC` process with `reads_in` as the input.
 
     ??? note "Solution"
     
-        ```groovy title="main.nf"
+        ```groovy title="main.nf" hl_lines="12-14"
+        // Define the workflow  
         workflow {
-            Channel
-                .fromPath(params.reads)
+        
+            // Run the index step with the transcriptome parameter
+            INDEX(params.transcriptome_file)
+        
+            // Define the fastqc input channel
+            reads_in = Channel.fromPath(params.reads)
                 .splitCsv(header: true)
                 .map { row -> [row.sample, file(row.fastq_1), file(row.fastq_2)] }
-                .set { read_pairs_ch }
-        
-            index_ch = INDEX(params.transcriptome_file)
-            fastqc_ch = FASTQC(read_pairs_ch)
+
+            // Run the fastqc step with the reads_in channel
+            FASTQC(reads_in) 
+            
+        }
         ```
 
 Run the workflow:  
@@ -326,6 +345,8 @@ executor >  local (1)
 
 If you inspect `results/fastqc_gut_logs` there is an `.html` and `.zip` file
 for each of the `.fastq` files.  
+
+> Need to revisit the Advanced exercise  
 
 ??? example "Advanced exercise"  
 

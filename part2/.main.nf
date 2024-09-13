@@ -90,7 +90,7 @@ workflow {
         .splitCsv(header: true)
         .map { row -> [row.sample, file(row.fastq_1), file(row.fastq_2)] }
 
-  // Run the fastqc step with the fastqc_in channel
+  // Run the fastqc step with the reads_in channel
   FASTQC(reads_in)
 
   // Run the quantification step with the index and reads_in channels

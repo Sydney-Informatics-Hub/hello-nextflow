@@ -28,33 +28,26 @@ SAMPLE_ID=gut
 READS_1="data/ggal/${SAMPLE_ID}_1.fq"
 READS_2="data/ggal/${SAMPLE_ID}_2.fq"
 
-salmon quant --libType=U -i results/salmon_index -1 ${READS_1} -2 ${READS_2} -o results/${SAMPLE_ID}
+salmon quant \
+    --libType=U \
+    -i results/salmon_index \
+    -1 ${READS_1} \
+    -2 ${READS_2} \
+    -o results/${SAMPLE_ID}
 ```
 
 - `--libType=U` is a required argument. Leave this as is for the script definition.  
-- `-i results/salmon_index` is the directory output by the `INDEX` process.  
-- `-1` and `-2` are flags for the respective paired reads (`.fq`).  
+- `-i results/salmon_index` is the directory output by the `INDEX` process. **This is the output of the `INDEX` process.**
+- `-1` and `-2` are flags for the respective paired reads (`.fq`). **These are output by the `reads_in` channel.**
 - `-o` indicates that the command will output files into a directory called `results/gut`
-
-!!! Tip
-
-    The following exercises break down each step in the same order we have been
-    following when implementing a process: 
-
-    1. Start with the empty `process` scaffold.  
-    2. Define the `script` based on the bash script `02_quant.sh`.  
-    3. Identify and define the `output`(/s).  
-    4. Identify and define the `input`(/s).  
-    5. Define the `directive`s (`container`, `publishDir`).  
-    6. Add the `workflow` scope and assign to a channel.  
-    7. Create channels and input to the process.  
 
 ## 2.3.1 Implementing the process  
 
 ### 1. Process directives  
 
 Here is the empty `process` template with the `container` and `publishDir`
-directives we'll be using to get you started:  
+directives we'll be using to get you started. Add this after where you 
+defined the `FASTQC` process.  
 
 ```groovy title="main.nf"
 process QUANTIFICATION {
@@ -73,70 +66,60 @@ process QUANTIFICATION {
     < script to be executed >
   """
 }
+
 ```
 
 ### 2. Define the process `script`  
 
-> Too tricky without inputs and outputs in place, to be amended in next iteration
+Update the `script` definition:
 
-!!! question "Exercise"
+```groovy title="main.nf" hl_lines="14"
+process QUANTIFICATION {
 
-    Add the `script` definition. Remember to convert hardcoded paths and bash
-    variables to Nextflow `process` variables.  
+  container "quay.io/biocontainers/salmon:1.10.1--h7e5ed60_0"
+  publishDir "results", mode: 'copy'
 
-    ??? note "Solution"
+  input:
+    < process inputs >
 
-        ```groovy title="main.nf"
-        process QUANTIFICATION {
+  output:
+    < process outputs >
 
-          container "quay.io/biocontainers/salmon:1.10.1--h7e5ed60_0"
-          publishDir "results", mode: 'copy'
-        
-          input:
-            < process inputs >
-        
-          output:
-            < process outputs >
-        
-          script:
-          """
-          salmon quant --libType=U -i $salmon_index -1 $reads_1 -2 $reads_2 -o $sample_id
-          """
-        }
-        ```
+  script:
+  """
+  salmon quant --libType=U -i $salmon_index -1 $reads_1 -2 $reads_2 -o $sample_id
+  """
+}
+```
+
+The `--libType=U` argument stays the same.
+
+> Explain other variables: converting hardcoded paths and bash variables to
+Nextflow `process` variables, dropping results/ due to publishDir results 
 
 ### 3. Define the process `output`
 
-> Too tricky, fix in next iteration
+The `output` is a directory of `$sample_id`. In this case, it will be a
+directory called `gut/`. Replace `< process outputs >` with the following:  
 
-!!! question "Exercise"
+```groovy title="main.nf" hl_lines="10"
+process QUANTIFICATION {
 
-    Define the `output` definition.  
+  container "quay.io/biocontainers/salmon:1.10.1--h7e5ed60_0"
+  publishDir "results", mode: 'copy'
 
-    ??? tip "Hint"  
+  input:
+    < process inputs >
 
-        The `output` is a directory of `$sample_id`.
+  output:
+  path "$sample_id"
 
-    ??? note "Solution"
-
-        ```groovy title="main.nf"
-        process QUANTIFICATION {
-        
-          container "quay.io/biocontainers/salmon:1.10.1--h7e5ed60_0"
-          publishDir "results", mode: 'copy'
-
-          input:
-            < process inputs >
-        
-          output:
-          path "$sample_id"
-        
-          script:
-          """
-          salmon quant --libType=U -i $salmon_index -1 $reads_1 -2 $reads_2 -o $sample_id
-          """
-        }
-        ```
+  script:
+  """
+  salmon quant --libType=U -i $salmon_index -1 $reads_1 -2 $reads_2 -o $sample_id
+  """
+}
+```
 
 ### 4. Define the process `input`  
 
@@ -157,7 +140,7 @@ chain these when we work on the `workflow` scope below.
 First, add the input definition for `$salmon_index`. Recall that we use the
 `path` qualifier as it is a directory:  
 
-```groovy title="main.nf"
+```groovy title="main.nf" hl_lines="7"  
 process QUANTIFICATION {
 
   container "quay.io/biocontainers/salmon:1.10.1--h7e5ed60_0"
@@ -178,9 +161,9 @@ process QUANTIFICATION {
 
 Secondly, add the tuple input:  
 
-> Needs more explanation, fixed in next code iteration i.e. use of val vs path
+> Needs more explanation i.e. use of val vs path
 
-```groovy title="main.nf"
+```groovy title="main.nf" hl_lines="8"
 process QUANTIFICATION {
 
   container "quay.io/biocontainers/salmon:1.10.1--h7e5ed60_0"
@@ -204,24 +187,65 @@ You have just defined a process with multiple inputs!
 
 ### 5. Call the process in the `workflow` scope  
 
-> More explanation and guidance needed. Guide through making the input channel from the indexing step. Fixed in next code iter.
+> More explanation and guidance needed. Guide through making the input channel from the indexing step.
 
-> We should be using .out here, connect back to part 1 https://training.nextflow.io/basic_training/processes/#output-definitions
+Recall that the inputs for the `QUANTIFICATION` process are emitted by the
+`reads_in` channel and the output of the `INDEX` process. The `reads_in`
+is ready to be called by the `QUANTIFICATION` process, but we need to first
+prepare an channel for the index files.  
 
-!!! question "Exercise"
+Add the following 
 
-    Add `QUANTIFICATION` to the workflow scope, add the inputs, and assign it
-    to a channel called `quant_ch`.  
+```groovy title="main.nf" hl_lines="12-14"
+// Define the workflow
+workflow {
 
-    ??? note "Solution"
+    // Run the index step with the transcriptome parameter
+    INDEX(params.transcriptome_file)
 
-        ```groovy title="main.nf"
-                fastq_ch = INDEX(params.transcriptome_file)
-                quant_ch = QUANTIFICATION(index_ch, read_pairs_ch)
-        }
-        ```
+    // Define the fastqc input channel
+    reads_in = Channel.fromPath(params.reads)
+        .splitCsv(header: true)
+        .map { row -> [row.sample, file(row.fastq_1), file(row.fastq_2)] }
+
+    // Define the quantification channel for the index files
+    transcriptome_index_in = INDEX.out[0]
+
+}
+```
+
+> connect back to part 1 https://training.nextflow.io/basic_training/processes/#output-definitions  
+
+Call the `QUANTIFICATION` process in the workflow scope and add the inputs:  
+
+```groovy title="main.nf" hl_lines="15-17"
+// Define the workflow
+workflow {
+
+    // Run the index step with the transcriptome parameter
+    INDEX(params.transcriptome_file)
+
+    // Define the fastqc input channel
+    reads_in = Channel.fromPath(params.reads)
+        .splitCsv(header: true)
+        .map { row -> [row.sample, file(row.fastq_1), file(row.fastq_2)] }
+
+    // Define the quantification channel for the index files
+    transcriptome_index_in = INDEX.out[0]
+
+    // Run the quantification step with the index and reads_in channels
+    QUANTIFICATION(transcriptome_index_in, reads_in)
+
+}
+```
+
+We need to pass two arguments to `QUANTIFICATION` as there are two inputs in
+the `process` definition. 
+
+> Add note about tuples being a single input?
 
 Run the workflow:  
+
 ```bash
 nextflow run main.nf -resume
 ```

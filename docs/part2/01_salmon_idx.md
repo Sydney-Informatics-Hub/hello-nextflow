@@ -77,7 +77,7 @@ to the `--transcripts` flag
 
     The qualifier defines the type of data, and the names are treated like variables.  
 
-```groovy title="main.nf"
+```groovy title="main.nf" hl_lines="5 8"
 process INDEX {
   [ directives ]
 
@@ -119,7 +119,7 @@ Replace `[ directives ]` in your `main.nf` script with the `publishDir`
 directive, specifying the directory name as `"results"` and the mode as
 `'copy'`. Your `main.nf` should look like this: 
 
-```groovy title="main.nf"
+```groovy title="main.nf" hl_lines="3"
 process INDEX {
 
   publishDir "results", mode: 'copy'
@@ -188,13 +188,23 @@ Add the following container directive to the `INDEX` process, above
 
 In Nextflow, we can run a process using the [container](https://www.nextflow.io/docs/latest/process.html#container) directive, `container`.  
 Add the following container directive to the `INDEX` process, above `publishDir`:  
-```groovy title="main.nf"
+```groovy title="main.nf" hl_lines="3"
 process INDEX {
 
     container "quay.io/biocontainers/salmon:1.10.1--h7e5ed60_0"
     publishDir "results" mode: 'copy'
 
     input:
+    path transcriptome
+
+    output:
+    path 'salmon_index'
+
+    script:
+    """
+    salmon index --transcripts $transcriptome --index salmon_index
+    """
+}
 ```
 
 Usually, containers need to be downloaded using a command such as
@@ -268,13 +278,19 @@ is a configuration implicit variable that indicates the directory of the
 Next, add the workflow scope at the bottom of you `main.nf` after the process:  
 
 ```groovy title="main.nf"
+// Define the workflow
 workflow {
+
+    // Run the index step with the transcriptome parameter
     INDEX(params.transcriptome_file)
 }
 ```
 
 This will tell Nextflow to run the `INDEX` process with
 `params.transcriptome_file` as input.
+
+> Note about adding comments, Part 1 suggests developers choice
+rather than fixed comments
 
 We are now ready to run our workflow!  
 
