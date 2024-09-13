@@ -1,6 +1,8 @@
 # hello-nextflow
 Training materials for a Nextflow beginners workshop 2024
 
+Content published on: [https://sydney-informatics-hub.github.io/hello-nextflow/](https://sydney-informatics-hub.github.io/hello-nextflow/)
+
 ## VM Installation (for users)  
 
 See [vm_install/](/vm_install).  
@@ -46,22 +48,6 @@ mkdocs-material-extensions 1.3.1              pyhd8ed1ab_0    conda-forge
 nextflow                  24.04.4              hdfd78af_0    bioconda
 ```
 
-### mkdocs  
-
-To render docs for website:  
-
-```bash
-# mkdocs new .
-mkdocs build
-```
-
-To generate html docs during development:
-```bash
-cd ~/hello-nextflow/
-mkdocs serve
-# open http://127.0.0.1:8000/ in browser
-```
-
 ### Docker   
 
 Follows [ubuntu installation](https://docs.docker.com/engine/install/ubuntu/#install-using-the-repository) and [linux post-install steps](https://docs.docker.com/engine/install/linux-postinstall/).
@@ -105,14 +91,16 @@ docker pull quay.io/biocontainers/fastqc:0.12.1--hdfd78af_0
 docker pull quay.io/biocontainers/multiqc:1.19--pyhdfd78af_0
 ```
 
-## Usage (testing)   
+## Developer Usage
 
-### Part 1
+### VM testing  
+
+#### Part 1
 ```
 nextflow run nextflow-io/hello
 ```
 
-### Part 2
+#### Part 2
 
 **Note:** `.main.nf` and `.nextflow.config` runs the final pipeline. 
 
@@ -127,4 +115,22 @@ Run completed pipeline (includes introspection reports etc., multi-sample and mu
 ```bash
 nextflow run .main.nf --reads data/samplesheet_full.csv
 ```
+
+### mkdocs  
+
+To generate html docs during development (before deploying):
+
+```bash
+cd ~/hello-nextflow/
+mkdocs serve
+# open http://127.0.0.1:8000/ in browser
+```
+
+To render docs for website (manually):  
+
+```bash
+mkdocs gh-deploy
+```
+
+Open [https://sydney-informatics-hub.github.io/hello-nextflow/](https://sydney-informatics-hub.github.io/hello-nextflow/) in a browser.  
 
