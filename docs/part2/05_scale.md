@@ -85,6 +85,22 @@ executor >  local (5)
 There are two new tasks run for `FASTQC` and `QUANTIFICATION`. Our newly added
 tags indicate which samples they were run on - either `lung` or `liver` reads!
 
+> Note: Decide exercises  
+
+!!! question "Optional Exercise"
+
+    Update your `params.reads` definition in `main.nf` so it takes 
+    `samplesheet_full.csv` instead of `samplesheet.csv`.
+
+    ??? note "Solution"
+
+        ```groovy title="main.nf" hl_lines="3"
+        //pipeline input parameters
+        params.transcriptome_file = "$projectDir/data/ggal/transcriptome.fa"
+        params.reads = "$projectDir/data/samplesheet_full.csv"
+
+        ```
+
 !!! question "Optional Exercise"
 
     In the workflow scope, add `.view()` to `reads_in`
@@ -131,27 +147,34 @@ tags indicate which samples they were run on - either `lung` or `liver` reads!
 
         Remove `read_pairs_ch.view()` before proceeding.    
 
-> Optional exercise: Move --reads to params.reads in script for downstream nextflow runs?  
-
 ## 2.5.3 An introduction to configuration  
 
-> Prose about utilising resources at hand.
+In this section, we will explore how Nextflow workflows can be configured
+to utilise the computational resources available. Whilst there are many ways
+to configure Nextflow workflows (especially on HPC clusters), we will focus on
+increasing the number of CPUs used to speed up tasks.  
 
-> Many ways and things to configure, especially when running on HPC, but beyond
-the scope of this workshop. 
-
-We will briefly touch on leveraging multithreading and cpus here.
-
-Some tools like `fastqc` support multithreading. From `fastqc --help`:
+Some bioinformatics tool, like FastQC, support multithreading to speed up
+analyses. From the `fastqc --help` command, you'll notice the following option:
 
 ```console title="Output"
 -t --threads    Specifies the number of files which can be processed    
                 simultaneously.
 ```
 
-Update the `FASTQC` process `script` definition to add this option.  
+This means we can configure the number of threads (or CPUs) that FastQC uses
+to process multiple files in parallel to speed up the analysis. In Nextflow,
+we control this through the 
+[`cpus`](https://www.nextflow.io/docs/latest/process.html#cpus) directive.
 
-```groovy title="main.nf"
+Recall that our `FASTQC` takes as input the `reads_in` channel which emits two
+`.fastq` files. We will configure the process to use 2 CPUs so each file gets
+run on 1 CPU each, simulataneously.
+
+In your Nextflow script, update the `script` definition in the `FASTQC` process
+to add the multithreading option:  
+
+```groovy title="main.nf" hl_lines="4"
     script:
     """
     mkdir fastqc_${sample_id}_logs
@@ -159,40 +182,84 @@ Update the `FASTQC` process `script` definition to add this option.
     """
 ```
 
-The [`cpus`](https://www.nextflow.io/docs/latest/process.html#cpus) directive
-allows the number of CPUs the process' task should use.  
+- The **`task.cpus`** variable is automatically populated with the number of 
+CPUs allocated to the task based on the Nextflow configuration. By default this
+is 1.  
 
-The `FASTQC` tasks processes paired reads (2 files) per task. Adding
-`-t ${task.cpus}` allows them to be processed simultaneously.  
-
-Update your configuration file with the following:  
+Next, we need to update our `nextflow.config` file to configure the number of
+CPUs to be used. To allow each FastQC process to use 2 CPUs, update the
+config file as follows:  
 
 ```groovy title="nextflow.config" hl_lines="1"
 process.cpus = 2
 docker.enabled = true
 ```
 
-This will enable 2 cpus to be used per task and will set the `$task.cpus`
-in the `FASTQC` process script to use 2 cpus.
+The `-t $task.cpus` argument will populate as `-t 2` when the process is run
+next.
 
-## 2.5.4 Profiling  
+## 2.5.4 Inspecting workflow performance  
 
-> Prose about profiling when you add trace, report, timeline to the config.
-> This will give insight into task resource requirements and consumption.
+When running workflows, it is helpful to understand how each part of your
+workflow is using resources like CPUs, memory, and the time taken to complete.
+Nextflow can generate text-based and visual reports that give you clear picture
+of how your workflow ran and identify areas for improvement.  
 
-To enable the reporting of our workflow execution, add the following to your
-`nextflow.config` file:  
+We will explore some of Nextflow's built-it in tools that can show these
+important details of how tasks ran.
 
-```groovy title="nextflow.config" hl_lines="3-5"
+To enable these reports, add the following to your `nextflow.config` file:
+
+```groovy title="nextflow.config" hl_lines="4-8"
 process.cpus = 2
 docker.enabled = true
-trace.enabled = true
+
+// enable reporting
+dag.enabled = true
 report.enabled = true
 timeline.enabled = true
+trace.enabled = true
 ```
 
-> Inspect X, Y, Z files by right clicking the file in the VSCode sidebar, and
-downloading
+Run the workflow. To assess the resource usage all processes need to be run
+again so `-resume` should not be used.
+
+```bash
+nextflow run main.nf --reads "data/samplesheet_full.csv"
+```
+
+Inspect your project directory. You should have 3 `.html` files and a `.txt`
+file with matching timestamps. A summary of the different reports are included
+in the table below. For a detailed description of each report see the Nextflow
+documentation on [reports](https://www.nextflow.io/docs/latest/tracing.html).
+
+| Report type | Description                                                                           |
+| ----------- | ------------------------------------------------------------------------------------- |
+| `dag`       | A high-level graph that shows how processes and channels are connected to each other. |
+| `report`    | A visual summary of the time and resources used grouped by process.                   |
+| `timeline`  | A Gannt chart that shows when each task started and ended.                            |
+| `trace`     | A detailed text log with the time and resources used by each task.                    |
+
+Complete the following steps in the exercise to view the report file `report-*.html` in your local browser.  
+
+!!! question "Exercise"
+
+    1. In the VSCode file explorer sidebar, locate the report file (e.g. `report-*.html`)
+    2. Right click on the file and select **"Download"** to save it to your local computer.
+    3. Open the `report-*.html` in a browser.
+    4. Navigate to **"Resource Usage" -> "CPU"**.
+    5. Hover over the `FASTQC` bar chart and note the `mean` CPU usage.
+
+    ??? note "Solution"
+
+        In this report, a mean of 2.53 CPUs were utilised by the `FASTQC` process
+        across the 3 samples. This value will slightly differ across runs.
+
+        > Note: explain why this is > 2 CPUs?
+
+        ![](img/report_cpu.png)
+
+> Note: Any additional exercises, outro text, learning summary
 
 !!! abstract "Summary"
 
