@@ -4,8 +4,7 @@ repo_name: Sydney-Informatics-Hub/hello-nextflow
 
 nav:
   - Home: index.md
-  - Environment setup:
-    - setup/index.md
+  - Setup: setup.md
   - Part 1:
     - 1.0 Introduction: part1/00_intro.md
     - 1.1 Why Nextflow?: part1/01_hellonextflow.md
