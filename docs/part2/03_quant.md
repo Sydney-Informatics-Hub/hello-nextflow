@@ -1,8 +1,8 @@
-# 2.3 Multiple inputs  
+# 2.3 Multiple inputs into a single process
 
 !!! note "Learning objectives"
 
-    1. Implement a process with multiple inputs. 
+    1. Implement a process with multiple input channels. 
     3. Implement chained Nextflow processes with channels.  
     4. Understand the components of a process such as `input`, `output`,
     `script`, `directive`, and the `workflow` scope.  

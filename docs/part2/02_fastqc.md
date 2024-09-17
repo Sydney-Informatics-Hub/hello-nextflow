@@ -2,9 +2,9 @@
 
 !!! note "Learning objectives"
 
-    1. Implement a process with a tuple input
-    2. Understand why samplesheets should be used to read in data
-    3. Build an input channel using operators and Groovy
+    1. Implement a process with a tuple input.
+    2. Understand why samplesheets should be used to read in data.
+    3. Build an input channel using operators and Groovy.
 
 In this lesson we will transform the next bash script, `01_fastqc.sh` into a process called `FASTQC`. This step focuses on the next phase of RNAseq data processing: assessing the quality of some our raw sequencing reads. 
 
@@ -58,6 +58,8 @@ In the `fastqc` command,
 
 ## 2.2.1 Building the process  
 
+### 1. Process directives
+
 Start by adding the following `process` scaffold and script definition to your
 `main.nf` under the INDEX process code but before the `workflow{}` block:  
 
@@ -90,6 +92,8 @@ It contains:
 > Note about ${}  
 > Consider making consistent use of capital letters vs lowercase
 
+### 2. Define the process `output`
+
 Unlike `salmon` from the previous process, `fastqc` requires that the output
 directory be created before running the command, hence the requirement to run
 `mkdir -p "fastqc_${sample_id}_logs"` within the `script` block.  
@@ -110,6 +114,8 @@ Looking at the FastQC command we can see this directory will be our output.
 
         We've used the `path` qualifier as our output is a directory. Output 
         from the bash script is defined by the fastqc `--outdir` flag. 
+
+### 3. Define the process `input`
 
 Now we need to define the `input` block for this process. In this process, 
 we're going to use a combination of Nextflow operators and Groovy to do this. 
