@@ -1,12 +1,23 @@
-# 2.5 Scaling to multiple samples  
+# 2.5 Productionising our workflow
 
 !!! note "Learning objectives"  
 
-    1.
+    1. Configure Nextflow workflows to run on multiple samples
+    2. Enable and interpret Nextflow's inbuilt reports 
+    3. Implement the `tag` directive to label tasks for better tracking and profiling
+    4. Configure a Nextflow workflow to use multiple CPUs for a process 
 
 Now that we have a working pipeline on a single-sample, we will update it 
-to take multiple samples and introduce Nextflow concepts that help with
-understanding and profiling the pipeline.  
+to take multiple samples and introduce Nextflow concepts that not only help with understanding and profiling the pipeline but also set the stage for productionising it. 
+
+We will focus on making the workflow scalable, robust, and efficient for real-world data processing. Key productionisation practices include: 
+
+- Automating tasks
+- Handling errors gracefully
+- Optimising resource usage
+- Ensuring reproducibility. 
+
+These steps ensure that the pipeline can be reliably used in more complex scenarios, like when processing multiple samples in parallel. 
 
 ## 2.5.1 Labeling tasks with the `tag` directive
 
@@ -17,11 +28,16 @@ is being executed in a bit more detail. It is especially helpful showing you
 what is being run when we run multiple samples, and for profiling later.
 
 Add the following `tag` directives to your existing `FASTQC` and
-`QUANTIFICATION` processes. For `FASTQC`:
+`QUANTIFICATION` processes. 
 
-```groovy title="main.nf" hl_lines="3"
+For `FASTQC`:
+
+```bash
+tag "fastqc on ${sample_id}"
+```
+
+```groovy title="main.nf" hl_lines="2"
 process FASTQC {
-
     tag "fastqc on ${sample_id}"
     container "quay.io/biocontainers/fastqc:0.12.1--hdfd78af_0"
     publishDir "results", mode: 'copy'
@@ -30,9 +46,11 @@ process FASTQC {
 
 And for `QUANTIFICATION`:  
 
-```groovy title="main.nf" hl_lines="3"
+```bash
+tag "salmon on ${sample_id}"
+```
+```groovy title="main.nf" hl_lines="2"
 process QUANTIFICATION {
-
     tag "salmon on ${sample_id}"
     container "quay.io/biocontainers/salmon:1.10.1--h7e5ed60_0"
     publishDir "results", mode: 'copy'
@@ -42,7 +60,23 @@ process QUANTIFICATION {
 The tags we just added indicates what program is being run (`fastqc` or 
 `salmon`), and on which sample (`${sample_id}`) it is being run on. 
 
-We will see this in action in the next section.  
+Run the pipeline with the updated tags:  
+
+```bash
+nextflow run main.nf -resume
+```
+
+The output should look similar to:  
+
+```console title="Output"
+Launching `main.nf` [distraught_bell] DSL2 - revision: dcb06191e7
+
+executor >  local (5)
+[aa/3b8821] INDEX                           | 1 of 1, cached: 1 ✔
+[c2/baa069] FASTQC (fastqc on gut)          | 1 of 1, cached: 1 ✔
+[ad/e49b20] QUANTIFICATION (salmon on gut)  | 1 of 1, cached: 1 ✔
+[a3/1f885c] MULTIQC                         | 1 of 1, cached: 1 ✔
+```
 
 ## 2.5.2 Using a samplesheet with multiple samples  
 
@@ -59,9 +93,9 @@ lung,data/ggal/lung_1.fq,data/ggal/lung_2.fq
 Compared to the samplesheet we have been using `data/samplesheet.csv`, this one
 contains two additional lines for the `liver` and `lung` paired reads.
 
-Next we will run the workflow with all three samples by inputting 
-`data/samplesheet_full.csv` using the double hyphen approach `--` in the run
-command.
+Next we will run the workflow with all three samples by overwriting the default 
+input for `reads` with `data/samplesheet_full.csv` using the double hyphen 
+approach `--reads` in the run command.
 
 Run the workflow:  
 
@@ -171,7 +205,7 @@ Recall that our `FASTQC` takes as input the `reads_in` channel which emits two
 `.fastq` files. We will configure the process to use 2 CPUs so each file gets
 run on 1 CPU each, simulataneously.
 
-In your Nextflow script, update the `script` definition in the `FASTQC` process
+In your `main.nf` script, update the `script` definition in the `FASTQC` process
 to add the multithreading option:  
 
 ```groovy title="main.nf" hl_lines="4"

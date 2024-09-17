@@ -312,6 +312,7 @@ Run the workflow:
 nextflow run main.nf -resume  
 ```
 
+The output should look something like:  
 ```console title="Output"
 Launching `main.nf` [hopeful_swanson] DSL2 - revision: a4304bbe73
 
