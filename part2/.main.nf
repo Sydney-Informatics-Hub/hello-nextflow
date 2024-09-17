@@ -24,25 +24,6 @@ process INDEX {
     """
 }
 
-process QUANTIFICATION {
-
-    tag "salmon on ${sample_id}"
-    container "quay.io/biocontainers/salmon:1.10.1--h7e5ed60_0"
-    publishDir params.outdir, mode: 'copy'
-    
-    input:
-    path salmon_index
-    tuple val(sample_id), path(reads_1), path(reads_2)
-
-    output:
-    path "$sample_id"
-
-    script:
-    """
-    salmon quant --libType=U -i $salmon_index -1 ${reads_1} -2 ${reads_2} -o $sample_id
-    """
-}
-
 process FASTQC {
 
     tag "fastqc on ${sample_id}"
@@ -62,6 +43,25 @@ process FASTQC {
     """
 }
 
+process QUANTIFICATION {
+
+    tag "salmon on ${sample_id}"
+    container "quay.io/biocontainers/salmon:1.10.1--h7e5ed60_0"
+    publishDir params.outdir, mode: 'copy'
+    
+    input:
+    path salmon_index
+    tuple val(sample_id), path(reads_1), path(reads_2)
+
+    output:
+    path "$sample_id"
+
+    script:
+    """
+    salmon quant --libType=U -i $salmon_index -1 ${reads_1} -2 ${reads_2} -o $sample_id
+    """
+}
+
 process MULTIQC {
 
     container "quay.io/biocontainers/multiqc:1.19--pyhdfd78af_0"
@@ -72,6 +72,7 @@ process MULTIQC {
 
     output:
     path "multiqc_report.html"
+    path "multiqc_data"
 
     script:
     """
@@ -90,7 +91,7 @@ workflow {
         .splitCsv(header: true)
         .map { row -> [row.sample, file(row.fastq_1), file(row.fastq_2)] }
 
-  // Run the fastqc step with the fastqc_in channel
+  // Run the fastqc step with the reads_in channel
   FASTQC(reads_in)
 
   // Run the quantification step with the index and reads_in channels
