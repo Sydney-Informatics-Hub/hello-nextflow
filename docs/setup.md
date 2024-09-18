@@ -9,14 +9,16 @@ The requirements for this workshop are a personal computer with:
 - A web browser
 
 Below, you will find instructions on how to set up VSCode and connect toyour VM.
-Each participant will be provided with their instances IP address prior
-to the workshop.
-
+Each participant will be provided with their instances IP address prior to the workshop.
 Before the workshop, you must have the following:
 
 1. VSCode installed.
 2. The necessary VSCode extensions installed.
 3. Be able to connect to your VM.  
+
+!!! info
+
+    If you require assistance with the setup, please message the Slack channel!
 
 ## Installing Visual Studio Code
 
@@ -50,21 +52,73 @@ blocks).
 ![](img/vscode_3.png)
 5. Close the Extensions tab and sidebar
 
-## Connect to the virtual machine
+## Setting up your remote SSH config  
 
 1. In VSCode, press `Ctrl+Shift+P` (`Command+Shift+P` on mac) to open the Command Palette.  
  
 ![](img/ssh_0.png)
-2. Type `remote ssh` and select **`Remote-SSH: Connect to Host...`**.
+2. Type `remote ssh` and select **`Remote-SSH: Add New SSH Host...`**. This may
+appear in a different position in the list.
 
 ![](img/ssh_1.png)
-3. Enter the SSH connection string with the IP address that was provided to you. The connection string should look like **`ssh user1@XXX.XXX.XX.XX`**. Ensure that you replace the "XXX..." with your IP address. Press `Enter`.
+3. Enter the SSH connection string with the IP address that was provided to you. The connection string should look like **`ssh user1@XXX.XXX.XX.XX`**. Ensure that you replace the "XXX..." with your allocated IP address. Press `Enter`.
 
 ![](img/ssh_2.png)
-A new VSCode window will open with a "Connecting.." message. Once successfully logged in, you should see a small green box in the bottom left corner of your screen.
+4. You will be prompted to `Select SSH configuration file to update`. Select your `.ssh/config` file. 
 
-> Add screenshot once VMs are online again
+![](img/ssh_3.png)
+5. You should receive a pop-up informing that a host as been added!
 
-Finally, toggle the terminal in VSCode by pressing `Ctrl+j` (`Cmd+j` on mac).
+## Connecting to the VM  
 
-> Add check for file explorer  
+Ensure you have configured your SSH details.  
+
+1. In VSCode, press `Ctrl+Shift+P` (`Command+Shift+P` on mac) to open the Command Palette.  
+ 
+2. Type `remote ssh` and select **`Remote-SSH: Connect to Host...`**. This may
+appear in a different position in the list.
+
+![](img/vm_0.png)
+3. Select the IP address that you have configured.  
+4. A new VSCode window will open and prompt you for your password. Input your
+allocated password and hit 'Enter'.
+
+![](img/vm_1.png)
+5. In the pop-up, Select **"Yes, I trust the authors"**  
+6. Once the blue square in the bottom-left of the VSCode window shows
+ `SSH: XXX.XXX.XX.XX` - you have successfully connected to your instance!  
+
+![](img/vm_2.png)  
+
+## Configuring VSCode for the workshop  
+
+1. Select the File Explorer on the left sidebar (icon with two pages) or press 
+`Ctrl+Shift+E` (Mac: `Cmd+Shift+E`).  
+
+![](img/vm_3.png)  
+2. Select **`Open Folder`**
+
+![](img/vm_4.png)  
+3. The correct file path should be input by default (`/home/userX/`). Press 'OK'.  
+4. The home directory will appear in the left side bar.  
+
+![](img/vm_5.png)  
+6. In the Explorer sidebar, select `.main.nf`. This file will open in a tab.  
+7. Check that syntax highlighting (different parts of the Nextflow code are 
+coloured) is enabled as shown. This is to confirm the
+VSCode Nextflow extension is working correctly.  
+
+![](img/vm_6.png)  
+!!! warning
+
+    The `.main.nf` file is for testing purposes only. We will not touch this
+    file in the workshop.
+
+<p>8. Toggle the terminal in VSCode by pressing `Ctrl+j` (`Cmd+j` on mac).</p>  
+
+
+![](img/vm_7.png)  
+
+!!! success
+
+    You have now configured VSCode for the workshop! 
