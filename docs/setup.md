@@ -16,6 +16,10 @@ Before the workshop, you must have the following:
 2. The necessary VSCode extensions installed.
 3. Be able to connect to your VM.  
 
+!!! info
+
+    If you require assistance with the setup, please message the Slack channel!
+
 ## Installing Visual Studio Code
 
 Visual Studio Code (VSCode) is a versatile code editor that we will use for the
@@ -80,18 +84,41 @@ appear in a different position in the list.
 allocated password and hit 'Enter'.
 
 ![](img/vm_1.png)
-5. Once the blue square in the bottom-left of the VSCode window shows
+5. In the pop-up, Select **"Yes, I trust the authors"**  
+6. Once the blue square in the bottom-left of the VSCode window shows
  `SSH: XXX.XXX.XX.XX` - you have successfully connected to your instance!  
 
 ![](img/vm_2.png)  
-6. Select the File Explorer on the left sidebar (icon with two pages) or press 
+
+## Configuring VSCode for the workshop  
+
+1. Select the File Explorer on the left sidebar (icon with two pages) or press 
 `Ctrl+Shift+E` (Mac: `Cmd+Shift+E`).  
 
 ![](img/vm_3.png)  
-7. Select **`Open Folder`**
+2. Select **`Open Folder`**
 
 ![](img/vm_4.png)  
-8. The correct file path should be input by default (`/home/userX/`). Press 'OK'.
-Finally, toggle the terminal in VSCode by pressing `Ctrl+j` (`Cmd+j` on mac).
+3. The correct file path should be input by default (`/home/userX/`). Press 'OK'.  
+4. The home directory will appear in the left side bar.  
 
-> Add check for file explorer  
+![](img/vm_5.png)  
+6. In the Explorer sidebar, select `.main.nf`. This file will open in a tab.  
+7. Check that syntax highlighting (different parts of the Nextflow code are 
+coloured) is enabled as shown. This is to confirm the
+VSCode Nextflow extension is working correctly.  
+
+![](img/vm_6.png)  
+!!! warning
+
+    The `.main.nf` file is for testing purposes only. We will not touch this
+    file in the workshop.
+
+<p>8. Toggle the terminal in VSCode by pressing `Ctrl+j` (`Cmd+j` on mac).</p>  
+
+
+![](img/vm_7.png)  
+
+!!! success
+
+    You have now configured VSCode for the workshop! 
