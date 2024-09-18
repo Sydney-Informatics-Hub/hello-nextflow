@@ -25,7 +25,7 @@ training material developed by Seqera.
 ## 2.0.1 Log back into your instance 
 
 Re-connect to your Virtual Machine by following the 
-["Connect to the virtual machine"](../setup.md) section from the setup page.
+["Connect to the VM"](../setup.md) section from the setup page.
 
 Once connected, in your VSCode terminal, change directories into the `part2/`
 directory:  
@@ -33,6 +33,8 @@ directory:
 ```bash
 cd ~/part2/
 ```
+
+All Part 2 activities will be conducted in this folder. 
 
 ## 2.0.2 Our scenario: from bash scripts to scalable workflows  
 
