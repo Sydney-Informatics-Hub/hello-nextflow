@@ -52,32 +52,30 @@ across many samples.**
 
 You decide to use Nextflow.  
 
-Take a look at the scripts your colleague provided: 
+!!! question "Exercise"
 
-```bash title="navigate to the bash scripts" 
-cd ~/hello-nextflow/part2/data/bash-scripts
-```
+    View the bash scripts your colleague provided:
 
-Note the different scripts in this directory: 
+    1. Use either the VSCode File Explorer, or the integrated terminal to navgiate 
+    to the `~/part2/bash_scripts/` directory.
+    2. Inspect the scripts (open in a VSCode tab, or text editor in the terminal).
 
-* Task level scripts runs individual data processing steps of the workflow. One script per process. 
-* `single_sample.sh` runs each script over one sample, sample name is provided as an argument for some scripts
-* `multi_sample.sh` runs each script within a loop 
+    Each script runs a single data processing step and are run in order of the prefixed number.
 
-!!! question "Exercise: examine the bash scripts"
+    What are some limitations of these scripts in terms of running them in a
+    pipeline and monitoring it?  
 
-    What are some limitations of these scripts in terms of workflow execution and monitoring? 
-    
     ??? note "Solution"
-        * No parallelism: processes run iteratively, increasing overall runtime and limiting scalability. 
-        * No error handling: if a step fails, may propagate errors or incomplete results into subsequent steps. 
-        * Something about cache/dependency tracking 
-        * No resource management: inefficient resource usage, no guarantee processes are able to access the CPU, RAM, disk space they need. 
-        * No software management: assumes same environment is available every time it is run.   
+
+        * **No parallelism**: processes run iteratively, increasing overall runtime and limiting scalability. 
+        * **No error handling**: if a step fails, may propagate errors or incomplete results into subsequent steps. 
+        * **No caching**: if a step fails, you either need to re-run from the beginning or edit the script to exclude the files that have already run.
+        * **No resource management**: inefficient resource usage, no guarantee processes are able to access the CPU, RAM, disk space they need. 
+        * **No software management**: assumes same environment is available every time it is run.   
 
 ## 2.0.3 Our workflow: RNAseq data processing 
 
-!!! danger "Don't worry if you don't have prior knowledge of RNAseq"
+!!! danger "Don't worry if you don't have prior knowledge of RNAseq!"
 
     The focus of this workshop is on learning Nextflow, the RNAseq data we 
     are using in this part are just a practical example to help you understand 
@@ -88,18 +86,21 @@ biomedicine, agriculture and evolutionary studies. In our scenario we are going 
 run through some basic core steps that allow us to explore different aspects of 
 Nextflow. 
 
-**Data**  
+### Data  
 
 The data we will use includes:
 
 - `*.fastq`: Paired-end RNAseq reads from three different samples (gut, liver,
-lung)
-- `transcriptome.fa`  
+lung).  
+- `transcriptome.fa`: A transcriptome file.  
+- `samplesheet*.csv`: CSV files that help us track which files belong to which
+samples.
 
-**Tools**  
+### Tools  
 
 We will be implementing and integrating three commonly used bioinformatics
 tools:  
+
 1. [Salmon](https://combine-lab.github.io/salmon/) is a tool for quantifying molecules known as transcripts through RNA-seq data.  
 2. [FastQC](https://www.bioinformatics.babraham.ac.uk/projects/fastqc/) is a tool for quality analysis of high throughput sequence data. You can think of it as a way to assess the quality of your data.  
 3. [MultiQC](https://multiqc.info/) searches a given directory for analysis logs and compiles an HTML report for easy viewing. It's a general use tool, perfect for summarising the output from numerous bioinformatics tools.  
@@ -119,6 +120,8 @@ Having reviewed the bash scripts, we've decided to keep its modular structure an
   
 ![](./img/2.0_workflow.png)
 
+> Update workflow with folder index output
+
 ## 2.0.5 Nextflowing the workflow
 
 Each lesson in part 2 of our workshop focuses on implementing one process of 
@@ -129,11 +132,17 @@ in a single `main.nf` file and lightly use a `nextflow.config` file for configur
 
 ### `main.nf`
 
-Most of the code written for this part of the workflow will be focused on the 
-`main.nf` script. We will follow an ordered approach for each step of the workflow 
-building off the `process` structure from Section 1.2. You will be using this 
-process template for each step of the workflow, adding them to the top of the 
-`main.nf` script: 
+The `main.nf` file is the core script that defines the steps of your Nextflow
+workflow. It outlines each `process` (the individual commands, or, data
+processing steps) and how they are connected to each other. This `main.nf`
+script focuses on _what_ the workflow does.
+
+Most of the code you will write in this Part will go in `main.nf`. 
+
+We will follow an ordered approach for each step of the workflow 
+building off the `process` structure from [Part 1.3](../part1/03_hellonf.md).
+You will be using this process template for each step of the workflow, adding 
+them to the `main.nf` script: 
 
 ```groovy
 process < name > {
@@ -152,19 +161,14 @@ process < name > {
 }
 ```
 
-Drawing upon the bash scripts for each step of the workflow, the definitions will
-be completed in the following order:  
-
-> Note: not sure this is exectly what we should follow for every process. Some are better suited than others. 
-
-1. `script`
-2. `output`
-3. `input`
-4. `directives`
-5. Adding to the `workflow` scope, any `params` and channels required  
-
 ### `nextflow.config`
 
-This script will intermittently be used in the following lessons. 
-> Note: Add a short explainer of what config will be used for. 
+The `nextflow.config` file is a key part of any Nextflow workflow.
+While `main.nf` outlines the steps and processes of the workflow, 
+`nextflow.config` allows you to define important settings and configurations 
+that control _how_ your workflow should run.
+
+This script will be intermittently used in the following lessons to control
+the use of Docker containers, how much resources (CPUs) should be used, and
+reporting of the workflow after it has finished running.
 
