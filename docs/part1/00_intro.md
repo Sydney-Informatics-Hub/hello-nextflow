@@ -6,14 +6,15 @@ We will start Part 1 by familiarize ourselves with some common bash commands. Ne
 
 During **Part 2**, the skills and concepts you have learned in Part 1 will be applied in a more realistic scenario.
 
-## Create a work directory
+## Moving into a work directory  
 
 It is good practice to organize projects into their own folders to make it easier to track and replicate experiments over time.
+We have created separate directories for each part (`~/part1/` and `~/part2/`).
 
 !!!question "Exercise"
 
-    Create a new directory for all of today’s activities and move into it:
+    In the VSCode terminal, move into the directory for all Part 1 activities:
 
     ```bash
-    mkdir ~/part1 && cd $_
+    cd ~/part1
     ```
