@@ -148,11 +148,11 @@ Nextflow also handles whether the directory already exists or if it
 should be created. In the `00_index.sh` script you had to manually make a 
 results directory with `mkdir -p "results`.
 
-
 More information and other modes can be found on
 [publishDir](https://www.nextflow.io/docs/latest/process.html#publishdir).
 
-> 
+You now have a complete process! 
+
 ## 2.1.3 Using containers  
 
 Nextflow recommends using containers to ensure reproducibility and portability
@@ -233,14 +233,27 @@ pre-installed on your Virtual Machine.
 We can tell Nextflow configuration to run containers with Docker by using the 
 `nextflow.config` file.
 
-Create a `nextflow.config` file in the same directory as `main.nf` and add the
-following line:
+Create a `nextflow.config` file in the same directory as `main.nf`.  
+
+!!! note
+
+    You can create the file via the VSCode Explorer (left sidebar) or in the
+    terminal with a text editor.
+
+    If you are using the Explorer, right click on `part2` in the sidebar and
+    select **"New file"**.
+
+Add the following line to your config file:
 
 ```groovy linenums="1" title="nextflow.config"
 docker.enabled = true
 ```
 
-You now have a complete process! 
+You have now configured Nextflow to use Docker.  
+
+!!! tip
+
+    Remember to save your files after editing them!
 
 ## 2.1.4 Adding `params` and the workflow scope  
 
@@ -282,7 +295,7 @@ If we need to run our pipeline with a different transcriptome
 file, we can overwrite this default in our execution command with 
 `--transcriptome` double hyphen flag.
 
-Next, add the workflow scope at the bottom of you `main.nf` after the process:  
+Next, add the workflow scope at the bottom of your `main.nf` after the process:  
 
 ```groovy title="main.nf"
 // Define the workflow
@@ -296,8 +309,11 @@ workflow {
 This will tell Nextflow to run the `INDEX` process with
 `params.transcriptome_file` as input.
 
-> Note about adding comments, Part 1 suggests developers choice
-rather than fixed comments
+!!! tip "Tip: Your own comments"
+
+    As a developer you can to choose how and where to comment your code!
+    Feel free to modify or add to the provided comments to record useful
+    information about the code you are writing.
 
 We are now ready to run our workflow!  
 
@@ -354,15 +370,16 @@ arguments inside a process.
 Instead of trying to infer how the variable is being defined and applied to 
 the process, let’s use the hidden command files saved for this task in the work/ directory.
 
-Open the `work/` directory: 
-
-```bash
-Image/instrctions for how to find command
-```
-
 !!! question "Exercise"
 
-    Inspect the `.command.sh` file and compare it with `00_index.sh`. A question for attendees to answer.  
+    1. Navigate to the `work/` directory and open the `.command.sh` file.
+    2. Compare the `.command.sh` file with `00_index.sh`.  
+
+
+    !!! quote "Poll"  
+
+        Why do we no longer see or hardcoded file paths like `results/salmon_index` and `data/ggal/transcriptome.fa` in `.command.sh`?
+
 
 !!! abstract "Summary"
 

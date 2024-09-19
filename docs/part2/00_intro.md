@@ -63,17 +63,11 @@ You decide to use Nextflow.
     2. Inspect the scripts (open in a VSCode tab, or text editor in the terminal).
 
     Each script runs a single data processing step and are run in order of the prefixed number.
+    
+    !!! quote "Poll"
 
-    What are some limitations of these scripts in terms of running them in a
-    pipeline and monitoring it?  
-
-    ??? note "Solution"
-
-        * **No parallelism**: processes run iteratively, increasing overall runtime and limiting scalability. 
-        * **No error handling**: if a step fails, may propagate errors or incomplete results into subsequent steps. 
-        * **No caching**: if a step fails, you either need to re-run from the beginning or edit the script to exclude the files that have already run.
-        * **No resource management**: inefficient resource usage, no guarantee processes are able to access the CPU, RAM, disk space they need. 
-        * **No software management**: assumes same environment is available every time it is run.   
+        What are some limitations of these scripts in terms of running them in a
+        pipeline and monitoring it?  
 
 ## 2.0.3 Our workflow: RNAseq data processing 
 
