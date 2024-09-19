@@ -8,7 +8,6 @@ During **Part 2**, the skills and concepts you have learned in Part 1 will be ap
 
 ## Moving into a work directory  
 
-<<<<<<< HEAD
 It is good practice to organize projects into their own folders to make it easier to track and replicate experiments over time.
 We have created separate directories for each part (`~/part1/` and `~/part2/`).
 
