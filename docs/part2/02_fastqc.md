@@ -89,9 +89,10 @@ It contains:
 * The empty `output:` block for us to define the output data for the process.
 * The `script:` block prefilled with the command that will be executed.
 
-> Note about ${}  
-> Consider making consistent use of capital letters vs lowercase
+!!! info "Dynamic naming"
 
+    Recall that curly brackets are used to pass variables as part of a file name.
+    
 ### 2. Define the process `output`
 
 Unlike `salmon` from the previous process, `fastqc` requires that the output
@@ -190,13 +191,9 @@ or metadata that needs to be processed together.
       
       Working with samplesheets is particularly useful when you have a combination of files and metadata that need to be assigned to a sample in a flexible manner. Typically, samplesheets are written in comma-separated (`.csv`) or tab-separated (`.tsv`) formats. 
       
-      We reccommend using comma-separated files as they are less error prone and easier to read and write.
+      We recommend using comma-separated files as they are less error prone and easier to read and write.
 
-Inspect our samplesheet:  
-
-```bash
-cat data/samplesheet.csv
-```
+Let's inspect `data/samplesheet.csv` with VSCode.
 
 ```console title="Output"
 sample,fastq_1,fastq_2
@@ -237,24 +234,7 @@ for the process we just added.
 !!! info "Using samplesheets with Nextflow can be tricky business"
     There are currently no Nextflow operators specifically designed to handle samplesheets. As such, we Nextflow workflow developers have to write custom parsing logic to read and split the data. This adds complexity to our workflow development, especially when trying to handle tasks like parallel processing of samples or filtering data by sample type.
 
-We won't explore the logic of constructing our samplesheet input channel in depth in this lesson. The key takeaway here is to understand that using samplesheets is best practice for reading grouped files and metadata into Nextflow, and that operators and groovy needs to be chained together to get these in the correct format. The best way to do this is using a combination of Groovy and Nextflow operators.
-
-Our samplesheet input channel has used common [Nextflow operators](https://www.nextflow.io/docs/latest/operator.html):
-
-```bash
-// Define the fastqc input channel
-Channel.fromPath(params.reads)
-  .splitCsv(header: true)
-  .map { row -> [row.sample, file(row.fastq_1), file(row.fastq_2)] }
-  .view()
-```
-
-* `.fromPath` creates a channel from one or more files matching a given path or pattern (to our `.csv` file, provided with the `--reads` parameter).
-* `splitCsv` splits the input file into rows, treating it as a CSV (Comma-Separated Values) file. The `header: true` option means that the first row of the CSV contains column headers, which will be used to access the values by name.
-* `map { row -> [row.sample, file(row.fastq_1), file(row.fastq_2)] }` uses some Groovy syntax to transform each row of the CSV file into a list, extracting the sample value, `fastq_1` and `fastq_2` file paths from the row.
-* `.view()` is a debugging step that outputs the transformed data to the console so we can see how the channel is structured. Its a great tool to use when building your channels.
-
-Add the following to your workflow scope above where `INDEX` is called:
+Add the following to your workflow scope below where `INDEX` is called:
 
 ```groovy title="main.nf" hl_lines="7-12"
 // Define the workflow  
@@ -271,6 +251,19 @@ workflow {
 
 }
 ```
+
+We won't explore the logic of constructing our samplesheet input channel in depth in this lesson. The key takeaway here is to understand that using samplesheets is best practice for reading grouped files and metadata into Nextflow, and that operators and groovy needs to be chained together to get these in the correct format. The best way to do this is using a combination of Groovy and Nextflow operators.
+
+Our samplesheet input channel has used common [Nextflow operators](https://www.nextflow.io/docs/latest/operator.html):
+
+* `.fromPath` creates a channel from one or more files matching a given path or pattern (to our `.csv` file, provided with the `--reads` parameter).
+* `splitCsv` splits the input file into rows, treating it as a CSV (Comma-Separated Values) file. The `header: true` option means that the first row of the CSV contains column headers, which will be used to access the values by name.
+* `map { row -> [row.sample, file(row.fastq_1), file(row.fastq_2)] }` uses some Groovy syntax to transform each row of the CSV file into a list, extracting the sample value, `fastq_1` and `fastq_2` file paths from the row.
+* `.view()` is a debugging step that outputs the transformed data to the console so we can see how the channel is structured. Its a great tool to use when building your channels.
+
+??? Tip "Tip: using the `view()` operator for testing"
+      
+      The [`view()`](https://www.nextflow.io/docs/latest/operator.html#view) operator is a useful tool for debugging Nextflow workflows. It allows you to inspect the data structure of a channel at any point in the workflow, helping you to understand how the data is being processed and transformed.
 
 Run the workflow with the `-resume` flag:
 
@@ -300,13 +293,13 @@ definition of `tuple val(sample_id), path(reads_1), path(reads_2)`:
 [gut, /home/setup2/hello-nextflow/part2/data/ggal/gut_1.fq, /home/setup2/hello-nextflow/part2/data/ggal/gut_2.fq]
 ```
 
-Next, we need to assign this output to a variable so it can be passed to the `FASTQC`
+!!! quote "Checkpoint"  
+
+    Zoom react Y/N
+
+Next, we need to assign the channel we create to a variable so it can be passed to the `FASTQC`
 process. Assign to a variable called `reads_in`, and remove the `.view()`
 operator as we now know what the output looks like.
-
-??? Tip "Tip: using the `view()` operator for testing"
-      
-      The [`view()`](https://www.nextflow.io/docs/latest/operator.html#view) operator is a useful tool for debugging Nextflow workflows. It allows you to inspect the data structure of a channel at any point in the workflow, helping you to understand how the data is being processed and transformed.
 
 ```groovy title="main.nf" hl_lines="8-11"
 // Define the workflow  
@@ -416,5 +409,6 @@ for each of the `.fastq` files.
 
     1. How to implement a process with a tuple input
     2. How to construct an input channel using operators and Groovy
-    3. How to use the `view()` operator to inspect the structure of a channel
-    4. How to use a samplesheet to scale your workflow across multiple samples
+    3. How to use the `.view()` operator to inspect the structure of a channel
+    3. How to use the `-resume` flag to skip sucessful tasks
+    4. How to use a samplesheet to read in grouped samples and metada
