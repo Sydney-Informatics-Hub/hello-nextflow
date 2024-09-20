@@ -16,8 +16,7 @@ This is an intermediate-advanced workshop for people developing reproducible bio
 
 ## Set up requirements
 
-Please complete the [Setup](/setup/) instruction before the workshop. If you have any trouble, please get in contact with us ASAP via Slack.
-> Note: add link Slack group
+Please complete the [Setup](setup.md) instruction before the workshop. If you have any trouble, please get in contact with us ASAP via Slack.
 
 ## Code of Conduct
 In order to foster a positive and professional learning environment we encourage the following kinds of behaviours at all our events and on our platforms:
@@ -29,12 +28,20 @@ In order to foster a positive and professional learning environment we encourage
 * Show courtesy and respect towards other community members
 * Our full code of conduct, with incident reporting guidelines, is available here.
 
-## Workshop schedule
-> Note: add table for parts setup, 1,2 with brief overview. 
+## Workshop schedule  
+
+### Day 1
+
+> TBA 
+
+### Day 2
+
+> TBA 
 
 ## Course survey
-Please fill out our course survey before you leave. Help us help you! 😁
-> Note: add link to survey
+
+Please fill out our [course survey](https://www.surveymonkey.com/r/nextflow-2024)
+at the end of the workshop. Help us help you! 😁
 
 ## Credits and acknowledgements
 

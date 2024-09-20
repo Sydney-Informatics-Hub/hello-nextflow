@@ -79,9 +79,9 @@ Ensure you have configured your SSH details.
 appear in a different position in the list.
 
 ![](img/vm_0.png)
-3. Select the IP address that you have configured.  
+3. Select the IP address that you have configured. If you are prompted for a platform, select "Linux".  
 4. A new VSCode window will open and prompt you for your password. Input your
-allocated password and hit 'Enter'.
+allocated password and hit 'Enter'. 
 
 ![](img/vm_1.png)
 5. In the pop-up, Select **"Yes, I trust the authors"**  
@@ -103,7 +103,7 @@ allocated password and hit 'Enter'.
 4. The home directory will appear in the left side bar.  
 
 ![](img/vm_5.png)  
-6. In the Explorer sidebar, select `.main.nf`. This file will open in a tab.  
+6. In the Explorer sidebar, select `.main.nf`. This file will open in a tab. You may need to re-enter you password again. 
 7. Check that syntax highlighting (different parts of the Nextflow code are 
 coloured) is enabled as shown. This is to confirm the
 VSCode Nextflow extension is working correctly.  
