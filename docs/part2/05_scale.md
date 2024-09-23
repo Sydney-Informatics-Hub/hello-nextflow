@@ -297,7 +297,7 @@ Complete the following steps in the exercise to view the report file `report-*.h
 
 !!! abstract "Summary"
 
-    In this step you have learned:
+    In this lesson you have learned:
 
         1. How to
         1. How to

@@ -329,7 +329,7 @@ You have a working pipeline for a single paired-end sample!
 
 !!! abstract "Summary"
 
-    In this step you have learned:
+    In this lesson you have learned:
 
         1. How to
         1. How to

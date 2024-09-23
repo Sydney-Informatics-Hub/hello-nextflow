@@ -405,10 +405,10 @@ for each of the `.fastq` files.
 
 !!! abstract "Summary"
 
-    In this step you have learned:
+    In this lesson you have learned:
 
     1. How to implement a process with a tuple input
     2. How to construct an input channel using operators and Groovy
     3. How to use the `.view()` operator to inspect the structure of a channel
     3. How to use the `-resume` flag to skip sucessful tasks
-    4. How to use a samplesheet to read in grouped samples and metada
+    4. How to use a samplesheet to read in grouped samples and metadata
