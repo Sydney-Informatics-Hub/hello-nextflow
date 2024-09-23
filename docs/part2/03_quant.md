@@ -3,9 +3,8 @@
 !!! note "Learning objectives"
 
     1. Implement a process with multiple input channels. 
+    2. Understand the importance of creating channels from process outputs.
     3. Implement chained Nextflow processes with channels.  
-    4. Understand the components of a process such as `input`, `output`,
-    `script`, `directive`, and the `workflow` scope.  
 
 In this lesson we will transform the bash script `02_quant.sh` into a process called `QUANTIFICATION`. This step focuses on the next phase of RNAseq data processing: quantifying the expression of transcripts relative to the reference transcriptome. 
 
@@ -70,7 +69,7 @@ It contains:
 * Prefilled process directives `container` and `publishDir`.
 * The empty `input:` block for us to define the input data for the process. 
 * The empty `output:` block for us to define the output data for the process.
-* The `script:` block prefilled with the command that will be executed.
+* The empty `script:` block for us to define the script for the process.
 
 
 ### 2. Define the process `script`  
@@ -105,10 +104,6 @@ The `--libType=U` is a required argument and can be left as is for the script de
 
 The `output` is a directory of `$sample_id`. In this case, it will be a
 directory called `gut/`. Replace `< process outputs >` with the following:  
-
-```
-path "$sample_id"
-```
 
 ```groovy title="main.nf" hl_lines="9"
 process QUANTIFICATION {
@@ -186,6 +181,12 @@ process QUANTIFICATION {
 }
 ```
 
+!!! info "Matching process inputs"
+
+    Recall that the number of inputs in the process input block and the workflow must match!
+
+    If you have multiple inputs they need to be listed across multiple lines in the input block and listed inside the brackets in the workflow block.
+
 You have just defined a process with multiple inputs!  
 
 ### 5. Call the process in the `workflow` scope  
@@ -195,12 +196,9 @@ Recall that the inputs for the `QUANTIFICATION` process are emitted by the
 is ready to be called by the `QUANTIFICATION` process. Similarly, we need to
 prepare a channel for the index files output by the `INDEX` process.
 
-Add the following channel to your `main.nf` file, after the `reads_in` channel:
-```
-transcriptome_index_in = INDEX.out[0]
-``` 
+Add the following channel to your `main.nf` file, after the `FASTQC` process:
 
-```groovy title="main.nf" hl_lines="12-14"
+```groovy title="main.nf" hl_lines="15-16"
 // Define the workflow
 workflow {
 
@@ -211,6 +209,9 @@ workflow {
     reads_in = Channel.fromPath(params.reads)
         .splitCsv(header: true)
         .map { row -> [row.sample, file(row.fastq_1), file(row.fastq_2)] }
+
+    // Run the fastqc step with the reads_in channel
+    FASTQC(reads_in)
 
     // Define the quantification channel for the index files
     transcriptome_index_in = INDEX.out[0]
@@ -226,10 +227,7 @@ workflow {
 
 Call the `QUANTIFICATION` process in the workflow scope and add the inputs by adding the following line to your `main.nf` file after your `transcriptome_index_in` channel definition:  
 
-```bash
-QUANTIFICATION(transcriptome_index_in, reads_in)
-```
-```groovy title="main.nf" hl_lines="15-17"
+```groovy title="main.nf" hl_lines="18-19"
 // Define the workflow
 workflow {
 
@@ -241,8 +239,11 @@ workflow {
         .splitCsv(header: true)
         .map { row -> [row.sample, file(row.fastq_1), file(row.fastq_2)] }
 
+    // Run the fastqc step with the reads_in channel
+    FASTQC(reads_in)
+
     // Define the quantification channel for the index files
-    transcriptome_index_in = INDEX.out
+    transcriptome_index_in = INDEX.out[0]
 
     // Run the quantification step with the index and reads_in channels
     QUANTIFICATION(transcriptome_index_in, reads_in)
@@ -252,13 +253,13 @@ workflow {
 
 By doing this, we have passed two arguments to the `QUANTIFICATION` process as there are two inputs in the `process` definition. 
 
-> Add note about tuples being a single input?
-
 Run the workflow:  
 
 ```bash
 nextflow run main.nf -resume
 ```
+
+Your output should look like:  
 
 ```console title="Output"
 Launching `main.nf` [shrivelled_cuvier] DSL2 - revision: 4781bf6c41
@@ -270,13 +271,16 @@ executor >  local (1)
 
 ```
 
-You now have a `results/gut` folder, with an assortment of files and
-directories.
+A new `QUANTIFICATION` task has been successfully run and have a `results/gut`
+folder, with an assortment of files and directories. 
 
 !!! abstract "Summary"
 
-    In this step you have learned:
+    In this lesson you have learned:  
 
-        1. How to          
-        1. How to 
-        1. How to 
+    1. How to define a process with multiple input channels
+    2. How to access a process output with `.out`
+    3. How to create a channel from a process output
+    4. How to chain Nextflow processes with channels  
+
+
