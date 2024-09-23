@@ -32,10 +32,6 @@ Add the following `tag` directives to your existing `FASTQC` and
 
 For `FASTQC`:
 
-```bash
-tag "fastqc on ${sample_id}"
-```
-
 ```groovy title="main.nf" hl_lines="2"
 process FASTQC {
     tag "fastqc on ${sample_id}"
@@ -46,9 +42,6 @@ process FASTQC {
 
 And for `QUANTIFICATION`:  
 
-```bash
-tag "salmon on ${sample_id}"
-```
 ```groovy title="main.nf" hl_lines="2"
 process QUANTIFICATION {
     tag "salmon on ${sample_id}"
@@ -77,6 +70,9 @@ executor >  local (5)
 [ad/e49b20] QUANTIFICATION (salmon on gut)  | 1 of 1, cached: 1 ✔
 [a3/1f885c] MULTIQC                         | 1 of 1, cached: 1 ✔
 ```
+
+No new tasks were run, but `FASTQC` and `QUANTIFICATION` processes now have
+labels appended in the execution output.  
 
 ## 2.5.2 Using a samplesheet with multiple samples  
 
@@ -119,37 +115,33 @@ executor >  local (5)
 There are two new tasks run for `FASTQC` and `QUANTIFICATION`. Our newly added
 tags indicate which samples they were run on - either `lung` or `liver` reads!
 
-> Note: Decide exercises  
+!!! note 
 
-!!! question "Optional Exercise"
+    Updating the `params.reads` definition in your `main.nf` script can save
+    having to add the `--reads` flag every time you want to run it with a
+    different samplesheet.
 
-    Update your `params.reads` definition in `main.nf` so it takes 
-    `samplesheet_full.csv` instead of `samplesheet.csv`.
+!!! example "Advanced Exercise"
 
-    ??? note "Solution"
+    1. Update the workflow scope to inspect the output of the `reads_in` channel (i.e. with `.view()`)
+    2. Run the workflow with `samplesheet_full.csv`
 
-        ```groovy title="main.nf" hl_lines="3"
-        //pipeline input parameters
-        params.transcriptome_file = "$projectDir/data/ggal/transcriptome.fa"
-        params.reads = "$projectDir/data/samplesheet_full.csv"
-
-        ```
-
-!!! question "Optional Exercise"
-
-    In the workflow scope, add `.view()` to `reads_in`
-
-    > Update with new workflow definition if keeping this exercise
+    What has changed with what the `reads_in` channel is emitting?
 
     ??? note "Solution"
 
-        ```groovy title="main.nf"
-        Channel
-            .fromPath(params.reads)
-            .splitCsv(header: true)
-            .map { row -> [row.sample, file(row.fastq_1), file(row.fastq_2)] }
-            .set { read_pairs_ch }
-            read_pairs_ch.view()
+        Viewing `reads_in`: 
+
+        ```groovy title="main.nf" hl_lines="6"
+            // Define the fastqc input channel
+            reads_in = Channel.fromPath(params.reads)
+                .splitCsv(header: true)
+                .map { row -> [row.sample, file(row.fastq_1), file(row.fastq_2)] }
+
+            reads_in.view()
+
+            // Run the fastqc step with the reads_in channel
+            FASTQC(reads_in)
         ```
 
         Run the workflow:  
@@ -172,14 +164,11 @@ tags indicate which samples they were run on - either `lung` or `liver` reads!
         [lung, .../data/ggal/lung_1.fq, .../data/ggal/lung_2.fq]
         ```  
 
-        Key differences to note: 
-        
-        - Total of three tuples, for each sample  
-        - `QUANTIFICATION` and `FASTQC` have 3 processes and 1 cached  
-        - Added `results/` outputs for each paired sample  
-        - `multiqc_report.html` now has 9 samples  
+        There are now a total of three tuples emitted separately for each sample. 
+        When passed into `FASTQC` and `QUANTIFICATION`, each tuple is processed
+        separately in independent tasks.
 
-        Remove `read_pairs_ch.view()` before proceeding.    
+        Remove `reads_in.view()` before proceeding.
 
 ## 2.5.3 An introduction to configuration  
 
@@ -203,7 +192,7 @@ we control this through the
 
 Recall that our `FASTQC` takes as input the `reads_in` channel which emits two
 `.fastq` files. We will configure the process to use 2 CPUs so each file gets
-run on 1 CPU each, simulataneously.
+run on 1 CPU each (the maximum CPUs fastqc will use per file), simulataneously.
 
 In your `main.nf` script, update the `script` definition in the `FASTQC` process
 to add the multithreading option:  
@@ -229,8 +218,8 @@ process.cpus = 2
 docker.enabled = true
 ```
 
-The `-t $task.cpus` argument will populate as `-t 2` when the process is run
-next.
+The `-t $task.cpus` argument will populate as `-t 2` when we run the workflow next.
+Before we do, we will explore Nextflow's built-in reporting system to assess resource usage.
 
 ## 2.5.4 Inspecting workflow performance  
 
@@ -256,7 +245,8 @@ trace.enabled = true
 ```
 
 Run the workflow. To assess the resource usage all processes need to be run
-again so `-resume` should not be used.
+again so `-resume` should not be used. (If we resume now, it will still
+appear as a cached run, with limited information).  
 
 ```bash
 nextflow run main.nf --reads "data/samplesheet_full.csv"
@@ -284,21 +274,24 @@ Complete the following steps in the exercise to view the report file `report-*.h
     4. Navigate to **"Resource Usage" -> "CPU"**.
     5. Hover over the `FASTQC` bar chart and note the `mean` CPU usage.
 
+    !!! quote "Poll"
+
+        What was the `mean` CPU usage for your `FASTQC` process?
+
     ??? note "Solution"
 
         In this report, a mean of 2.53 CPUs were utilised by the `FASTQC` process
         across the 3 samples. This value will slightly differ across runs.
 
-        > Note: explain why this is > 2 CPUs?
-
         ![](img/report_cpu.png)
 
-> Note: Any additional exercises, outro text, learning summary
+You have successfully run, configured, and profiled a multi-sample workflow!
 
 !!! abstract "Summary"
 
     In this lesson you have learned:
 
-        1. How to
-        1. How to
-        1. How to
+    1. How to add custom labels with process tags
+    1. How to use `task.cpus` to enable multithreading within processes
+    3. How to configure process resources with `nextflow.config`
+    1. How to enable and view Nextflow workflow reports
