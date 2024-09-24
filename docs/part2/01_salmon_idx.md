@@ -62,6 +62,12 @@ It contains:
 * The empty `output:` block for us to define the output data for the process.
 * The `script:` block prefilled with the command that will be executed.
 
+!!! info 
+
+    The process [`script`](https://www.nextflow.io/docs/latest/process.html#script)
+    block is executed as a Bash script by default. In Part 2 of the workshop, we will
+    only be using Nextflow variables within the `script` block.
+
 Next, we will edit the `input` and `output` definitions to match the specific
 data and results for this process. In the `00_index.sh` script, the relevant
 information is:  
@@ -284,6 +290,13 @@ params.transcriptome_file = "$projectDir/data/ggal/transcriptome.fa"
     Nextflow provides a set of implicit variables that can be used in your workflows. These variables are predefined and can be used to access information about the workflow environment, configuration, and tasks. 
 
     We will use [`$projectDir`](https://www.nextflow.io/docs/latest/script.html#configuration-implicit-variables) to indicates the directory of the `main.nf` script. This is defined by Nextflow as the directory where the `main.nf` script is located.
+
+!!! info "The `params` and `process` names do not need to match!"  
+
+    In the `INDEX` process, we defined the input as a path called `transcriptome`, whereas
+    the parameter is called `transcriptome_file`. These do not need to be identical names
+    as they are called in different scopes (the `INDEX` process scope, and `workflow` scope,
+    respectively).
 
 Recall that [parameters](https://www.nextflow.io/docs/latest/module.html#module-parameters)
 are inputs and options that can be customised when the workflow is 

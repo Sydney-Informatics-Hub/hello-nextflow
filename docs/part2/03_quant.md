@@ -189,6 +189,10 @@ process QUANTIFICATION {
 
 You have just defined a process with multiple inputs!  
 
+!!! quote "How's it going?"
+
+    Once you have defined the `process` block, select the  **"Yes"** react on Zoom.
+
 ### 5. Call the process in the `workflow` scope  
 
 Recall that the inputs for the `QUANTIFICATION` process are emitted by the

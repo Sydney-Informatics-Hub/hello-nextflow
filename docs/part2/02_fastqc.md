@@ -293,9 +293,9 @@ definition of `tuple val(sample_id), path(reads_1), path(reads_2)`:
 [gut, /home/setup2/hello-nextflow/part2/data/ggal/gut_1.fq, /home/setup2/hello-nextflow/part2/data/ggal/gut_2.fq]
 ```
 
-!!! quote "Checkpoint"  
+!!! quote "How's it going?"
 
-    Zoom react Y/N
+    Once you have run the workflow, select the  **"Yes"** react on Zoom.
 
 Next, we need to assign the channel we create to a variable so it can be passed to the `FASTQC`
 process. Assign to a variable called `reads_in`, and remove the `.view()`
@@ -363,45 +363,111 @@ executor >  local (1)
 If you inspect `results/fastqc_gut_logs` there is an `.html` and `.zip` file
 for each of the `.fastq` files.  
 
-> Need to revisit the Advanced exercise  
+!!! example "Advanced exercise"  
 
-??? example "Advanced exercise"  
+    This advanced exercise walks through inspecing the output of the intermediate
+    operators in the `reads_in` channel:  
 
-    Inspect what the `.fromPath()` and `.splitCsv()` commands do by using `.view()`
+    - `Channel.fromPath`
+    - `.splitCsv`
 
-    ```groovy title="main.nf"
-    workflow {
-        Channel
-            .fromPath(params.reads)
-            .view()
-    
-        index_ch = INDEX(params.transcriptome_file)
-    ```
-    
-    ```console title="Output"
-    Launching `main.nf` [hungry_lalande] DSL2 - revision: 587b5b70d1
-    
-    [de/fef8c4] INDEX [100%] 1 of 1, cached: 1 ✔
-    /home/setup2/hello-nextflow/part2/data/samplesheet.csv
-    
-    ```
+    The current workflow block should look like:
     
     ```groovy title="main.nf"
+    // Define the workflow  
     workflow {
-        Channel
-            .fromPath(params.reads)
+    
+        // Run the index step with the transcriptome parameter
+        INDEX(params.transcriptome_file)
+    
+        // Define the fastqc input channel
+        reads_in = Channel.fromPath(params.reads)
             .splitCsv(header: true)
-            .view()
+            .map { row -> [row.sample, file(row.fastq_1), file(row.fastq_2)] }
     
-        index_ch = INDEX(params.transcriptome_file)
+        // Run the fastqc step with the reads_in channel
+        FASTQC(reads_in)
+    }
     ```
+
+    **`Channel.fromPath`**  
+
+    1. In the workflow scope, comment out the lines for `.splitCsv`, `.map`, and `FASTQC()`
+    2. Add `.view()` on the line after `Channel.fromPath` and before the commented `.splitCsv`
+    3. Run the workflow with `-resume`  
+
+    ??? note "Solution"
+
+        ```groovy title="main.nf" hl_lines="9-11 14"
+        // Define the workflow  
+        workflow {
+        
+            // Run the index step with the transcriptome parameter
+            INDEX(params.transcriptome_file)
+        
+            // Define the fastqc input channel
+            reads_in = Channel.fromPath(params.reads)
+                .view()
+                //.splitCsv(header: true)
+                //.map { row -> [row.sample, file(row.fastq_1), file(row.fastq_2)] }
+        
+            // Run the fastqc step with the reads_in channel
+            //FASTQC(reads_in)
+
+        }
+        ```
+        
+        The output of the `Channel.fromPath(params.reads)` step produces a path to the samplesheet:  
+
+        ```console title="Output"
+        Launching `main.nf` [hungry_lalande] DSL2 - revision: 587b5b70d1
+        
+        [de/fef8c4] INDEX [100%] 1 of 1, cached: 1 ✔
+        /home/user1/part2/data/samplesheet.csv
+        
+        ```
+
+    **`.splitCsv`**  
+
+    1. In the workflow scope, *un*comment the line for `.splitCsv`
+    2. Move `.view()` to the line after `.splitCsv` (before the commented `.map` line)
+    3. Run the workflow with `-resume`  
     
-    ```console title="Output"
-    Launching `main.nf` [tiny_yonath] DSL2 - revision: 22c2c9d28f
-    [de/fef8c4] INDEX | 1 of 1, cached: 1 ✔
-    [sample:gut, fastq_1:data/ggal/gut_1.fq, fastq_2:data/ggal/gut_2.fq]
-    
-    ```
+    ??? note "Solution"
+
+        ```groovy title="main.nf" hl_lines="9-10"
+        // Define the workflow  
+        workflow {
+        
+            // Run the index step with the transcriptome parameter
+            INDEX(params.transcriptome_file)
+        
+            // Define the fastqc input channel
+            reads_in = Channel.fromPath(params.reads)
+                .splitCsv(header: true)
+                .view()
+                //.map { row -> [row.sample, file(row.fastq_1), file(row.fastq_2)] }
+        
+            // Run the fastqc step with the reads_in channel
+            //FASTQC(reads_in)
+
+        }
+        ```
+   
+        `.splitCsv` takes the path from `.fromPath` and reads the header and data line as a tuple.
+        Each element in the tuple is named by the header in the correspoding column in the samplesheet:
+
+        ```console title="Output"
+        Launching `main.nf` [tiny_yonath] DSL2 - revision: 22c2c9d28f
+        [de/fef8c4] INDEX | 1 of 1, cached: 1 ✔
+        [sample:gut, fastq_1:data/ggal/gut_1.fq, fastq_2:data/ggal/gut_2.fq]
+        
+        ```
+
+        The `.map` step takes that tuple and formats it into the tuple that is emitted by `reads_in`.
+
+    Before proceeding, ensure to *un*comment the `.map` and `FASTQC` lines, and remove `.view()`.
+
 
 !!! abstract "Summary"
 
