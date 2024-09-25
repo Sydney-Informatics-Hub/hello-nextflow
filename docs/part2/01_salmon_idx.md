@@ -151,8 +151,6 @@ results directory with `mkdir -p "results`.
 More information and other modes can be found on
 [publishDir](https://www.nextflow.io/docs/latest/process.html#publishdir).
 
-You now have a complete process! 
-
 ## 2.1.3 Using containers  
 
 Nextflow recommends using containers to ensure reproducibility and portability
@@ -211,6 +209,8 @@ process INDEX {
     """
 }
 ```
+
+You now have a complete process! 
 
 Usually, containers need to be downloaded using a command such as
 `docker pull [image]`. All containers have been previously downloaded for the
@@ -340,7 +340,7 @@ Recall that the specifics of the output are randomly generated (i.e.
 `[chaotic_jones]` and `[de/fef8c4]` in this example).
 
 In this example, the output files for the `INDEX` process is output in
-`work/26/c410b1...`.
+`work/de/fef8c4...`.
 
 You have successfully run your first workflow!  
 
@@ -378,7 +378,7 @@ the process, let’s use the hidden command files saved for this task in the wor
 
     !!! quote "Poll"  
 
-        Why do we no longer see or hardcoded file paths like `results/salmon_index` and `data/ggal/transcriptome.fa` in `.command.sh`?
+        In `.command.sh`, there are no longer hardcoded file paths (e.g. `results/salmon_index` and `data/ggal.transcriptome.fa`). What Nextflow directive and scope enable this?
 
 
 !!! abstract "Summary"

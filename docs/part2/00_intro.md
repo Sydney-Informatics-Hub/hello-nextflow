@@ -116,8 +116,6 @@ Having reviewed the bash scripts, we've decided to keep its modular structure an
   
 ![](./img/2.0_workflow.png)
 
-> Update workflow with folder index output
-
 ## 2.0.5 Nextflowing the workflow
 
 Each lesson in part 2 of our workshop focuses on implementing one process of 

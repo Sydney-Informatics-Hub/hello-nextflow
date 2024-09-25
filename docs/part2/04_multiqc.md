@@ -195,8 +195,8 @@ Launching `main.nf` [stupefied_minsky] DSL2 - revision: 82245ce02b
 [de/fef8c4] INDEX              | 1 of 1, cached: 1 ✔
 [bb/32a3aa] FASTQC (1)         | 1 of 1, cached: 1 ✔
 [a9/000f36] QUANTIFICATION (1) | 1 of 1, cached: 1 ✔
-/home/setup2/hello-nextflow/part2/work/bb/32a3aaa5e5fd68265f0f34df1c87a5/fastqc_gut_logs
-/home/setup2/hello-nextflow/part2/work/a9/000f3673536d98c8227b393a641871/gut
+/home/user1/part2/work/bb/32a3aaa5e5fd68265f0f34df1c87a5/fastqc_gut_logs
+/home/user1/part2/work/a9/000f3673536d98c8227b393a641871/gut
 ```  
 
 The outputs have been emitted one after the other, meaning that it will be
@@ -258,7 +258,7 @@ Launching `main.nf` [small_austin] DSL2 - revision: 6ab927f137
 [de/fef8c4] INDEX              | 1 of 1, cached: 1 ✔
 [bb/32a3aa] FASTQC (1)         | 1 of 1, cached: 1 ✔
 [a9/000f36] QUANTIFICATION (1) | 1 of 1, cached: 1 ✔
-[/home/setup2/hello-nextflow/part2/work/bb/32a3aaa5e5fd68265f0f34df1c87a5/fastqc_gut_logs, /home/setup2/hello-nextflow/part2/work/a9/000f3673536d98c8227b393a641871/gut]
+[/home/user1/part2/work/bb/32a3aaa5e5fd68265f0f34df1c87a5/fastqc_gut_logs, /home/user1/part2/work/a9/000f3673536d98c8227b393a641871/gut]
 
 ```
 
