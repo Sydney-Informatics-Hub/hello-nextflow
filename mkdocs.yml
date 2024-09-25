@@ -22,10 +22,11 @@ nav:
     - 2.3 Multiple process inputs: part2/03_quant.md
     - 2.4 Combining channels, multiple process outputs: part2/04_multiqc.md
     - 2.5 Upscaling to multiple samples and introspection: part2/05_scale.md
-  - Extra resources: resources.md
+  - Supporting materials: resources.md
 
 theme:
   name: material
+  logo: assets/usyd-logo.png
 
 markdown_extensions:
   - admonition
