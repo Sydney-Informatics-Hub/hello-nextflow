@@ -1,0 +1,1266 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+        <link rel="prev" href="../00_intro/">
+      
+      
+        <link rel="next" href="../02_fastqc/">
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.5.36">
+    
+    
+      
+        <title>2.1 Our first process and container - Hello Nextflow</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.06209087.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+  
+
+
+  
+  
+
+<script id="__analytics">function __md_analytics(){function e(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],e("js",new Date),e("config","G-TNWWV3HK57"),document.addEventListener("DOMContentLoaded",(function(){document.forms.search&&document.forms.search.query.addEventListener("blur",(function(){this.value&&e("event","search",{search_term:this.value})}));document$.subscribe((function(){var t=document.forms.feedback;if(void 0!==t)for(var a of t.querySelectorAll("[type=submit]"))a.addEventListener("click",(function(a){a.preventDefault();var n=document.location.pathname,d=this.getAttribute("data-md-value");e("event","feedback",{page:n,data:d}),t.firstElementChild.disabled=!0;var r=t.querySelector(".md-feedback__note [data-md-value='"+d+"']");r&&(r.hidden=!1)})),t.hidden=!1})),location$.subscribe((function(t){e("config","G-TNWWV3HK57",{page_path:t.pathname})}))}));var t=document.createElement("script");t.async=!0,t.src="https://www.googletagmanager.com/gtag/js?id=G-TNWWV3HK57",document.getElementById("__analytics").insertAdjacentElement("afterEnd",t)}</script>
+  
+    <script>"undefined"!=typeof __md_analytics&&__md_analytics()</script>
+  
+
+    
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#21-implementing-a-simple-process-with-a-container" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="Hello Nextflow" class="md-header__button md-logo" aria-label="Hello Nextflow" data-md-component="logo">
+      
+  <img src="../../assets/usyd-logo.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Hello Nextflow
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              2.1 Our first process and container
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/Sydney-Informatics-Hub/hello-nextflow" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81"/></svg>
+  </div>
+  <div class="md-source__repository">
+    Sydney-Informatics-Hub/hello-nextflow
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Hello Nextflow" class="md-nav__button md-logo" aria-label="Hello Nextflow" data-md-component="logo">
+      
+  <img src="../../assets/usyd-logo.png" alt="logo">
+
+    </a>
+    Hello Nextflow
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/Sydney-Informatics-Hub/hello-nextflow" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81"/></svg>
+  </div>
+  <div class="md-source__repository">
+    Sydney-Informatics-Hub/hello-nextflow
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Home
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../setup/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Setup
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Part 1
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            Part 1
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../part1/00_intro/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    1.0 Introduction
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../part1/01_hellonextflow/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    1.1 Why Nextflow?
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../part1/02_helloworld/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    1.2 Hello World!
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../part1/03_hellonf/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    1.3 Your first pipeline
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../part1/04_output/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    1.4 Outputs
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../part1/05_inputs/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    1.5 Inputs
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../part1/06_params/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    1.6 Parameters
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../part1/07_process/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    1.7 Adding processes
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../part1/08_dynamic/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    1.8 Dynamic naming
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Part 2
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            Part 2
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../00_intro/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    2.0 Introduction
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    2.1 Our first process and container
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  <span class="md-ellipsis">
+    2.1 Our first process and container
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#211-building-the-process" class="md-nav__link">
+    <span class="md-ellipsis">
+      2.1.1 Building the process
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#212-save-files-to-an-output-directory-with-publishdir" class="md-nav__link">
+    <span class="md-ellipsis">
+      2.1.2 Save files to an output directory with publishDir
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#213-using-containers" class="md-nav__link">
+    <span class="md-ellipsis">
+      2.1.3 Using containers
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#214-adding-params-and-the-workflow-scope" class="md-nav__link">
+    <span class="md-ellipsis">
+      2.1.4 Adding params and the workflow scope
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#215-running-the-workflow" class="md-nav__link">
+    <span class="md-ellipsis">
+      2.1.5 Running the workflow
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#216-inspecting-the-outputs" class="md-nav__link">
+    <span class="md-ellipsis">
+      2.1.6 Inspecting the outputs
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../02_fastqc/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    2.2 Samplesheets, operators, and groovy
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../03_quant/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    2.3 Multiple process inputs
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../04_multiqc/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    2.4 Combining channels, multiple process outputs
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../05_scale/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    2.5 Upscaling to multiple samples and introspection
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../resources/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Supporting materials
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#211-building-the-process" class="md-nav__link">
+    <span class="md-ellipsis">
+      2.1.1 Building the process
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#212-save-files-to-an-output-directory-with-publishdir" class="md-nav__link">
+    <span class="md-ellipsis">
+      2.1.2 Save files to an output directory with publishDir
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#213-using-containers" class="md-nav__link">
+    <span class="md-ellipsis">
+      2.1.3 Using containers
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#214-adding-params-and-the-workflow-scope" class="md-nav__link">
+    <span class="md-ellipsis">
+      2.1.4 Adding params and the workflow scope
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#215-running-the-workflow" class="md-nav__link">
+    <span class="md-ellipsis">
+      2.1.5 Running the workflow
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#216-inspecting-the-outputs" class="md-nav__link">
+    <span class="md-ellipsis">
+      2.1.6 Inspecting the outputs
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+  
+  
+
+
+<h1 id="21-implementing-a-simple-process-with-a-container">2.1 Implementing a simple process with a container</h1>
+<div class="admonition info">
+<p class="admonition-title">Learning objectives</p>
+<ol>
+<li>Implement a Nextflow process that takes a single file as input.  </li>
+<li>Understand the importance of containers in ensuring consistent and
+reproducible execution across processes.</li>
+<li>Store output files with the <code>publishDir</code> directive.  </li>
+</ol>
+</div>
+<p>In this lesson we will be implement <code>00_index.sh</code> as our first Nextflow process, <code>INDEX</code>. Here, we are working with the first step of the RNA-seq data processing workflow: indexing the transcriptome for downstream processes. To do this, we will need to run <a href="https://salmon.readthedocs.io/en/latest/salmon.html#salmon">Salmon</a>'s indexing mode. 
+<br>
+<br>
+<br>
+<img alt="" src="../img/2.1_workflow.png" />
+<br>
+<br>
+Open the bash script <code>00_index.sh</code>:  </p>
+<div class="highlight"><span class="filename">00_index.sh</span><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>mkdir<span class="w"> </span><span class="s2">&quot;results&quot;</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>salmon<span class="w"> </span>index<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="w">    </span>--transcripts<span class="w"> </span>data/ggal/transcriptome.fa<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="w">    </span>--index<span class="w"> </span>results/salmon_index
+</code></pre></div>
+<ul>
+<li>The script first creates a <code>results/</code> folder then runs the <code>salmon index</code> command.  </li>
+<li>The Salmon <code>--transcripts</code> flag indicates that the path to the input transcriptome
+file is <code>data/ggal/transcriptome.fa</code>.  </li>
+<li>The Salmon <code>--index results/salmon_index</code> flag tells <code>salmon</code> to save the output index files in a directory called <code>salmon_index</code>, within the newly created <code>results</code> directory.  </li>
+</ul>
+<div class="admonition tip">
+<p class="admonition-title">Avoid hardcoding arguments by using parameters</p>
+<p>The paths to the transcriptome file (<code>data/ggal/transcriptome.fa</code>) and the output directory (<code>results/salmon_index</code>) are hardcoded in this bash script. If you wanted to change the input transcriptome file or the output location, you must manually edit the script. This makes our scripts less flexible and easy to use. </p>
+<p>Nextflow addresses the issue of hardcoded paths by allowing parameters to be passed dynamically at runtime as <a href="https://www.nextflow.io/docs/latest/config.html#scope-params">parameters</a> (<code>params</code>). </p>
+</div>
+<h2 id="211-building-the-process">2.1.1 Building the process</h2>
+<p>In the empty <code>main.nf</code> script, add the following <code>process</code> scaffold with the
+script definition:  </p>
+<div class="highlight"><span class="filename">main.nf</span><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="n">process</span><span class="w"> </span><span class="n">INDEX</span><span class="w"> </span><span class="o">{</span>
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="w">  </span><span class="o">[</span><span class="w"> </span><span class="n">directives</span><span class="w"> </span><span class="o">]</span>
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="w">  </span><span class="nl">input:</span>
+<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="w">    </span><span class="o">&lt;</span><span class="w"> </span><span class="n">process</span><span class="w"> </span><span class="n">inputs</span><span class="w"> </span><span class="o">&gt;</span>
+<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>
+<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="w">  </span><span class="nl">output:</span>
+<a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a><span class="w">    </span><span class="o">&lt;</span><span class="w"> </span><span class="n">process</span><span class="w"> </span><span class="n">outputs</span><span class="w"> </span><span class="o">&gt;</span>
+<a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a>
+<a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a><span class="w">  </span><span class="nl">script:</span>
+<a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a><span class="w">  </span><span class="s2">&quot;&quot;&quot;</span>
+<a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a><span class="s2">  salmon index --transcripts $transcriptome --index salmon_index</span>
+<a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a><span class="s2">  &quot;&quot;&quot;</span>
+<a id="__codelineno-1-14" name="__codelineno-1-14" href="#__codelineno-1-14"></a><span class="o">}</span>
+</code></pre></div>
+<p>It contains: </p>
+<ul>
+<li>The empty <code>input:</code> block for us to define the input data for the process. </li>
+<li>The empty <code>output:</code> block for us to define the output data for the process.</li>
+<li>The <code>script:</code> block prefilled with the command that will be executed.</li>
+</ul>
+<div class="admonition info">
+<p class="admonition-title">Info</p>
+<p>The process <a href="https://www.nextflow.io/docs/latest/process.html#script"><code>script</code></a>
+block is executed as a Bash script by default. In Part 2 of the workshop, we will
+only be using Nextflow variables within the <code>script</code> block.</p>
+</div>
+<p>Next, we will edit the <code>input</code> and <code>output</code> definitions to match the specific
+data and results for this process. In the <code>00_index.sh</code> script, the relevant
+information is:  </p>
+<ul>
+<li>The fasta (<code>.fa</code>) file defined by the variable <code>$transcriptome</code> and provided
+to the <code>--transcripts</code> flag  </li>
+<li>The index output directory <code>salmon_index/</code> provided to the <code>--index</code> flag  </li>
+</ul>
+<div class="admonition info">
+<p class="admonition-title">Defining inputs and outputs</p>
+<p>Remember, input and output definitions require a qualifier and name. For example:<br />
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="nl">input:</span>
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="o">&lt;</span><span class="n">input</span><span class="w"> </span><span class="n">qualifier</span><span class="o">&gt;</span><span class="w"> </span><span class="o">&lt;</span><span class="n">input</span><span class="w"> </span><span class="n">name</span><span class="o">&gt;</span>
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="nl">output:</span>
+<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="o">&lt;</span><span class="n">output</span><span class="w"> </span><span class="n">qualifier</span><span class="o">&gt;</span><span class="w"> </span><span class="o">&lt;</span><span class="n">output</span><span class="w"> </span><span class="n">name</span><span class="o">&gt;</span>
+</code></pre></div></p>
+<p>The qualifier defines the type of data, and the names are treated like variables.</p>
+</div>
+<div class="highlight"><span class="filename">main.nf</span><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="n">process</span><span class="w"> </span><span class="n">INDEX</span><span class="w"> </span><span class="o">{</span>
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="w">  </span><span class="o">[</span><span class="w"> </span><span class="n">directives</span><span class="w"> </span><span class="o">]</span>
+<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>
+<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="w">  </span><span class="nl">input:</span>
+<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a><span class="hll"><span class="w">  </span><span class="n">path</span><span class="w"> </span><span class="n">transcriptome</span>
+</span><a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a>
+<a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a><span class="w">  </span><span class="nl">output:</span>
+<a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a><span class="hll"><span class="w">  </span><span class="n">path</span><span class="w"> </span><span class="s1">&#39;salmon_index&#39;</span>
+</span><a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a>
+<a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a><span class="w">  </span><span class="nl">script:</span>
+<a id="__codelineno-3-11" name="__codelineno-3-11" href="#__codelineno-3-11"></a><span class="w">  </span><span class="s2">&quot;&quot;&quot;</span>
+<a id="__codelineno-3-12" name="__codelineno-3-12" href="#__codelineno-3-12"></a><span class="s2">  salmon index --transcripts $transcriptome --index salmon_index</span>
+<a id="__codelineno-3-13" name="__codelineno-3-13" href="#__codelineno-3-13"></a><span class="s2">  &quot;&quot;&quot;</span>
+<a id="__codelineno-3-14" name="__codelineno-3-14" href="#__codelineno-3-14"></a><span class="o">}</span>
+</code></pre></div>
+<p>Note that the input <code>path transcriptome</code> refers to a variable, meaning the
+actual file or directory provided as input can be changed depending on the data
+you provide it. The output <code>path 'salmon_index'</code> is fixed, meaning it will
+always create an output folder called <code>salmon_index</code>, no matter what the input
+is.  </p>
+<p>This is how Nextflow can handle different inputs while always producing the
+same output name.  </p>
+<p>More information on using input and output blocks can be found in the process
+<a href="https://www.nextflow.io/docs/latest/process.html#inputs">inputs</a> and
+<a href="https://www.nextflow.io/docs/latest/process.html#outputs">outputs</a> Nextflow
+documentation.  </p>
+<h2 id="212-save-files-to-an-output-directory-with-publishdir">2.1.2 Save files to an output directory with <code>publishDir</code></h2>
+<p>Next we will implement the Nextflow equivalent of saving the output files into a
+<code>results/</code> directory.  </p>
+<p>Replace <code>[ directives ]</code> in your <code>main.nf</code> script with the <code>publishDir</code> 
+directive, specifying the directory name as <code>"results"</code> and the mode as
+<code>'copy'</code>. Your <code>main.nf</code> should look like this: </p>
+<div class="highlight"><span class="filename">main.nf</span><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="n">process</span><span class="w"> </span><span class="n">INDEX</span><span class="w"> </span><span class="o">{</span>
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="hll"><span class="w">  </span><span class="n">publishDir</span><span class="w"> </span><span class="s2">&quot;results&quot;</span><span class="o">,</span><span class="w"> </span><span class="nl">mode:</span><span class="w"> </span><span class="s1">&#39;copy&#39;</span>
+</span><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>
+<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="w">  </span><span class="nl">input:</span>
+<a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a><span class="w">  </span><span class="n">path</span><span class="w"> </span><span class="n">transcriptome</span>
+<a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a>
+<a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a><span class="w">  </span><span class="nl">output:</span>
+<a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a><span class="w">  </span><span class="n">path</span><span class="w"> </span><span class="s1">&#39;salmon_index&#39;</span>
+<a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a>
+<a id="__codelineno-4-10" name="__codelineno-4-10" href="#__codelineno-4-10"></a><span class="w">  </span><span class="nl">script:</span>
+<a id="__codelineno-4-11" name="__codelineno-4-11" href="#__codelineno-4-11"></a><span class="w">  </span><span class="s2">&quot;&quot;&quot;</span>
+<a id="__codelineno-4-12" name="__codelineno-4-12" href="#__codelineno-4-12"></a><span class="s2">  salmon index --transcripts $transcriptome --index salmon_index</span>
+<a id="__codelineno-4-13" name="__codelineno-4-13" href="#__codelineno-4-13"></a><span class="s2">  &quot;&quot;&quot;</span>
+<a id="__codelineno-4-14" name="__codelineno-4-14" href="#__codelineno-4-14"></a><span class="o">}</span>
+</code></pre></div>
+<p>This process is now directed to copy all output files into a <code>results/</code>
+directory. This saves having to specify the output directory in the script
+definition each process, or a tedious <code>mv salmon_index/ results/</code> step. </p>
+<p>Nextflow also handles whether the directory already exists or if it
+should be created. In the <code>00_index.sh</code> script you had to manually make a 
+results directory with <code>mkdir -p "results</code>.</p>
+<p>More information and other modes can be found on
+<a href="https://www.nextflow.io/docs/latest/process.html#publishdir">publishDir</a>.</p>
+<h2 id="213-using-containers">2.1.3 Using containers</h2>
+<p>Nextflow recommends using containers to ensure reproducibility and portability
+of your workflow. Containers package all the software and dependencies needed
+for each tool into a self-contained environment. This means you don’t have to
+manually install anything on your system, and your workflow will work
+consistently across different systems — whether you're running it on your
+local machine, a cluster, or in the cloud. Containers make it easier to share
+your workflow with others and ensure it runs the same way every time, no matter
+where it's executed.  </p>
+<p>Nextflow supports
+<a href="https://www.nextflow.io/docs/latest/container.html#">multiple container runtimes</a>.
+In this workshop, we'll be demonstrating the value containers can bring to your
+workflow by using Docker.</p>
+<details class="tip">
+<summary>Tip: different tools for different purposes</summary>
+<p>In this workshop, we're using Docker to run containers. However, for some
+systems like HPC where you won't have administrative access to your environment,
+other options like Singularity/Apptainer will be more suitable.</p>
+<p>You don't have to write your own containers to run in your workflow. There are
+many container repositories out there. We highly recommend using 
+<a href="https://biocontainers.pro/registry">Biocontainers</a> wherever possible.
+Biocontainers are pre-built and tested containers specifically for
+bioinformatics tools. They have a huge library and great community support. </p>
+<p>You can find Biocontainers at the following repositories:  </p>
+<ul>
+<li><a href="https://biocontainers.pro/registry">Biocontiners registry</a></li>
+<li><a href="https://quay.io/organization/biocontainers">Quay.io</a></li>
+<li><a href="https://hub.docker.com/r/biocontainers/biocontainers">DockerHub</a></li>
+<li><a href="https://seqera.io/containers/">Seqera containers</a></li>
+</ul>
+</details>
+<p>Add the following container directive to the <code>INDEX</code> process, above
+<code>publishDir</code>:  </p>
+<p>In Nextflow, we can specify that a process should be run within a specified container using the <a href="https://www.nextflow.io/docs/latest/process.html#container">container</a> directive.  </p>
+<p>Add the following container directive to the <code>INDEX</code> process, above <code>publishDir</code>:<br />
+<div class="highlight"><span class="filename">main.nf</span><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="n">process</span><span class="w"> </span><span class="n">INDEX</span><span class="w"> </span><span class="o">{</span>
+<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="hll"><span class="w">    </span><span class="n">container</span><span class="w"> </span><span class="s2">&quot;quay.io/biocontainers/salmon:1.10.1--h7e5ed60_0&quot;</span>
+</span><a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="w">    </span><span class="n">publishDir</span><span class="w"> </span><span class="s2">&quot;results&quot;</span><span class="w"> </span><span class="nl">mode:</span><span class="w"> </span><span class="s1">&#39;copy&#39;</span>
+<a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a>
+<a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a><span class="w">    </span><span class="nl">input:</span>
+<a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a><span class="w">    </span><span class="n">path</span><span class="w"> </span><span class="n">transcriptome</span>
+<a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a>
+<a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a><span class="w">    </span><span class="nl">output:</span>
+<a id="__codelineno-5-9" name="__codelineno-5-9" href="#__codelineno-5-9"></a><span class="w">    </span><span class="n">path</span><span class="w"> </span><span class="s1">&#39;salmon_index&#39;</span>
+<a id="__codelineno-5-10" name="__codelineno-5-10" href="#__codelineno-5-10"></a>
+<a id="__codelineno-5-11" name="__codelineno-5-11" href="#__codelineno-5-11"></a><span class="w">    </span><span class="nl">script:</span>
+<a id="__codelineno-5-12" name="__codelineno-5-12" href="#__codelineno-5-12"></a><span class="w">    </span><span class="s2">&quot;&quot;&quot;</span>
+<a id="__codelineno-5-13" name="__codelineno-5-13" href="#__codelineno-5-13"></a><span class="s2">    salmon index --transcripts $transcriptome --index salmon_index</span>
+<a id="__codelineno-5-14" name="__codelineno-5-14" href="#__codelineno-5-14"></a><span class="s2">    &quot;&quot;&quot;</span>
+<a id="__codelineno-5-15" name="__codelineno-5-15" href="#__codelineno-5-15"></a><span class="o">}</span>
+</code></pre></div></p>
+<p>You now have a complete process! </p>
+<p>Usually, containers need to be downloaded using a command such as
+<code>docker pull [image]</code>. All containers have been previously downloaded for the
+workshop beforehand.  </p>
+<details class="tip">
+<summary>Tip: use one container per process</summary>
+<p>Using single containers for each process in your workflow is considered best practices for the following reasons:</p>
+<ul>
+<li><strong>Flexibility</strong>: different processes require different tools (or versions). By using separate containers, you can easily tailor the container to the needs of each process without conflicts.</li>
+<li><strong>Build and run efficiency</strong>: Smaller, process-specific containers are faster to load and run compared to one large container that has unnecessary tools or dependencies for every process.</li>
+<li><strong>Easier Maintenance</strong>: it’s easier to update or modify one container for a specific process than to manage a large, complex container with many tools.</li>
+<li><strong>Reproducibility</strong>: reduces the risk of issues caused by software conflicts.</li>
+</ul>
+</details>
+<p>Before we can run the workflow, we need to tell Nextflow to run containers
+using Docker. Nextflow requires <a href="https://www.nextflow.io/docs/latest/container.html#docker">Docker</a>
+to be installed on your system in order for this to work. Docker has been 
+pre-installed on your Virtual Machine.  </p>
+<p>We can tell Nextflow configuration to run containers with Docker by using the 
+<code>nextflow.config</code> file.</p>
+<p>Create a <code>nextflow.config</code> file in the same directory as <code>main.nf</code>.  </p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>You can create the file via the VSCode Explorer (left sidebar) or in the
+terminal with a text editor.</p>
+<p>If you are using the Explorer, right click on <code>part2</code> in the sidebar and
+select <strong>"New file"</strong>.</p>
+</div>
+<p>Add the following line to your config file:</p>
+<div class="highlight"><table class="highlighttable"><tr><th colspan="2" class="filename"><span class="filename">nextflow.config</span></th></tr><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-6-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1"></a><span class="n">docker</span><span class="o">.</span><span class="na">enabled</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">true</span>
+</code></pre></div></td></tr></table></div>
+<p>You have now configured Nextflow to use Docker.  </p>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p>Remember to save your files after editing them!</p>
+</div>
+<h2 id="214-adding-params-and-the-workflow-scope">2.1.4 Adding <code>params</code> and the workflow scope</h2>
+<p>Now that you have written your first Nextflow process, we need to prepare it
+for execution.  </p>
+<p>You can think of Nextflow processes as similar to a function definition in R
+or Python. We have defined what the process should do, but to actually run it,
+we need to call the process within the workflow and pass in the inputs.</p>
+<p>To run the process, we need to call it inside the <code>workflow{}</code> block, where
+we control how data flows through the pipeline. To provide the input data we
+need to define parameters. </p>
+<p>In the <code>00_index.sh</code> script, the file <code>data/ggal/transcriptome.fa</code> was passed
+as the input into <code>salmon index</code>.  </p>
+<p>We will pass in this file path with the <code>params</code> scope. Add the following to 
+the top of your <code>main.nf</code> script:  </p>
+<div class="highlight"><span class="filename">main.nf</span><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="c1">// pipeline input parameters</span>
+<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="n">params</span><span class="o">.</span><span class="na">transcriptome_file</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;$projectDir/data/ggal/transcriptome.fa&quot;</span>
+</code></pre></div>
+<div class="admonition info">
+<p class="admonition-title">Implicit variables in Nextflow</p>
+<p>Nextflow provides a set of implicit variables that can be used in your workflows. These variables are predefined and can be used to access information about the workflow environment, configuration, and tasks. </p>
+<p>We will use <a href="https://www.nextflow.io/docs/latest/script.html#configuration-implicit-variables"><code>$projectDir</code></a> to indicates the directory of the <code>main.nf</code> script. This is defined by Nextflow as the directory where the <code>main.nf</code> script is located.</p>
+</div>
+<div class="admonition info">
+<p class="admonition-title">The <code>params</code> and <code>process</code> names do not need to match!</p>
+<p>In the <code>INDEX</code> process, we defined the input as a path called <code>transcriptome</code>, whereas
+the parameter is called <code>transcriptome_file</code>. These do not need to be identical names
+as they are called in different scopes (the <code>INDEX</code> process scope, and <code>workflow</code> scope,
+respectively).</p>
+</div>
+<p>Recall that <a href="https://www.nextflow.io/docs/latest/module.html#module-parameters">parameters</a>
+are inputs and options that can be customised when the workflow is 
+executed. They allow you to control things like file paths and options for 
+tools without changing the process code itself.  </p>
+<p>We defined a default value for <code>params.transcriptome</code> in the <code>main.nf</code> script. 
+If we need to run our pipeline with a different transcriptome 
+file, we can overwrite this default in our execution command with 
+<code>--transcriptome</code> double hyphen flag.</p>
+<p>Next, add the workflow scope at the bottom of your <code>main.nf</code> after the process:  </p>
+<div class="highlight"><span class="filename">main.nf</span><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="c1">// Define the workflow</span>
+<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="n">workflow</span><span class="w"> </span><span class="o">{</span>
+<a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a>
+<a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a><span class="w">    </span><span class="c1">// Run the index step with the transcriptome parameter</span>
+<a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a><span class="w">    </span><span class="n">INDEX</span><span class="o">(</span><span class="n">params</span><span class="o">.</span><span class="na">transcriptome_file</span><span class="o">)</span>
+<a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a><span class="o">}</span>
+</code></pre></div>
+<p>This will tell Nextflow to run the <code>INDEX</code> process with
+<code>params.transcriptome_file</code> as input.</p>
+<div class="admonition tip">
+<p class="admonition-title">Tip: Your own comments</p>
+<p>As a developer you can to choose how and where to comment your code!
+Feel free to modify or add to the provided comments to record useful
+information about the code you are writing.</p>
+</div>
+<p>We are now ready to run our workflow!  </p>
+<h2 id="215-running-the-workflow">2.1.5 Running the workflow</h2>
+<p>In the terminal, run the command:  </p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>nextflow<span class="w"> </span>run<span class="w"> </span>main.nf
+</code></pre></div>
+<p>Your output should look something like:  </p>
+<div class="highlight"><span class="filename">Output</span><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="go">N E X T F L O W   ~  version 24.04.4</span>
+<a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a>
+<a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a><span class="go">Launching `main.nf` [chaotic_jones] DSL2 - revision: 6597720332</span>
+<a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a>
+<a id="__codelineno-10-5" name="__codelineno-10-5" href="#__codelineno-10-5"></a><span class="go">executor &gt;  local (1)</span>
+<a id="__codelineno-10-6" name="__codelineno-10-6" href="#__codelineno-10-6"></a><span class="go">[de/fef8c4] INDEX | 1 of 1 ✔</span>
+</code></pre></div>
+<p>Recall that the specifics of the output are randomly generated (i.e.
+<code>[chaotic_jones]</code> and <code>[de/fef8c4]</code> in this example).</p>
+<p>In this example, the output files for the <code>INDEX</code> process is output in
+<code>work/de/fef8c4...</code>.</p>
+<p>You have successfully run your first workflow!  </p>
+<h2 id="216-inspecting-the-outputs">2.1.6 Inspecting the outputs</h2>
+<p>To observe exactly what command is being run for a process, we can attempt 
+to infer this information from the process definition in our <code>main.nf</code> 
+script. Given all the different parameters that may be applied at the process 
+level, it may not be very clear exactly what inputs are being fed in.</p>
+<p>For more complex commands, it can be very hard to see what is actually 
+happening in the code, given all the different variables and conditional 
+arguments inside a process. </p>
+<div class="admonition warning">
+<p class="admonition-title">Hidden files in the work directory</p>
+<p>Remember that the pipeline’s results are cached in the work directory. In addition to the cached files, each task execution directories inside the work directory contains a number of hidden files:</p>
+<ul>
+<li><code>.command.sh</code>: The command script run for the task.</li>
+<li><code>.command.run</code>: The command wrapped used to run the task.</li>
+<li><code>.command.out</code>: The task’s standard output log.</li>
+<li><code>.command.err</code>: The task’s standard error log.</li>
+<li><code>.command.log</code>: The wrapper execution output.</li>
+<li><code>.command.begin</code>: A file created as soon as the job is launched.</li>
+<li><code>.exitcode</code>: A file containing the task exit code (0 if successful)</li>
+</ul>
+</div>
+<p>Instead of trying to infer how the variable is being defined and applied to 
+the process, let’s use the hidden command files saved for this task in the work/ directory.</p>
+<div class="admonition question">
+<p class="admonition-title">Exercise</p>
+<ol>
+<li>Navigate to the <code>work/</code> directory and open the <code>.command.sh</code> file.</li>
+<li>Compare the <code>.command.sh</code> file with <code>00_index.sh</code>.  </li>
+</ol>
+<div class="admonition quote">
+<p class="admonition-title">Poll</p>
+<p>In <code>.command.sh</code>, there are no longer hardcoded file paths (e.g. <code>results/salmon_index</code> and <code>data/ggal.transcriptome.fa</code>). What Nextflow directive and scope enable this?</p>
+</div>
+</div>
+<div class="admonition abstract">
+<p class="admonition-title">Summary</p>
+<p>In this lesson you have learned:  </p>
+<ol>
+<li>How to implement a simple process with one input file  </li>
+<li>How to define parameters in your workflow scripts and the command line</li>
+<li>How to use configure a process to run using a container   </li>
+<li>How to output files in a dedicated <code>publishDir</code>  </li>
+</ol>
+</div>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    <script id="__config" type="application/json">{"base": "../..", "features": [], "search": "../../assets/javascripts/workers/search.6ce7567c.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.56dfad97.min.js"></script>
+      
+    
+  </body>
+</html>

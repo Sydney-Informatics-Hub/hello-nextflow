@@ -1,0 +1,1136 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+        <link rel="prev" href="../../part1/08_dynamic/">
+      
+      
+        <link rel="next" href="../01_salmon_idx/">
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.5.36">
+    
+    
+      
+        <title>2.0 Introduction - Hello Nextflow</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.06209087.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+  
+
+
+  
+  
+
+<script id="__analytics">function __md_analytics(){function e(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],e("js",new Date),e("config","G-TNWWV3HK57"),document.addEventListener("DOMContentLoaded",(function(){document.forms.search&&document.forms.search.query.addEventListener("blur",(function(){this.value&&e("event","search",{search_term:this.value})}));document$.subscribe((function(){var t=document.forms.feedback;if(void 0!==t)for(var a of t.querySelectorAll("[type=submit]"))a.addEventListener("click",(function(a){a.preventDefault();var n=document.location.pathname,d=this.getAttribute("data-md-value");e("event","feedback",{page:n,data:d}),t.firstElementChild.disabled=!0;var r=t.querySelector(".md-feedback__note [data-md-value='"+d+"']");r&&(r.hidden=!1)})),t.hidden=!1})),location$.subscribe((function(t){e("config","G-TNWWV3HK57",{page_path:t.pathname})}))}));var t=document.createElement("script");t.async=!0,t.src="https://www.googletagmanager.com/gtag/js?id=G-TNWWV3HK57",document.getElementById("__analytics").insertAdjacentElement("afterEnd",t)}</script>
+  
+    <script>"undefined"!=typeof __md_analytics&&__md_analytics()</script>
+  
+
+    
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#20-introduction" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="Hello Nextflow" class="md-header__button md-logo" aria-label="Hello Nextflow" data-md-component="logo">
+      
+  <img src="../../assets/usyd-logo.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Hello Nextflow
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              2.0 Introduction
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/Sydney-Informatics-Hub/hello-nextflow" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81"/></svg>
+  </div>
+  <div class="md-source__repository">
+    Sydney-Informatics-Hub/hello-nextflow
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Hello Nextflow" class="md-nav__button md-logo" aria-label="Hello Nextflow" data-md-component="logo">
+      
+  <img src="../../assets/usyd-logo.png" alt="logo">
+
+    </a>
+    Hello Nextflow
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/Sydney-Informatics-Hub/hello-nextflow" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81"/></svg>
+  </div>
+  <div class="md-source__repository">
+    Sydney-Informatics-Hub/hello-nextflow
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Home
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../setup/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Setup
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Part 1
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            Part 1
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../part1/00_intro/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    1.0 Introduction
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../part1/01_hellonextflow/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    1.1 Why Nextflow?
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../part1/02_helloworld/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    1.2 Hello World!
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../part1/03_hellonf/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    1.3 Your first pipeline
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../part1/04_output/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    1.4 Outputs
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../part1/05_inputs/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    1.5 Inputs
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../part1/06_params/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    1.6 Parameters
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../part1/07_process/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    1.7 Adding processes
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../part1/08_dynamic/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    1.8 Dynamic naming
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Part 2
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            Part 2
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    2.0 Introduction
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  <span class="md-ellipsis">
+    2.0 Introduction
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#201-log-back-into-your-instance" class="md-nav__link">
+    <span class="md-ellipsis">
+      2.0.1 Log back into your instance
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#202-our-scenario-from-bash-scripts-to-scalable-workflows" class="md-nav__link">
+    <span class="md-ellipsis">
+      2.0.2 Our scenario: from bash scripts to scalable workflows
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#203-our-workflow-rnaseq-data-processing" class="md-nav__link">
+    <span class="md-ellipsis">
+      2.0.3 Our workflow: RNAseq data processing
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2.0.3 Our workflow: RNAseq data processing">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#data" class="md-nav__link">
+    <span class="md-ellipsis">
+      Data
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tools" class="md-nav__link">
+    <span class="md-ellipsis">
+      Tools
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#204-pipeline-structure-and-design" class="md-nav__link">
+    <span class="md-ellipsis">
+      2.0.4 Pipeline structure and design
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#205-nextflowing-the-workflow" class="md-nav__link">
+    <span class="md-ellipsis">
+      2.0.5 Nextflowing the workflow
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2.0.5 Nextflowing the workflow">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#mainnf" class="md-nav__link">
+    <span class="md-ellipsis">
+      main.nf
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#nextflowconfig" class="md-nav__link">
+    <span class="md-ellipsis">
+      nextflow.config
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../01_salmon_idx/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    2.1 Our first process and container
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../02_fastqc/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    2.2 Samplesheets, operators, and groovy
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../03_quant/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    2.3 Multiple process inputs
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../04_multiqc/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    2.4 Combining channels, multiple process outputs
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../05_scale/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    2.5 Upscaling to multiple samples and introspection
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../resources/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Supporting materials
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#201-log-back-into-your-instance" class="md-nav__link">
+    <span class="md-ellipsis">
+      2.0.1 Log back into your instance
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#202-our-scenario-from-bash-scripts-to-scalable-workflows" class="md-nav__link">
+    <span class="md-ellipsis">
+      2.0.2 Our scenario: from bash scripts to scalable workflows
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#203-our-workflow-rnaseq-data-processing" class="md-nav__link">
+    <span class="md-ellipsis">
+      2.0.3 Our workflow: RNAseq data processing
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2.0.3 Our workflow: RNAseq data processing">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#data" class="md-nav__link">
+    <span class="md-ellipsis">
+      Data
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tools" class="md-nav__link">
+    <span class="md-ellipsis">
+      Tools
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#204-pipeline-structure-and-design" class="md-nav__link">
+    <span class="md-ellipsis">
+      2.0.4 Pipeline structure and design
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#205-nextflowing-the-workflow" class="md-nav__link">
+    <span class="md-ellipsis">
+      2.0.5 Nextflowing the workflow
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2.0.5 Nextflowing the workflow">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#mainnf" class="md-nav__link">
+    <span class="md-ellipsis">
+      main.nf
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#nextflowconfig" class="md-nav__link">
+    <span class="md-ellipsis">
+      nextflow.config
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+  
+  
+
+
+<h1 id="20-introduction">2.0 Introduction</h1>
+<p>Part 2 builds on fundamental concepts learned in Part 1 and provides you with 
+hands-on experience in Nextflow workflow development. Throughout the session 
+we will be working with a bulk RNAseq dataset to build our workflow. </p>
+<p>We will construct <strong>channels</strong> that control how our data flows through 
+<strong>processes</strong> that we will progressively construct to build our <strong>workflow</strong>. 
+Each lesson in Part 2 will build on the previous lessons, so you can gain a 
+deeper understanding of the techniques and the impact they have on your 
+resulting workflow. </p>
+<p>In Part 2 of this workshop, we will explore a scenario of creating a multi-sample 
+Nextflow workflow for preparing RNAseq data. We will build the workflow, 
+step-by-step, by converting a series of provided bash scripts into small workflow 
+components.  </p>
+<p>Along the way, you will encounter Nextflow concepts (from Part 1, and some
+new) and our best practice recommendations for developing your own pipeline.  </p>
+<p>Part 2 is based off the 
+<a href="https://training.nextflow.io/basic_training/rnaseq_pipeline/">Simple RNA-Seq workflow</a>
+training material developed by Seqera.  </p>
+<h2 id="201-log-back-into-your-instance">2.0.1 Log back into your instance</h2>
+<p>Re-connect to your Virtual Machine by following the 
+<a href="../../setup/">"Connect to the VM"</a> section from the setup page.</p>
+<p>Once connected, in your VSCode terminal, change directories into the <code>part2/</code>
+directory:  </p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nb">cd</span><span class="w"> </span>~/part2/
+</code></pre></div>
+<p>All Part 2 activities will be conducted in this folder. </p>
+<h2 id="202-our-scenario-from-bash-scripts-to-scalable-workflows">2.0.2 Our scenario: from bash scripts to scalable workflows</h2>
+<p>Imagine you are a bioinformatician in a busy research lab. Your team will be
+receiving a large batch of samples that need to be processed through a series
+of analysis steps.  </p>
+<p>You have inherited a set of bash scripts from a former colleague, which were
+used to process a handful of samples manually. These scripts are robust
+and well-tested, but they were not designed with scalability in mind.  </p>
+<p>As more samples come in, running these scripts one by one is becoming
+increasingly tedious and error-prone.  </p>
+<p><strong>You need a way to automate this process, ensuring consistency and efficiency
+across many samples.</strong> </p>
+<p>You decide to use Nextflow.  </p>
+<div class="admonition question">
+<p class="admonition-title">Exercise</p>
+<p>View the bash scripts your colleague provided:</p>
+<ol>
+<li>Use either the VSCode File Explorer, or the integrated terminal to navgiate 
+to the <code>~/part2/bash_scripts/</code> directory.</li>
+<li>Inspect the scripts (open in a VSCode tab, or text editor in the terminal).</li>
+</ol>
+<p>Each script runs a single data processing step and are run in order of the prefixed number.</p>
+<div class="admonition quote">
+<p class="admonition-title">Poll</p>
+<p>What are some limitations of these scripts in terms of running them in a
+pipeline and monitoring it?  </p>
+</div>
+</div>
+<h2 id="203-our-workflow-rnaseq-data-processing">2.0.3 Our workflow: RNAseq data processing</h2>
+<div class="admonition danger">
+<p class="admonition-title">Don't worry if you don't have prior knowledge of RNAseq!</p>
+<p>The focus of this workshop is on learning Nextflow, the RNAseq data we 
+are using in this part are just a practical example to help you understand 
+how the workflow system works. </p>
+</div>
+<p>RNAseq is used to study gene expression and has many applications across
+biomedicine, agriculture and evolutionary studies. In our scenario we are going to 
+run through some basic core steps that allow us to explore different aspects of 
+Nextflow. </p>
+<h3 id="data">Data</h3>
+<p>The data we will use includes:</p>
+<ul>
+<li><code>*.fastq</code>: Paired-end RNAseq reads from three different samples (gut, liver,
+lung).  </li>
+<li><code>transcriptome.fa</code>: A transcriptome file.  </li>
+<li><code>samplesheet*.csv</code>: CSV files that help us track which files belong to which
+samples.</li>
+</ul>
+<h3 id="tools">Tools</h3>
+<p>We will be implementing and integrating three commonly used bioinformatics
+tools:  </p>
+<ol>
+<li><a href="https://combine-lab.github.io/salmon/">Salmon</a> is a tool for quantifying molecules known as transcripts through RNA-seq data.  </li>
+<li><a href="https://www.bioinformatics.babraham.ac.uk/projects/fastqc/">FastQC</a> is a tool for quality analysis of high throughput sequence data. You can think of it as a way to assess the quality of your data.  </li>
+<li><a href="https://multiqc.info/">MultiQC</a> searches a given directory for analysis logs and compiles an HTML report for easy viewing. It's a general use tool, perfect for summarising the output from numerous bioinformatics tools.  </li>
+</ol>
+<p>These tools will be run using Docker containers. We will not explore how the
+data and tools work further, and focus on how they should be implemented in a
+Nextflow workflow.  </p>
+<h2 id="204-pipeline-structure-and-design">2.0.4 Pipeline structure and design</h2>
+<p>Having reviewed the bash scripts, we've decided to keep its modular structure and will build the following four processes (discrete steps):</p>
+<ol>
+<li><code>INDEX</code> - Transcriptome indexing (tool: <a href="https://combine-lab.github.io/salmon/">Salmon</a>): create an index of the reference transcriptome for faster and efficient data processing.</li>
+<li><code>FASTQC</code> - Raw data quality control (tool: <a href="https://www.bioinformatics.babraham.ac.uk/projects/fastqc/">FastQC</a>): assess the quality of fastq files to ensure our data is usable. </li>
+<li><code>QUANTIFICATION</code> - Gene quantification (tool: <a href="https://combine-lab.github.io/salmon/">Salmon</a>): counting how many reads map to each gene in the transcriptome. </li>
+<li><code>MULTIQC</code> - Summarise results in a report (tool: <a href="https://multiqc.info/">MultiQC</a>): generate a report that summarises quality control and gene quantification results. </li>
+</ol>
+<p><img alt="" src="../img/2.0_workflow.png" /></p>
+<h2 id="205-nextflowing-the-workflow">2.0.5 Nextflowing the workflow</h2>
+<p>Each lesson in part 2 of our workshop focuses on implementing one process of 
+the workflow at a time. We will iteratively build the workflow and processes 
+in a single <code>main.nf</code> file and lightly use a <code>nextflow.config</code> file for configuration.</p>
+<p><img alt="" src="../img/2.0_main_config.png" /></p>
+<h3 id="mainnf"><code>main.nf</code></h3>
+<p>The <code>main.nf</code> file is the core script that defines the steps of your Nextflow
+workflow. It outlines each <code>process</code> (the individual commands, or, data
+processing steps) and how they are connected to each other. This <code>main.nf</code>
+script focuses on <em>what</em> the workflow does.</p>
+<p>Most of the code you will write in this Part will go in <code>main.nf</code>. </p>
+<p>We will follow an ordered approach for each step of the workflow 
+building off the <code>process</code> structure from <a href="../../part1/03_hellonf/">Part 1.3</a>.
+You will be using this process template for each step of the workflow, adding 
+them to the <code>main.nf</code> script: </p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="n">process</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">name</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="o">{</span>
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="w">  </span><span class="o">[</span><span class="w"> </span><span class="n">directives</span><span class="w"> </span><span class="o">]</span>
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="w">  </span><span class="nl">input:</span>
+<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="w">    </span><span class="o">&lt;</span><span class="w"> </span><span class="n">process</span><span class="w"> </span><span class="n">inputs</span><span class="w"> </span><span class="o">&gt;</span>
+<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>
+<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="w">  </span><span class="nl">output:</span>
+<a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a><span class="w">    </span><span class="o">&lt;</span><span class="w"> </span><span class="n">process</span><span class="w"> </span><span class="n">outputs</span><span class="w"> </span><span class="o">&gt;</span>
+<a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a>
+<a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a><span class="w">  </span><span class="nl">script:</span>
+<a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a><span class="w">  </span><span class="s2">&quot;&quot;&quot;</span>
+<a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a><span class="s2">  &lt; script to be executed &gt;</span>
+<a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a><span class="s2">  &quot;&quot;&quot;</span>
+<a id="__codelineno-1-14" name="__codelineno-1-14" href="#__codelineno-1-14"></a><span class="o">}</span>
+</code></pre></div>
+<h3 id="nextflowconfig"><code>nextflow.config</code></h3>
+<p>The <code>nextflow.config</code> file is a key part of any Nextflow workflow.
+While <code>main.nf</code> outlines the steps and processes of the workflow, 
+<code>nextflow.config</code> allows you to define important settings and configurations 
+that control <em>how</em> your workflow should run.</p>
+<p>This script will be intermittently used in the following lessons to control
+the use of Docker containers, how much resources (CPUs) should be used, and
+reporting of the workflow after it has finished running.</p>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    <script id="__config" type="application/json">{"base": "../..", "features": [], "search": "../../assets/javascripts/workers/search.6ce7567c.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.56dfad97.min.js"></script>
+      
+    
+  </body>
+</html>

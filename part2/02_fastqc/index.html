@@ -1,0 +1,1318 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+        <link rel="prev" href="../01_salmon_idx/">
+      
+      
+        <link rel="next" href="../03_quant/">
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.5.36">
+    
+    
+      
+        <title>2.2 Samplesheets, operators, and groovy - Hello Nextflow</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.06209087.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+  
+
+
+  
+  
+
+<script id="__analytics">function __md_analytics(){function e(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],e("js",new Date),e("config","G-TNWWV3HK57"),document.addEventListener("DOMContentLoaded",(function(){document.forms.search&&document.forms.search.query.addEventListener("blur",(function(){this.value&&e("event","search",{search_term:this.value})}));document$.subscribe((function(){var t=document.forms.feedback;if(void 0!==t)for(var a of t.querySelectorAll("[type=submit]"))a.addEventListener("click",(function(a){a.preventDefault();var n=document.location.pathname,d=this.getAttribute("data-md-value");e("event","feedback",{page:n,data:d}),t.firstElementChild.disabled=!0;var r=t.querySelector(".md-feedback__note [data-md-value='"+d+"']");r&&(r.hidden=!1)})),t.hidden=!1})),location$.subscribe((function(t){e("config","G-TNWWV3HK57",{page_path:t.pathname})}))}));var t=document.createElement("script");t.async=!0,t.src="https://www.googletagmanager.com/gtag/js?id=G-TNWWV3HK57",document.getElementById("__analytics").insertAdjacentElement("afterEnd",t)}</script>
+  
+    <script>"undefined"!=typeof __md_analytics&&__md_analytics()</script>
+  
+
+    
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#22-samplesheets-operators-and-groovy" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="Hello Nextflow" class="md-header__button md-logo" aria-label="Hello Nextflow" data-md-component="logo">
+      
+  <img src="../../assets/usyd-logo.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Hello Nextflow
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              2.2 Samplesheets, operators, and groovy
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/Sydney-Informatics-Hub/hello-nextflow" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81"/></svg>
+  </div>
+  <div class="md-source__repository">
+    Sydney-Informatics-Hub/hello-nextflow
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Hello Nextflow" class="md-nav__button md-logo" aria-label="Hello Nextflow" data-md-component="logo">
+      
+  <img src="../../assets/usyd-logo.png" alt="logo">
+
+    </a>
+    Hello Nextflow
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/Sydney-Informatics-Hub/hello-nextflow" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81"/></svg>
+  </div>
+  <div class="md-source__repository">
+    Sydney-Informatics-Hub/hello-nextflow
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Home
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../setup/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Setup
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Part 1
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            Part 1
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../part1/00_intro/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    1.0 Introduction
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../part1/01_hellonextflow/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    1.1 Why Nextflow?
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../part1/02_helloworld/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    1.2 Hello World!
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../part1/03_hellonf/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    1.3 Your first pipeline
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../part1/04_output/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    1.4 Outputs
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../part1/05_inputs/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    1.5 Inputs
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../part1/06_params/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    1.6 Parameters
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../part1/07_process/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    1.7 Adding processes
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../part1/08_dynamic/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    1.8 Dynamic naming
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Part 2
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            Part 2
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../00_intro/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    2.0 Introduction
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../01_salmon_idx/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    2.1 Our first process and container
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    2.2 Samplesheets, operators, and groovy
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  <span class="md-ellipsis">
+    2.2 Samplesheets, operators, and groovy
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#221-building-the-process" class="md-nav__link">
+    <span class="md-ellipsis">
+      2.2.1 Building the process
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2.2.1 Building the process">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-process-directives" class="md-nav__link">
+    <span class="md-ellipsis">
+      1. Process directives
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-define-the-process-output" class="md-nav__link">
+    <span class="md-ellipsis">
+      2. Define the process output
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-define-the-process-input" class="md-nav__link">
+    <span class="md-ellipsis">
+      3. Define the process input
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#222-reading-files-with-a-samplesheet" class="md-nav__link">
+    <span class="md-ellipsis">
+      2.2.2 Reading files with a samplesheet
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../03_quant/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    2.3 Multiple process inputs
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../04_multiqc/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    2.4 Combining channels, multiple process outputs
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../05_scale/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    2.5 Upscaling to multiple samples and introspection
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../resources/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Supporting materials
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#221-building-the-process" class="md-nav__link">
+    <span class="md-ellipsis">
+      2.2.1 Building the process
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2.2.1 Building the process">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-process-directives" class="md-nav__link">
+    <span class="md-ellipsis">
+      1. Process directives
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-define-the-process-output" class="md-nav__link">
+    <span class="md-ellipsis">
+      2. Define the process output
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-define-the-process-input" class="md-nav__link">
+    <span class="md-ellipsis">
+      3. Define the process input
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#222-reading-files-with-a-samplesheet" class="md-nav__link">
+    <span class="md-ellipsis">
+      2.2.2 Reading files with a samplesheet
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+  
+  
+
+
+<h1 id="22-samplesheets-operators-and-groovy">2.2 Samplesheets, operators, and groovy</h1>
+<div class="admonition note">
+<p class="admonition-title">Learning objectives</p>
+<ol>
+<li>Implement a process with a tuple input.</li>
+<li>Understand why samplesheets should be used to read in data.</li>
+<li>Build an input channel using operators and Groovy.</li>
+</ol>
+</div>
+<p>In this lesson we will transform the next bash script, <code>01_fastqc.sh</code> into a process called <code>FASTQC</code>. This step focuses on the next phase of RNAseq data processing: assessing the quality of some our raw sequencing reads. </p>
+<p>To do this, we will need to run <a href="https://www.bioinformatics.babraham.ac.uk/projects/fastqc/">FastQC</a> 
+over pairs of fastq files. </p>
+<p><img alt="" src="../img/2.2_workflow.png" /></p>
+<p>Our goal in porting these bash scripts to Nextflow is to build a workflow that can scale to run on multiple samples with minimal intervention. To do this, we will use a samplesheet, allowing us to provide multiple samples and their corresponding fastq files to our Nextflow workflow. </p>
+<p>Building channels in Nextflow can be tricky. Depending on what data you need 
+to capture and how you want to organise it you will likely need to use 
+<a href="https://www.nextflow.io/docs/latest/operator.html#operators">operators</a> to
+manipulate your channel. Sometimes operators alone won't be enough, and you'll
+need to also use <a href="https://groovy-lang.org/documentation.html">Groovy</a>
+(Nextflow's underlying programming language) to capture pertinent information.  </p>
+<p>Since this is an advanced task, we will provide you with all the code you need. Although Nextflow does not yet offer a built-in operator for reading samplesheets, their use is widespread in bioinformatics workflows. </p>
+<p>Open the bash script <code>01_fastqc.sh</code>:  </p>
+<div class="highlight"><span class="filename">01_fastqc.sh</span><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nv">SAMPLE_ID</span><span class="o">=</span>gut
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="nv">READS_1</span><span class="o">=</span><span class="s2">&quot;data/ggal/</span><span class="si">${</span><span class="nv">SAMPLE_ID</span><span class="si">}</span><span class="s2">_1.fq&quot;</span>
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="nv">READS_2</span><span class="o">=</span><span class="s2">&quot;data/ggal/</span><span class="si">${</span><span class="nv">SAMPLE_ID</span><span class="si">}</span><span class="s2">_2.fq&quot;</span>
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>mkdir<span class="w"> </span>-p<span class="w"> </span><span class="s2">&quot;results/fastqc_</span><span class="si">${</span><span class="nv">SAMPLE_ID</span><span class="si">}</span><span class="s2">_logs&quot;</span>
+<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>fastqc<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="w">    </span>--outdir<span class="w"> </span><span class="s2">&quot;results/fastqc_</span><span class="si">${</span><span class="nv">SAMPLE_ID</span><span class="si">}</span><span class="s2">_logs&quot;</span><span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="w">    </span>--format<span class="w"> </span>fastq<span class="w"> </span><span class="si">${</span><span class="nv">READS_1</span><span class="si">}</span><span class="w"> </span><span class="si">${</span><span class="nv">READS_2</span><span class="si">}</span>
+</code></pre></div>
+<p>There's a lot going on in this script, let's break it down.</p>
+<p><code>SAMPLE_ID=gut</code> assigns "gut" to the bash variable<code>SAMPLE_ID</code>. This is used to:  </p>
+<ul>
+<li>Avoid hardcoding the sample name multiple times in the script  </li>
+<li>Ensure that file pairs of the same sample are processed together  </li>
+<li>Ensure that this script can be run on different sample pairs  </li>
+</ul>
+<p><code>READS_1</code> and <code>READS_2</code> specify the paths to the gut <code>.fq</code> files.  </p>
+<p>Similar to the bash script in the previous step (<code>00_index.sh</code>), <code>mkdir -p</code>
+creates an output folder so that the <code>fastqc</code> outputs can be saved here.  </p>
+<p>In the <code>fastqc</code> command,</p>
+<ul>
+<li><code>--outdir</code> specifies the name of the output directory</li>
+<li><code>--format</code> is a required flag to indicate what format the the reads are in</li>
+<li><code>${READS_1}</code> and <code>${READS_2}</code> propagate the paths of the <code>.fq</code> files  </li>
+</ul>
+<h2 id="221-building-the-process">2.2.1 Building the process</h2>
+<h3 id="1-process-directives">1. Process directives</h3>
+<p>Start by adding the following <code>process</code> scaffold and script definition to your
+<code>main.nf</code> under the INDEX process code but before the <code>workflow{}</code> block:  </p>
+<div class="highlight"><span class="filename">main.nf</span><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="n">process</span><span class="w"> </span><span class="n">FASTQC</span><span class="w"> </span><span class="o">{</span>
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="w">  </span><span class="n">container</span><span class="w"> </span><span class="s2">&quot;quay.io/biocontainers/fastqc:0.12.1--hdfd78af_0&quot;</span>
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="w">  </span><span class="n">publishDir</span><span class="w"> </span><span class="s2">&quot;results&quot;</span><span class="o">,</span><span class="w"> </span><span class="nl">mode:</span><span class="w"> </span><span class="s1">&#39;copy&#39;</span>
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>
+<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="w">  </span><span class="nl">input:</span>
+<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="w">    </span><span class="o">&lt;</span><span class="w"> </span><span class="n">process</span><span class="w"> </span><span class="n">inputs</span><span class="w"> </span><span class="o">&gt;</span>
+<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a>
+<a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a><span class="w">  </span><span class="nl">output:</span>
+<a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a><span class="w">    </span><span class="o">&lt;</span><span class="w"> </span><span class="n">process</span><span class="w"> </span><span class="n">outputs</span><span class="w"> </span><span class="o">&gt;</span>
+<a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a>
+<a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a><span class="w">  </span><span class="nl">script:</span>
+<a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a><span class="w">  </span><span class="s2">&quot;&quot;&quot;</span>
+<a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a><span class="s2">  mkdir -p &quot;fastqc_${sample_id}_logs&quot;</span>
+<a id="__codelineno-1-14" name="__codelineno-1-14" href="#__codelineno-1-14"></a><span class="s2">  fastqc --outdir &quot;fastqc_${sample_id}_logs&quot; --format fastq $reads_1 $reads_2</span>
+<a id="__codelineno-1-15" name="__codelineno-1-15" href="#__codelineno-1-15"></a><span class="s2">  &quot;&quot;&quot;</span>
+<a id="__codelineno-1-16" name="__codelineno-1-16" href="#__codelineno-1-16"></a><span class="o">}</span>
+</code></pre></div>
+<p>It contains: </p>
+<ul>
+<li>Prefilled process directives <code>container</code> and <code>publishDir</code>.</li>
+<li>The empty <code>input:</code> block for us to define the input data for the process. </li>
+<li>The empty <code>output:</code> block for us to define the output data for the process.</li>
+<li>The <code>script:</code> block prefilled with the command that will be executed.</li>
+</ul>
+<div class="admonition info">
+<p class="admonition-title">Dynamic naming</p>
+<p>Recall that curly brackets are used to pass variables as part of a file name.</p>
+</div>
+<h3 id="2-define-the-process-output">2. Define the process <code>output</code></h3>
+<p>Unlike <code>salmon</code> from the previous process, <code>fastqc</code> requires that the output
+directory be created before running the command, hence the requirement to run
+<code>mkdir -p "fastqc_${sample_id}_logs"</code> within the <code>script</code> block.  </p>
+<p>Looking at the FastQC command we can see this directory will be our output.  </p>
+<div class="admonition question">
+<p class="admonition-title">Exercise</p>
+<p>Replace <code>&lt; process outputs &gt;</code> with the appropriate output definition for
+the <code>FASTQC</code> process.  </p>
+<details class="note">
+<summary>Solution</summary>
+<div class="highlight"><span class="filename">main.nf</span><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="nl">output:</span>
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="n">path</span><span class="w"> </span><span class="s2">&quot;fastqc_${sample_id}_logs&quot;</span>
+</code></pre></div>
+<p>We've used the <code>path</code> qualifier as our output is a directory. Output 
+from the bash script is defined by the fastqc <code>--outdir</code> flag. </p>
+</details>
+</div>
+<h3 id="3-define-the-process-input">3. Define the process <code>input</code></h3>
+<p>Now we need to define the <code>input</code> block for this process. In this process, 
+we're going to use a combination of Nextflow operators and Groovy to do this. </p>
+<p>There are three inputs
+for this process definition that can be taken from the script definition you
+just added:</p>
+<ol>
+<li><code>$sample_id</code></li>
+<li><code>$reads_1</code></li>
+<li><code>$reads_2</code></li>
+</ol>
+<p>We will use a <a href="https://www.nextflow.io/docs/latest/process.html#input-type-tuple">tuple</a> as the input qualifier as it's useful to group related
+inputs, or, inputs that need to be processed together such as in this case.  </p>
+<p>We need to group these inputs together so they can be processed as a single
+unit. This is a requirement when working with multiple pieces of data that are
+specific to a sample.</p>
+<div class="admonition info">
+<p class="admonition-title">Importance of proper data grouping when using Nextflow</p>
+<p>Nextflow uses channels to run processes in parallel and if you aren't
+careful about how handle multiple pieces of data that need to be tied
+together, you may mix datasets up.</p>
+<p>We can use the <a href="https://www.nextflow.io/docs/latest/process.html#inputs">input qualifier</a>
+<code>tuple</code> to group multiple values into a single input definition.</p>
+</div>
+<p>Using a tuple as the input qualifier allows us to group related inputs together. 
+This is useful when we need to process several pieces of data at the same time, 
+like in this case where we have <code>$sample_id</code> and its two read files <code>$reads_1</code> 
+and <code>$reads_2</code>. </p>
+<p><img alt="" src="../img/2.2_tuple.png" /></p>
+<p>The tuple ensures that these inputs stay linked and are processed together, preventing sample-specific data and files from getting mixed up between samples.</p>
+<p>In the <code>FASTQC</code> process, replace <code>&lt; process inputs &gt;</code> with the input definition:  </p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>tuple val(sample_id), path(reads_1), path(reads_2)
+</code></pre></div>
+<ul>
+<li><code>val(sample_id)</code> represents the <strong>value</strong> that refers to the sample name.</li>
+<li><code>path(reads_1)</code> represents the <strong>path</strong> to the first read file of paired-end sequencing data.</li>
+<li><code>path(reads_2)</code> represent the <strong>path</strong> to the second read file of paired-end sequencing data.</li>
+</ul>
+<div class="highlight"><span class="filename">main.nf</span><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="n">process</span><span class="w"> </span><span class="n">FASTQC</span><span class="w"> </span><span class="o">{</span>
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="w">  </span><span class="n">container</span><span class="w"> </span><span class="s2">&quot;quay.io/biocontainers/fastqc:0.12.1--hdfd78af_0&quot;</span>
+<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="w">  </span><span class="n">publishDir</span><span class="w"> </span><span class="s2">&quot;results&quot;</span><span class="o">,</span><span class="w"> </span><span class="nl">mode:</span><span class="w"> </span><span class="s1">&#39;copy&#39;</span>
+<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a>
+<a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a><span class="w">  </span><span class="nl">input:</span>
+<a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a><span class="hll"><span class="w">  </span><span class="n">tuple</span><span class="w"> </span><span class="n">val</span><span class="o">(</span><span class="n">sample_id</span><span class="o">),</span><span class="w"> </span><span class="n">path</span><span class="o">(</span><span class="n">reads_1</span><span class="o">),</span><span class="w"> </span><span class="n">path</span><span class="o">(</span><span class="n">reads_2</span><span class="o">)</span>
+</span><a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a>
+<a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a><span class="w">  </span><span class="nl">output:</span>
+<a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a><span class="w">  </span><span class="n">path</span><span class="w"> </span><span class="s2">&quot;fastqc_${sample_id}_logs&quot;</span>
+<a id="__codelineno-4-10" name="__codelineno-4-10" href="#__codelineno-4-10"></a>
+<a id="__codelineno-4-11" name="__codelineno-4-11" href="#__codelineno-4-11"></a><span class="w">  </span><span class="nl">script:</span>
+<a id="__codelineno-4-12" name="__codelineno-4-12" href="#__codelineno-4-12"></a><span class="w">  </span><span class="s2">&quot;&quot;&quot;</span>
+<a id="__codelineno-4-13" name="__codelineno-4-13" href="#__codelineno-4-13"></a><span class="s2">  fastqc --outdir &quot;fastqc_${sample_id}_logs&quot; --format fastq $reads_1 $reads_2</span>
+<a id="__codelineno-4-14" name="__codelineno-4-14" href="#__codelineno-4-14"></a><span class="s2">  &quot;&quot;&quot;</span>
+<a id="__codelineno-4-15" name="__codelineno-4-15" href="#__codelineno-4-15"></a><span class="o">}</span>
+</code></pre></div>
+<h2 id="222-reading-files-with-a-samplesheet">2.2.2 Reading files with a samplesheet</h2>
+<p>A samplesheet is a delimited text file where each row contains information
+or metadata that needs to be processed together. </p>
+<details class="tip">
+<summary>Tip: using samplesheets in scalable bioinformatics workflows</summary>
+<p>Working with samplesheets is particularly useful when you have a combination of files and metadata that need to be assigned to a sample in a flexible manner. Typically, samplesheets are written in comma-separated (<code>.csv</code>) or tab-separated (<code>.tsv</code>) formats. </p>
+<p>We recommend using comma-separated files as they are less error prone and easier to read and write.</p>
+</details>
+<p>Let's inspect <code>data/samplesheet.csv</code> with VSCode.</p>
+<div class="highlight"><span class="filename">Output</span><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="go">sample,fastq_1,fastq_2</span>
+<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="go">gut,data/ggal/gut_1.fq,data/ggal/gut_2.fq</span>
+</code></pre></div>
+<p>At this stage, we are developing and testing the pipeline. As such, we're only working with one sample. The samplesheet has three columns:  </p>
+<ul>
+<li><code>sample</code>: indicates the sample name/prefix</li>
+<li><code>fastq_1</code>, <code>fastq_2</code>: contains the relative paths to the reads  </li>
+</ul>
+<p>The goal in this step is to read the contents of the samplesheet, and transform
+it so it fits the input definition of <code>FASTQC</code> we just defined:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>tuple<span class="w"> </span>val<span class="o">(</span>sample_id<span class="o">)</span>,<span class="w"> </span>path<span class="o">(</span>reads_1<span class="o">)</span>,<span class="w"> </span>path<span class="o">(</span>reads_2<span class="o">)</span>
+</code></pre></div>
+<p>Before that, we need to add an input parameter that points to the samplesheet, called <code>input</code>.  </p>
+<div class="admonition question">
+<p class="admonition-title">Exercise</p>
+<p>In your <code>main.nf</code> add an input parameter called <code>reads</code> and assign the path
+to the samplesheet using <code>$projectDir</code>.</p>
+<details class="note">
+<summary>Solution</summary>
+<div class="highlight"><span class="filename">main.nf</span><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="c1">// pipeline input parameters</span>
+<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="n">params</span><span class="o">.</span><span class="na">transcriptome_file</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;$projectDir/data/ggal/transcriptome.fa&quot;</span>
+<a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a><span class="n">params</span><span class="o">.</span><span class="na">reads</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;$projectDir/data/samplesheet.csv&quot;</span>
+</code></pre></div>
+</details>
+</div>
+<p>In the next few steps, we will add a mix of Nextflow operators and Groovy
+syntax to read in and parse the samplesheet so it is in the correct format
+for the process we just added.  </p>
+<div class="admonition info">
+<p class="admonition-title">Using samplesheets with Nextflow can be tricky business</p>
+<p>There are currently no Nextflow operators specifically designed to handle samplesheets. As such, we Nextflow workflow developers have to write custom parsing logic to read and split the data. This adds complexity to our workflow development, especially when trying to handle tasks like parallel processing of samples or filtering data by sample type.</p>
+</div>
+<p>Add the following to your workflow scope below where <code>INDEX</code> is called:</p>
+<div class="highlight"><span class="filename">main.nf</span><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="c1">// Define the workflow  </span>
+<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="n">workflow</span><span class="w"> </span><span class="o">{</span>
+<a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a>
+<a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a><span class="w">    </span><span class="c1">// Run the index step with the transcriptome parameter</span>
+<a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a><span class="w">    </span><span class="n">INDEX</span><span class="o">(</span><span class="n">params</span><span class="o">.</span><span class="na">transcriptome_file</span><span class="o">)</span>
+<a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a>
+<a id="__codelineno-8-7" name="__codelineno-8-7" href="#__codelineno-8-7"></a><span class="hll"><span class="w">    </span><span class="c1">// Define the fastqc input channel</span>
+</span><a id="__codelineno-8-8" name="__codelineno-8-8" href="#__codelineno-8-8"></a><span class="hll"><span class="w">    </span><span class="n">Channel</span><span class="o">.</span><span class="na">fromPath</span><span class="o">(</span><span class="n">params</span><span class="o">.</span><span class="na">reads</span><span class="o">)</span>
+</span><a id="__codelineno-8-9" name="__codelineno-8-9" href="#__codelineno-8-9"></a><span class="hll"><span class="w">        </span><span class="o">.</span><span class="na">splitCsv</span><span class="o">(</span><span class="nl">header:</span><span class="w"> </span><span class="kc">true</span><span class="o">)</span>
+</span><a id="__codelineno-8-10" name="__codelineno-8-10" href="#__codelineno-8-10"></a><span class="hll"><span class="w">        </span><span class="o">.</span><span class="na">map</span><span class="w"> </span><span class="o">{</span><span class="w"> </span><span class="n">row</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="o">[</span><span class="n">row</span><span class="o">.</span><span class="na">sample</span><span class="o">,</span><span class="w"> </span><span class="n">file</span><span class="o">(</span><span class="n">row</span><span class="o">.</span><span class="na">fastq_1</span><span class="o">),</span><span class="w"> </span><span class="n">file</span><span class="o">(</span><span class="n">row</span><span class="o">.</span><span class="na">fastq_2</span><span class="o">)]</span><span class="w"> </span><span class="o">}</span>
+</span><a id="__codelineno-8-11" name="__codelineno-8-11" href="#__codelineno-8-11"></a><span class="hll"><span class="w">        </span><span class="o">.</span><span class="na">view</span><span class="o">()</span>
+</span><a id="__codelineno-8-12" name="__codelineno-8-12" href="#__codelineno-8-12"></a><span class="hll">
+</span><a id="__codelineno-8-13" name="__codelineno-8-13" href="#__codelineno-8-13"></a><span class="o">}</span>
+</code></pre></div>
+<p>We won't explore the logic of constructing our samplesheet input channel in depth in this lesson. The key takeaway here is to understand that using samplesheets is best practice for reading grouped files and metadata into Nextflow, and that operators and groovy needs to be chained together to get these in the correct format. The best way to do this is using a combination of Groovy and Nextflow operators.</p>
+<p>Our samplesheet input channel has used common <a href="https://www.nextflow.io/docs/latest/operator.html">Nextflow operators</a>:</p>
+<ul>
+<li><code>.fromPath</code> creates a channel from one or more files matching a given path or pattern (to our <code>.csv</code> file, provided with the <code>--reads</code> parameter).</li>
+<li><code>splitCsv</code> splits the input file into rows, treating it as a CSV (Comma-Separated Values) file. The <code>header: true</code> option means that the first row of the CSV contains column headers, which will be used to access the values by name.</li>
+<li><code>map { row -&gt; [row.sample, file(row.fastq_1), file(row.fastq_2)] }</code> uses some Groovy syntax to transform each row of the CSV file into a list, extracting the sample value, <code>fastq_1</code> and <code>fastq_2</code> file paths from the row.</li>
+<li><code>.view()</code> is a debugging step that outputs the transformed data to the console so we can see how the channel is structured. Its a great tool to use when building your channels.</li>
+</ul>
+<details class="tip">
+<summary>Tip: using the <code>view()</code> operator for testing</summary>
+<p>The <a href="https://www.nextflow.io/docs/latest/operator.html#view"><code>view()</code></a> operator is a useful tool for debugging Nextflow workflows. It allows you to inspect the data structure of a channel at any point in the workflow, helping you to understand how the data is being processed and transformed.</p>
+</details>
+<p>Run the workflow with the <code>-resume</code> flag:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>nextflow<span class="w"> </span>run<span class="w"> </span>main.nf<span class="w"> </span>-resume
+</code></pre></div>
+<p>Your output should look something like:  </p>
+<div class="highlight"><span class="filename">Output</span><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="go">Launching `main.nf` [crazy_einstein] DSL2 - revision: 0ae3776a5e</span>
+<a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a>
+<a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a><span class="go">[de/fef8c4] INDEX [100%] 1 of 1, cached: 1 ✔</span>
+<a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a><span class="go">[gut, /home/setup2/hello-nextflow/part2/data/ggal/gut_1.fq, /home/setup2/hello-nextflow/part2/data/ggal/gut_2.fq]</span>
+</code></pre></div>
+<details class="tip">
+<summary>Tip: using the <code>-resume</code> flag</summary>
+<p>The <code>-resume</code> flag is used to resume a Nextflow workflow from where it left off. If a workflow fails or is interrupted, this flag allows you to skip tasks that were successfully completed, saving time and computational resources. It is also useful when you are developing a workflow and want to test changes without running the entire workflow from the start. </p>
+</details>
+<p>The chain of commands produces a tuple with three elements that correspond to
+the row in the samplesheet. It now fits the requirements of the input
+definition of <code>tuple val(sample_id), path(reads_1), path(reads_2)</code>: </p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="o">[</span>gut,<span class="w"> </span>/home/setup2/hello-nextflow/part2/data/ggal/gut_1.fq,<span class="w"> </span>/home/setup2/hello-nextflow/part2/data/ggal/gut_2.fq<span class="o">]</span>
+</code></pre></div>
+<div class="admonition quote">
+<p class="admonition-title">How's it going?</p>
+<p>Once you have run the workflow, select the  <strong>"Yes"</strong> react on Zoom.</p>
+</div>
+<p>Next, we need to assign the channel we create to a variable so it can be passed to the <code>FASTQC</code>
+process. Assign to a variable called <code>reads_in</code>, and remove the <code>.view()</code>
+operator as we now know what the output looks like.</p>
+<div class="highlight"><span class="filename">main.nf</span><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="c1">// Define the workflow  </span>
+<a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a><span class="n">workflow</span><span class="w"> </span><span class="o">{</span>
+<a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a>
+<a id="__codelineno-12-4" name="__codelineno-12-4" href="#__codelineno-12-4"></a><span class="w">    </span><span class="c1">// Run the index step with the transcriptome parameter</span>
+<a id="__codelineno-12-5" name="__codelineno-12-5" href="#__codelineno-12-5"></a><span class="w">    </span><span class="n">INDEX</span><span class="o">(</span><span class="n">params</span><span class="o">.</span><span class="na">transcriptome_file</span><span class="o">)</span>
+<a id="__codelineno-12-6" name="__codelineno-12-6" href="#__codelineno-12-6"></a>
+<a id="__codelineno-12-7" name="__codelineno-12-7" href="#__codelineno-12-7"></a><span class="w">    </span><span class="c1">// Define the fastqc input channel</span>
+<a id="__codelineno-12-8" name="__codelineno-12-8" href="#__codelineno-12-8"></a><span class="hll"><span class="w">    </span><span class="n">reads_in</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Channel</span><span class="o">.</span><span class="na">fromPath</span><span class="o">(</span><span class="n">params</span><span class="o">.</span><span class="na">reads</span><span class="o">)</span>
+</span><a id="__codelineno-12-9" name="__codelineno-12-9" href="#__codelineno-12-9"></a><span class="hll"><span class="w">        </span><span class="o">.</span><span class="na">splitCsv</span><span class="o">(</span><span class="nl">header:</span><span class="w"> </span><span class="kc">true</span><span class="o">)</span>
+</span><a id="__codelineno-12-10" name="__codelineno-12-10" href="#__codelineno-12-10"></a><span class="hll"><span class="w">        </span><span class="o">.</span><span class="na">map</span><span class="w"> </span><span class="o">{</span><span class="w"> </span><span class="n">row</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="o">[</span><span class="n">row</span><span class="o">.</span><span class="na">sample</span><span class="o">,</span><span class="w"> </span><span class="n">file</span><span class="o">(</span><span class="n">row</span><span class="o">.</span><span class="na">fastq_1</span><span class="o">),</span><span class="w"> </span><span class="n">file</span><span class="o">(</span><span class="n">row</span><span class="o">.</span><span class="na">fastq_2</span><span class="o">)]</span><span class="w"> </span><span class="o">}</span>
+</span><a id="__codelineno-12-11" name="__codelineno-12-11" href="#__codelineno-12-11"></a><span class="hll">
+</span><a id="__codelineno-12-12" name="__codelineno-12-12" href="#__codelineno-12-12"></a><span class="o">}</span>
+</code></pre></div>
+<p>Now that we have an input channel with that provides the correct format ready,
+we will now call the <code>FASTQC</code> process.  </p>
+<div class="admonition question">
+<p class="admonition-title">Exercise</p>
+<p>In the <code>workflow</code> scope after where <code>reads_in</code> was defined, call the
+<code>FASTQC</code> process with <code>reads_in</code> as the input.</p>
+<details class="note">
+<summary>Solution</summary>
+<div class="highlight"><span class="filename">main.nf</span><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a><span class="c1">// Define the workflow  </span>
+<a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a><span class="n">workflow</span><span class="w"> </span><span class="o">{</span>
+<a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a>
+<a id="__codelineno-13-4" name="__codelineno-13-4" href="#__codelineno-13-4"></a><span class="w">    </span><span class="c1">// Run the index step with the transcriptome parameter</span>
+<a id="__codelineno-13-5" name="__codelineno-13-5" href="#__codelineno-13-5"></a><span class="w">    </span><span class="n">INDEX</span><span class="o">(</span><span class="n">params</span><span class="o">.</span><span class="na">transcriptome_file</span><span class="o">)</span>
+<a id="__codelineno-13-6" name="__codelineno-13-6" href="#__codelineno-13-6"></a>
+<a id="__codelineno-13-7" name="__codelineno-13-7" href="#__codelineno-13-7"></a><span class="w">    </span><span class="c1">// Define the fastqc input channel</span>
+<a id="__codelineno-13-8" name="__codelineno-13-8" href="#__codelineno-13-8"></a><span class="w">    </span><span class="n">reads_in</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Channel</span><span class="o">.</span><span class="na">fromPath</span><span class="o">(</span><span class="n">params</span><span class="o">.</span><span class="na">reads</span><span class="o">)</span>
+<a id="__codelineno-13-9" name="__codelineno-13-9" href="#__codelineno-13-9"></a><span class="w">        </span><span class="o">.</span><span class="na">splitCsv</span><span class="o">(</span><span class="nl">header:</span><span class="w"> </span><span class="kc">true</span><span class="o">)</span>
+<a id="__codelineno-13-10" name="__codelineno-13-10" href="#__codelineno-13-10"></a><span class="w">        </span><span class="o">.</span><span class="na">map</span><span class="w"> </span><span class="o">{</span><span class="w"> </span><span class="n">row</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="o">[</span><span class="n">row</span><span class="o">.</span><span class="na">sample</span><span class="o">,</span><span class="w"> </span><span class="n">file</span><span class="o">(</span><span class="n">row</span><span class="o">.</span><span class="na">fastq_1</span><span class="o">),</span><span class="w"> </span><span class="n">file</span><span class="o">(</span><span class="n">row</span><span class="o">.</span><span class="na">fastq_2</span><span class="o">)]</span><span class="w"> </span><span class="o">}</span>
+<a id="__codelineno-13-11" name="__codelineno-13-11" href="#__codelineno-13-11"></a>
+<a id="__codelineno-13-12" name="__codelineno-13-12" href="#__codelineno-13-12"></a><span class="hll"><span class="w">    </span><span class="c1">// Run the fastqc step with the reads_in channel</span>
+</span><a id="__codelineno-13-13" name="__codelineno-13-13" href="#__codelineno-13-13"></a><span class="hll"><span class="w">    </span><span class="n">FASTQC</span><span class="o">(</span><span class="n">reads_in</span><span class="o">)</span><span class="w"> </span>
+</span><a id="__codelineno-13-14" name="__codelineno-13-14" href="#__codelineno-13-14"></a><span class="hll"><span class="w">    </span>
+</span><a id="__codelineno-13-15" name="__codelineno-13-15" href="#__codelineno-13-15"></a><span class="o">}</span>
+</code></pre></div>
+</details>
+</div>
+<p>Run the workflow:  </p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a>nextflow<span class="w"> </span>run<span class="w"> </span>main.nf<span class="w"> </span>-resume
+</code></pre></div>
+<p>Your output should look something like:  </p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a>Launching `main.nf` [tiny_aryabhata] DSL2 - revision: 9a45f4957b
+<a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a>
+<a id="__codelineno-15-3" name="__codelineno-15-3" href="#__codelineno-15-3"></a>executor &gt;  local (1)
+<a id="__codelineno-15-4" name="__codelineno-15-4" href="#__codelineno-15-4"></a>[de/fef8c4] INDEX      [100%] 1 of 1, cached: 1 ✔
+<a id="__codelineno-15-5" name="__codelineno-15-5" href="#__codelineno-15-5"></a>[bb/32a3aa] FASTQC (1) [100%] 1 of 1 ✔
+</code></pre></div>
+<p>If you inspect <code>results/fastqc_gut_logs</code> there is an <code>.html</code> and <code>.zip</code> file
+for each of the <code>.fastq</code> files.  </p>
+<div class="admonition example">
+<p class="admonition-title">Advanced exercise</p>
+<p>This advanced exercise walks through inspecing the output of the intermediate
+operators in the <code>reads_in</code> channel:  </p>
+<ul>
+<li><code>Channel.fromPath</code></li>
+<li><code>.splitCsv</code></li>
+</ul>
+<p>The current workflow block should look like:</p>
+<div class="highlight"><span class="filename">main.nf</span><pre><span></span><code><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a><span class="c1">// Define the workflow  </span>
+<a id="__codelineno-16-2" name="__codelineno-16-2" href="#__codelineno-16-2"></a><span class="n">workflow</span><span class="w"> </span><span class="o">{</span>
+<a id="__codelineno-16-3" name="__codelineno-16-3" href="#__codelineno-16-3"></a>
+<a id="__codelineno-16-4" name="__codelineno-16-4" href="#__codelineno-16-4"></a><span class="w">    </span><span class="c1">// Run the index step with the transcriptome parameter</span>
+<a id="__codelineno-16-5" name="__codelineno-16-5" href="#__codelineno-16-5"></a><span class="w">    </span><span class="n">INDEX</span><span class="o">(</span><span class="n">params</span><span class="o">.</span><span class="na">transcriptome_file</span><span class="o">)</span>
+<a id="__codelineno-16-6" name="__codelineno-16-6" href="#__codelineno-16-6"></a>
+<a id="__codelineno-16-7" name="__codelineno-16-7" href="#__codelineno-16-7"></a><span class="w">    </span><span class="c1">// Define the fastqc input channel</span>
+<a id="__codelineno-16-8" name="__codelineno-16-8" href="#__codelineno-16-8"></a><span class="w">    </span><span class="n">reads_in</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Channel</span><span class="o">.</span><span class="na">fromPath</span><span class="o">(</span><span class="n">params</span><span class="o">.</span><span class="na">reads</span><span class="o">)</span>
+<a id="__codelineno-16-9" name="__codelineno-16-9" href="#__codelineno-16-9"></a><span class="w">        </span><span class="o">.</span><span class="na">splitCsv</span><span class="o">(</span><span class="nl">header:</span><span class="w"> </span><span class="kc">true</span><span class="o">)</span>
+<a id="__codelineno-16-10" name="__codelineno-16-10" href="#__codelineno-16-10"></a><span class="w">        </span><span class="o">.</span><span class="na">map</span><span class="w"> </span><span class="o">{</span><span class="w"> </span><span class="n">row</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="o">[</span><span class="n">row</span><span class="o">.</span><span class="na">sample</span><span class="o">,</span><span class="w"> </span><span class="n">file</span><span class="o">(</span><span class="n">row</span><span class="o">.</span><span class="na">fastq_1</span><span class="o">),</span><span class="w"> </span><span class="n">file</span><span class="o">(</span><span class="n">row</span><span class="o">.</span><span class="na">fastq_2</span><span class="o">)]</span><span class="w"> </span><span class="o">}</span>
+<a id="__codelineno-16-11" name="__codelineno-16-11" href="#__codelineno-16-11"></a>
+<a id="__codelineno-16-12" name="__codelineno-16-12" href="#__codelineno-16-12"></a><span class="w">    </span><span class="c1">// Run the fastqc step with the reads_in channel</span>
+<a id="__codelineno-16-13" name="__codelineno-16-13" href="#__codelineno-16-13"></a><span class="w">    </span><span class="n">FASTQC</span><span class="o">(</span><span class="n">reads_in</span><span class="o">)</span>
+<a id="__codelineno-16-14" name="__codelineno-16-14" href="#__codelineno-16-14"></a><span class="o">}</span>
+</code></pre></div>
+<p><strong><code>Channel.fromPath</code></strong>  </p>
+<ol>
+<li>In the workflow scope, comment out the lines for <code>.splitCsv</code>, <code>.map</code>, and <code>FASTQC()</code></li>
+<li>Add <code>.view()</code> on the line after <code>Channel.fromPath</code> and before the commented <code>.splitCsv</code></li>
+<li>Run the workflow with <code>-resume</code>  </li>
+</ol>
+<details class="note">
+<summary>Solution</summary>
+<div class="highlight"><span class="filename">main.nf</span><pre><span></span><code><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a><span class="c1">// Define the workflow  </span>
+<a id="__codelineno-17-2" name="__codelineno-17-2" href="#__codelineno-17-2"></a><span class="n">workflow</span><span class="w"> </span><span class="o">{</span>
+<a id="__codelineno-17-3" name="__codelineno-17-3" href="#__codelineno-17-3"></a>
+<a id="__codelineno-17-4" name="__codelineno-17-4" href="#__codelineno-17-4"></a><span class="w">    </span><span class="c1">// Run the index step with the transcriptome parameter</span>
+<a id="__codelineno-17-5" name="__codelineno-17-5" href="#__codelineno-17-5"></a><span class="w">    </span><span class="n">INDEX</span><span class="o">(</span><span class="n">params</span><span class="o">.</span><span class="na">transcriptome_file</span><span class="o">)</span>
+<a id="__codelineno-17-6" name="__codelineno-17-6" href="#__codelineno-17-6"></a>
+<a id="__codelineno-17-7" name="__codelineno-17-7" href="#__codelineno-17-7"></a><span class="w">    </span><span class="c1">// Define the fastqc input channel</span>
+<a id="__codelineno-17-8" name="__codelineno-17-8" href="#__codelineno-17-8"></a><span class="w">    </span><span class="n">reads_in</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Channel</span><span class="o">.</span><span class="na">fromPath</span><span class="o">(</span><span class="n">params</span><span class="o">.</span><span class="na">reads</span><span class="o">)</span>
+<a id="__codelineno-17-9" name="__codelineno-17-9" href="#__codelineno-17-9"></a><span class="hll"><span class="w">        </span><span class="o">.</span><span class="na">view</span><span class="o">()</span>
+</span><a id="__codelineno-17-10" name="__codelineno-17-10" href="#__codelineno-17-10"></a><span class="hll"><span class="w">        </span><span class="c1">//.splitCsv(header: true)</span>
+</span><a id="__codelineno-17-11" name="__codelineno-17-11" href="#__codelineno-17-11"></a><span class="hll"><span class="w">        </span><span class="c1">//.map { row -&gt; [row.sample, file(row.fastq_1), file(row.fastq_2)] }</span>
+</span><a id="__codelineno-17-12" name="__codelineno-17-12" href="#__codelineno-17-12"></a>
+<a id="__codelineno-17-13" name="__codelineno-17-13" href="#__codelineno-17-13"></a><span class="w">    </span><span class="c1">// Run the fastqc step with the reads_in channel</span>
+<a id="__codelineno-17-14" name="__codelineno-17-14" href="#__codelineno-17-14"></a><span class="hll"><span class="w">    </span><span class="c1">//FASTQC(reads_in)</span>
+</span><a id="__codelineno-17-15" name="__codelineno-17-15" href="#__codelineno-17-15"></a>
+<a id="__codelineno-17-16" name="__codelineno-17-16" href="#__codelineno-17-16"></a><span class="o">}</span>
+</code></pre></div>
+<p>The output of the <code>Channel.fromPath(params.reads)</code> step produces a path to the samplesheet:  </p>
+<div class="highlight"><span class="filename">Output</span><pre><span></span><code><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a><span class="go">Launching `main.nf` [hungry_lalande] DSL2 - revision: 587b5b70d1</span>
+<a id="__codelineno-18-2" name="__codelineno-18-2" href="#__codelineno-18-2"></a>
+<a id="__codelineno-18-3" name="__codelineno-18-3" href="#__codelineno-18-3"></a><span class="go">[de/fef8c4] INDEX [100%] 1 of 1, cached: 1 ✔</span>
+<a id="__codelineno-18-4" name="__codelineno-18-4" href="#__codelineno-18-4"></a><span class="go">/home/user1/part2/data/samplesheet.csv</span>
+</code></pre></div>
+</details>
+<p><strong><code>.splitCsv</code></strong>  </p>
+<ol>
+<li>In the workflow scope, <em>un</em>comment the line for <code>.splitCsv</code></li>
+<li>Move <code>.view()</code> to the line after <code>.splitCsv</code> (before the commented <code>.map</code> line)</li>
+<li>Run the workflow with <code>-resume</code>  </li>
+</ol>
+<details class="note">
+<summary>Solution</summary>
+<div class="highlight"><span class="filename">main.nf</span><pre><span></span><code><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a><span class="c1">// Define the workflow  </span>
+<a id="__codelineno-19-2" name="__codelineno-19-2" href="#__codelineno-19-2"></a><span class="n">workflow</span><span class="w"> </span><span class="o">{</span>
+<a id="__codelineno-19-3" name="__codelineno-19-3" href="#__codelineno-19-3"></a>
+<a id="__codelineno-19-4" name="__codelineno-19-4" href="#__codelineno-19-4"></a><span class="w">    </span><span class="c1">// Run the index step with the transcriptome parameter</span>
+<a id="__codelineno-19-5" name="__codelineno-19-5" href="#__codelineno-19-5"></a><span class="w">    </span><span class="n">INDEX</span><span class="o">(</span><span class="n">params</span><span class="o">.</span><span class="na">transcriptome_file</span><span class="o">)</span>
+<a id="__codelineno-19-6" name="__codelineno-19-6" href="#__codelineno-19-6"></a>
+<a id="__codelineno-19-7" name="__codelineno-19-7" href="#__codelineno-19-7"></a><span class="w">    </span><span class="c1">// Define the fastqc input channel</span>
+<a id="__codelineno-19-8" name="__codelineno-19-8" href="#__codelineno-19-8"></a><span class="w">    </span><span class="n">reads_in</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Channel</span><span class="o">.</span><span class="na">fromPath</span><span class="o">(</span><span class="n">params</span><span class="o">.</span><span class="na">reads</span><span class="o">)</span>
+<a id="__codelineno-19-9" name="__codelineno-19-9" href="#__codelineno-19-9"></a><span class="hll"><span class="w">        </span><span class="o">.</span><span class="na">splitCsv</span><span class="o">(</span><span class="nl">header:</span><span class="w"> </span><span class="kc">true</span><span class="o">)</span>
+</span><a id="__codelineno-19-10" name="__codelineno-19-10" href="#__codelineno-19-10"></a><span class="hll"><span class="w">        </span><span class="o">.</span><span class="na">view</span><span class="o">()</span>
+</span><a id="__codelineno-19-11" name="__codelineno-19-11" href="#__codelineno-19-11"></a><span class="w">        </span><span class="c1">//.map { row -&gt; [row.sample, file(row.fastq_1), file(row.fastq_2)] }</span>
+<a id="__codelineno-19-12" name="__codelineno-19-12" href="#__codelineno-19-12"></a>
+<a id="__codelineno-19-13" name="__codelineno-19-13" href="#__codelineno-19-13"></a><span class="w">    </span><span class="c1">// Run the fastqc step with the reads_in channel</span>
+<a id="__codelineno-19-14" name="__codelineno-19-14" href="#__codelineno-19-14"></a><span class="w">    </span><span class="c1">//FASTQC(reads_in)</span>
+<a id="__codelineno-19-15" name="__codelineno-19-15" href="#__codelineno-19-15"></a>
+<a id="__codelineno-19-16" name="__codelineno-19-16" href="#__codelineno-19-16"></a><span class="o">}</span>
+</code></pre></div>
+<p><code>.splitCsv</code> takes the path from <code>.fromPath</code> and reads the header and data line as a tuple.
+Each element in the tuple is named by the header in the correspoding column in the samplesheet:</p>
+<div class="highlight"><span class="filename">Output</span><pre><span></span><code><a id="__codelineno-20-1" name="__codelineno-20-1" href="#__codelineno-20-1"></a><span class="go">Launching `main.nf` [tiny_yonath] DSL2 - revision: 22c2c9d28f</span>
+<a id="__codelineno-20-2" name="__codelineno-20-2" href="#__codelineno-20-2"></a><span class="go">[de/fef8c4] INDEX | 1 of 1, cached: 1 ✔</span>
+<a id="__codelineno-20-3" name="__codelineno-20-3" href="#__codelineno-20-3"></a><span class="go">[sample:gut, fastq_1:data/ggal/gut_1.fq, fastq_2:data/ggal/gut_2.fq]</span>
+</code></pre></div>
+<p>The <code>.map</code> step takes that tuple and formats it into the tuple that is emitted by <code>reads_in</code>.</p>
+</details>
+<p>Before proceeding, ensure to <em>un</em>comment the <code>.map</code> and <code>FASTQC</code> lines, and remove <code>.view()</code>.</p>
+</div>
+<div class="admonition abstract">
+<p class="admonition-title">Summary</p>
+<p>In this lesson you have learned:</p>
+<ol>
+<li>How to implement a process with a tuple input</li>
+<li>How to construct an input channel using operators and Groovy</li>
+<li>How to use the <code>.view()</code> operator to inspect the structure of a channel</li>
+<li>How to use the <code>-resume</code> flag to skip sucessful tasks</li>
+<li>How to use a samplesheet to read in grouped samples and metadata</li>
+</ol>
+</div>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    <script id="__config" type="application/json">{"base": "../..", "features": [], "search": "../../assets/javascripts/workers/search.6ce7567c.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.56dfad97.min.js"></script>
+      
+    
+  </body>
+</html>
