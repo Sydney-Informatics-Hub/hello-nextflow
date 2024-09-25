@@ -1,6 +1,27 @@
-# Extra resources
+# Supporting materials
 
-## Nextflow 
+## Recommended resources
+
+Here are some useful resources we recommend to help you get started with running nf-core pipelines and developing Nextflow pipelines:
+
+### Developed by us
+
+* [SIH Nextflow template](https://github.com/Sydney-Informatics-Hub/template-nf)
+* [SIH Nextflow template guide](https://sydney-informatics-hub.github.io/template-nf-guide/)
+* [SIH Customising nf-core workshop](https://sydney-informatics-hub.github.io/customising-nfcore-workshop/)
+* [Australian BioCommons Seqera Platform Service](https://www.biocommons.org.au/seqera-service )
+* [NCI Gadi nf-core instutitonal config](https://nf-co.re/configs/nci_gadi/)
+* [Pawsey Setonix nf-core instutitional config](https://nf-co.re/configs/pawsey_setonix/)
+
+### Developed by others 
+
+* [Nextflow training](https://training.nextflow.io/)
+* [Nextflow patterns](https://nextflow-io.github.io/patterns/index.html)
+* [Nextflow blog](https://www.nextflow.io/blog.html)
+* [Nextflow coding best practice recommendations](https://carpentries-incubator.github.io/Pipeline_Training_with_Nextflow/07-Nextflow_Best_Practice/index.html)
+* [Seqera community forums](https://community.seqera.io/)
+
+## Nextflow tips and tricks
 
 Nextflow has some useful features for executing pipelines and querying metadata and history. Here are some resources to help you get started.
 
@@ -63,18 +84,3 @@ providers {
 
 }
 ```
-
-## Additional resources
-
-Here are some useful resources to help you get started with running nf-core pipelines and developing Nextflow pipelines:
-
-* [SIH Nextflow template](https://github.com/Sydney-Informatics-Hub/template-nf)
-* [SIH Nextflow template guide](https://sydney-informatics-hub.github.io/template-nf-guide/)
-* [Nextflow tutorials](https://nf-co.re/docs/usage/nextflow)
-* [nf-core pipeline tutorials](https://nf-co.re/usage/usage_tutorials)
-* [Nextflow patterns](https://nextflow-io.github.io/patterns/index.html)
-* [HPC tips and tricks](https://www.nextflow.io/blog/2021/5_tips_for_hpc_users.html)
-* [Nextflow coding best practice recommendations](https://carpentries-incubator.github.io/Pipeline_Training_with_Nextflow/07-Nextflow_Best_Practice/index.html)
-* [The Nextflow blog](https://www.nextflow.io/blog.html)
-
-
