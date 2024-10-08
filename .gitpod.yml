@@ -33,7 +33,7 @@ tasks:
     command: docker run hello-world
 
   - name: Start web server
-    command: gp ports await 23000 && gp preview https://training.nextflow.io
+    command: gp ports await 23000 && gp preview https://sydney-informatics-hub.github.io/hello-nextflow/
 
   - name: Start tutorial
     command: |
@@ -49,8 +49,8 @@ vscode:
     - codezombiech.gitignore           # Support for .gitignore files
     - cssho.vscode-svgviewer           # SVG viewer
     - esbenp.prettier-vscode           # Prettier for markdown formatting
-    - EditorConfig.EditorConfig        # Support for .editorconfig
-    - Gruntfuggly.todo-tree            # Display TODO/FIXME comments in a tree view
+    #- EditorConfig.EditorConfig        # Support for .editorconfig
+    #- Gruntfuggly.todo-tree            # Display TODO/FIXME comments in a tree view
     - nextflow.nextflow                # Nextflow syntax highlighting
     - streetsidesoftware.code-spell-checker  # Spell checker for source code
     - ms-vscode.live-server            # Live server for web development
