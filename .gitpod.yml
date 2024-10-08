@@ -1,6 +1,6 @@
 # Custom workspace and checkout locations
 workspaceLocation: gitpod/gitpod-ws.code-workspace  # Refers to your .code-workspace file
-checkoutLocation: gitpod  # Optional, but you can keep it if it's meaningful to your setup
+checkoutLocation: gitpod 
 
 # GitHub prebuild configuration
 github:
@@ -21,10 +21,17 @@ github:
 # Docker image to use for the workspace
 image: .gitpod.Dockerfile
 
-# Tasks to execute during workspace initialization and startup
+# Tasks to execute during workspace initialisation and startup
 tasks:
   - before: printf 'unset JAVA_TOOL_OPTIONS\n' >> $HOME/.bashrc && exit
 
+  # Create directory structure 
+  - name: Create Directories
+    init: |
+      mkdir -p ~/hello-nextflow/part1
+      mkdir -p ~/hello-nextflow/part2
+
+# Download containers to be used in part 2 
   - name: Download containers
     init: |
       docker pull quay.io/biocontainers/salmon:1.10.1--h7e5ed60_0
@@ -32,9 +39,11 @@ tasks:
       docker pull quay.io/biocontainers/multiqc:1.19--pyhdfd78af_0
     command: docker run hello-world
 
+# Open docs in a web browser
   - name: Start web server
     command: gp ports await 23000 && gp preview https://sydney-informatics-hub.github.io/hello-nextflow/
 
+# Start the tutorial 
   - name: Start tutorial
     command: |
       cd hello-nextflow
