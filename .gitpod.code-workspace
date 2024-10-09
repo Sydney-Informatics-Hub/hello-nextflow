@@ -1,8 +1,8 @@
 {
   "folders": [
-    {
-      "path": "workspace/hello-nextflow"  // This is the path to the project folder
-    }
+    { "path": "./part1"},
+    { "path": "./part2"},
+    { "path": "./docs" },
   ],
   "settings": {
     "editor.tabSize": 2,
