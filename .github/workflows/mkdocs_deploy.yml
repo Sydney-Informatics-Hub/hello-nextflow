@@ -3,20 +3,28 @@ on:
   push:
     branches:
       - main
+
 permissions:
   contents: write
+
 jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+
+      # Configure Git credentials for the GitHub Actions bot
       - name: Configure Git Credentials
         run: |
-          git config user.name github-actions[bot]
-          git config user.email 41898282+github-actions[bot]@users.noreply.github.com
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+      # Set up Python environment
       - uses: actions/setup-python@v5
         with:
           python-version: 3.x
+
+      # Cache mkdocs-material installation for faster builds
       - run: echo "cache_id=$(date --utc '+%V')" >> $GITHUB_ENV 
       - uses: actions/cache@v4
         with:
@@ -24,5 +32,17 @@ jobs:
           path: .cache
           restore-keys: |
             mkdocs-material-
-      - run: pip install mkdocs-material 
-      - run: mkdocs gh-deploy
+
+      # Install mkdocs and mkdocs-material
+      - run: pip install mkdocs-material
+
+      # Fetch the latest changes from the gh-pages branch to avoid conflicts
+      - name: Fetch gh-pages branch
+        run: |
+          git fetch origin gh-pages
+          git checkout gh-pages || git checkout -b gh-pages origin/gh-pages
+          git merge origin/gh-pages || true  # Handle any merge issues silently if they exist
+
+      # Deploy the site with MkDocs
+      - name: Deploy MkDocs to GitHub Pages
+        run: mkdocs gh-deploy --force
