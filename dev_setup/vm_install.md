@@ -1,4 +1,6 @@
-# VM Installation  
+# VM set up 
+
+## VM Installation  
 
 ## Install script  
 
