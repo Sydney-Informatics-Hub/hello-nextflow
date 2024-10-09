@@ -65,6 +65,3 @@ vscode:
     - nextflow.nextflow                # Nextflow syntax highlighting
     - streetsidesoftware.code-spell-checker # Spell checker for source code
     - ms-vscode.live-server            # Live server for web development
-  files:
-    open:
-      - /workspace/hello-nextflow
