@@ -26,8 +26,8 @@ RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone &
         ca-certificates
 
 # User permissions
-RUN mkdir -p /workspace/data \
-&& chown -R gitpod:gitpod /workspace/data
+RUN mkdir -p /workspace/data && \
+chown -R gitpod:gitpod /workspace/data
 
 # Change user to gitpod
 USER gitpod
