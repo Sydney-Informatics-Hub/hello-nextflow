@@ -20,7 +20,7 @@ github:
 
 # Docker image to use for the workspace
 image:
-  file: .gitpod.Dockerfile
+  file: .github/.gitpod.Dockerfile
 
 
 # Tasks to execute during workspace initialisation and startup
