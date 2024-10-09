@@ -1,5 +1,5 @@
 # Custom workspace and checkout locations
-workspaceLocation: /workspace/hello-nextflow/gitpod.code-workspace  # Refers to your .code-workspace file
+workspaceLocation: gitpod.code-workspace  # Refers to your .code-workspace file
 checkoutLocation: /workspace/hello-nextflow # Ensure Git clones into the correct location
 
 # GitHub prebuild configuration
@@ -43,7 +43,7 @@ tasks:
 
 # Open docs in a web browser
   - name: Open Documentation Page
-    command: gp ports await 23000 && gp preview https://sydney-informatics-hub.github.io/hello-nextflow/
+    command: gp preview https://sydney-informatics-hub.github.io/hello-nextflow/
 
 # Start the tutorial 
   - name: Start tutorial
