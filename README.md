@@ -6,7 +6,7 @@ Event description [here](https://www.biocommons.org.au/events/hello-nextflow).
 
 Content published at: [https://sydney-informatics-hub.github.io/hello-nextflow/](https://sydney-informatics-hub.github.io/hello-nextflow/)
 
-## Self-directed materials
+## Run thorugh our self-directed materials
 [![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/new/#https://github.com/Sydney-Informatics-Hub/hello-nextflow)
 
 ## Developers 
