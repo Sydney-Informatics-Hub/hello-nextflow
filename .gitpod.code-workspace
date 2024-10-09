@@ -1,7 +1,7 @@
 {
   "folders": [
     {
-      "path": "/workspace/hello-nextflow"  // Opens the correct directory in the explorer
+      "path": "/workspace/hello-nextflow/"  // This is the path to the project folder
     }
   ],
   "settings": {
