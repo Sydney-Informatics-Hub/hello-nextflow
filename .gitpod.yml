@@ -1,6 +1,6 @@
 # Custom workspace and checkout locations
 workspaceLocation: gitpod/gitpod.code-workspace  # Refers to .code-workspace file
-checkoutLocation: gitpod # Ensure Git clones into the correct location
+checkoutLocation: /workspace/hello-nextflow # Ensure Git clones into the correct location
 
 # GitHub prebuild configuration
 github:
