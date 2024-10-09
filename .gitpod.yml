@@ -1,5 +1,5 @@
 # Custom workspace and checkout locations
-workspaceLocation: gitpod/gitpod-ws.code-workspace  # Refers to your .code-workspace file
+workspaceLocation: gitpod/gitpod.code-workspace  # Refers to your .code-workspace file
 checkoutLocation: gitpod 
 
 # GitHub prebuild configuration
@@ -19,7 +19,9 @@ github:
     addBadge: false
 
 # Docker image to use for the workspace
-image: .gitpod.Dockerfile
+image:
+  file: .gitpod.Dockerfile
+
 
 # Tasks to execute during workspace initialisation and startup
 tasks:
@@ -64,8 +66,8 @@ vscode:
     - codezombiech.gitignore           # Support for .gitignore files
     - cssho.vscode-svgviewer           # SVG viewer
     - esbenp.prettier-vscode           # Prettier for markdown formatting
-    #- EditorConfig.EditorConfig        # Support for .editorconfig
-    #- Gruntfuggly.todo-tree            # Display TODO/FIXME comments in a tree view
+    #- EditorConfig.EditorConfig       # Support for .editorconfig
+    #- Gruntfuggly.todo-tree           # Display TODO/FIXME comments in a tree view
     - nextflow.nextflow                # Nextflow syntax highlighting
-    - streetsidesoftware.code-spell-checker  # Spell checker for source code
+    - streetsidesoftware.code-spell-checker # Spell checker for source code
     - ms-vscode.live-server            # Live server for web development
