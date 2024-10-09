@@ -1,7 +1,7 @@
 {
   "folders": [
     {
-      "path": "/workspace/hello-nextflow"  // Opens the correct directory in the explorer
+      "path": "./hello-nextflow"  // Opens the correct directory in the explorer
     }
   ],
   "settings": {
@@ -9,7 +9,6 @@
     "files.exclude": {
       "**/.git": true,
       "**/.DS_Store": true
-    },
-    "gitpod.workspaceFolder": "/workspace/hello-nextflow"
+    }
   }
 }
