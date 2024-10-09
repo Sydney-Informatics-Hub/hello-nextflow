@@ -1,14 +1,8 @@
 {
   "folders": [
-    { "path": "./part1"},
-    { "path": "./part2"},
-    { "path": "./docs" },
-  ],
-  "settings": {
-    "editor.tabSize": 2,
-    "files.exclude": {
-      "**/.git": true,
-      "**/.DS_Store": true
+    {
+      "path": "workspace/hello-nextflow"
     }
-  }
+  ],
+  "settings": {}
 }
