@@ -1,6 +1,6 @@
 # Custom workspace and checkout locations
 workspaceLocation: gitpod/gitpod.code-workspace  # Refers to .code-workspace file
-checkoutLocation: hello-nextflow # Ensure Git clones into the correct location
+checkoutLocation: gitpod # Ensure Git clones into the correct location
 
 # GitHub prebuild configuration
 github:
@@ -65,3 +65,7 @@ vscode:
     - nextflow.nextflow                # Nextflow syntax highlighting
     - streetsidesoftware.code-spell-checker # Spell checker for source code
     - ms-vscode.live-server            # Live server for web development
+
+  files:
+    open:
+      - /workspace/hello-nextflow
