@@ -27,12 +27,6 @@ image:
 tasks:
   - before: printf 'unset JAVA_TOOL_OPTIONS\n' >> $HOME/.bashrc && exit
 
-  # FOR TESTING: check out workspace in the `gitpod` branch
-  - name: Checkout gitpod branch
-    init: |
-      git fetch origin main  # Fetch the latest changes for the gitpod branch
-      git checkout main || git checkout -b gitpod origin/gitpod  # Switch to the gitpod branch
-
   # Create directory structure 
   - name: Create Directories
     init: |
